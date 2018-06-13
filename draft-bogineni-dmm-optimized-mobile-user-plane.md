@@ -1685,7 +1685,7 @@ falls into such class of approaches that we refer to as purely ID-based, also
 known as name-based {{?I-D.irtf-icnrg-terminology}}, and whose properties
 especially for mobility management we focus on in the rest of the section.
 
-## Benefits
+## Motivations {#sec-hicn-motivations}
 
 The appeal of purely ID-based architectures is that they move Loc/ID
 split one step further by embedding ID-awareness in the network and transport
@@ -1709,7 +1709,7 @@ security policies.
 An overview of ICN principles and advantages for a simplified mobility
 management resulting from name-based forwarding can be found in {{!RFC7476}}.
 
-## Hybrid Information-Centric Networking (hICN)
+## Hybrid Information-Centric Networking (hICN) {#sec-hicn-architecture}
 
 Hybrid ICN (hICN) is an ICN architecture that defines integration of ICN
 semantics within IPv6, instead of over/under/aside. The only
@@ -1736,7 +1736,7 @@ Hereafter we focus on mobility management in hICN and on the possible
 deployment options for insertion in 5G SBA.
 
 
-## hICN-based mobility
+## hICN-based mobility {#sec-hicn-mobility}
 
 In ICN and hICN endpoints can act as consumers and/or producers. Consumers when they
 emit requests for named data packets (so called Interests), producers when they
@@ -1819,7 +1819,7 @@ operations specific to the considered network architecture. As an example, in
 the case of 3GPP architectures, MAP-Me mobility management does not require an
 additional control plane anchor.
 
-## hICN insertion in the 3GPP 5G architecture
+## hICN insertion in the 3GPP 5G architecture {#sec-hicn-3gpp}
 
 {{I-D.auge-hicn-mobility-deployment-options}} reviews various insertion
 strategies for hICN, including overlay deployments using local breakout to hICN
@@ -1833,7 +1833,7 @@ leveraging hICN-enriched mobile backhaul network to offer an alternative to
 GTP-U tunnels over the N9 (and possibly N3) Interfaces, as shown in
 {{fig_3GPP-5GS-SBA}} and {{fig_Protocol-Stack}}.
 
-### Control plane considerations
+### Control plane considerations {#sec-hicn-3gpp-cp}
 
 By operating directly on routers’ FIBs for mobility updates, dynamic hop-by-hop
 forwarding strategies etc., hICN inherits the simplicity of IP forwarding and
@@ -1851,7 +1851,7 @@ beneficial in case of dense deployments or failure of the central control
 entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
 
-### Replacement of N9 interface only
+### Replacement of N9 interface only {#sec-hicn-3gpp-n9}
 
 Replacing only the N9 interface (which represents the interface between UPFs,
 and as such most of the backhaul network) is the initial target of our study.
@@ -1903,7 +1903,7 @@ IPv6 PDU layer, transported over N9 directly over L2.
 ~~~~
 {: #fig-hicn-prot-n9 title="Replacement of N9 interface - Protocol layers" }
 
-### Replacement of both N3 and N9 interfaces
+### Replacement of both N3 and N9 interfaces {#sec-hicn-3gpp-n3}
 
 This option additionally removes the GTP tunnels between the RAN and the first
 UPF. It is illustrated in {{fig-hicn-sba-n9n3}} and {{fig-hicn-prot-n9n3}}.
@@ -1950,7 +1950,7 @@ UPF. It is illustrated in {{fig-hicn-sba-n9n3}} and {{fig-hicn-prot-n9n3}}.
 {: #fig-hicn-prot-n9n3 title="Replacement of N3 and N9 interfaces : Protocol
     layers" }
 
-### Enhanced data plane: hICN/SRv6 combination
+### Enhanced data plane: hICN/SRv6 combination {#sec-hicn-3gpp-srv6}
 
 hICN is designed to operate inside an IPv6 network by means
 of an enriched communication layer supporting ICN primitives. The targeted
@@ -1982,14 +1982,14 @@ hICN-unaware IP network segments and it could guarantee request/reply IP path
 symmetry (instrumental for efficient round trip delay measurements and
 rate/congestion control).
 
-## Benefits
+## Benefits {#sec-hicn-benefits}
 
 Benefits of the deployed solution result both from the purely identifier-based
 approach, as well as from specific hICN properties. We provide an overview of
 expected benefits, described in more detail with examples in
 {{I-D.auge-hicn-mobility-deployment-options}}.
 
-### hICN benefits
+### hICN benefits {#sec-hicn-benefits-hicn}
 
 We review benefits resulting from the deployment of hICN nodes, not specific to
 the replacement of N9.
@@ -2028,7 +2028,7 @@ to support rate adaptation in the case of dynamic adaptive streaming, or to
 improve reliability of WiFi connection through transparent wireless detection
 and recovery {{WLDR}}.
 
-### Additional benefits resulting from N9 replacement
+### Additional benefits resulting from N9 replacement {#sec-hicn-benefits-n9}
 
 - Anchorless consumer and producer mobility
 
@@ -2044,7 +2044,7 @@ Dynamic selection of next hop or exit point is simplified as it can be performed
 locally based on identifiers and/or locally available information (e.g.
 interface measurements) in virtue of service-specific forwarding strategies.
 
-### Additional benefits resulting from N3 replacement
+### Additional benefits resulting from N3 replacement {#sec-hicn-benefits-n3}
 
 - Removal of tunnel management state and signaling
 
@@ -2077,7 +2077,7 @@ selected routers at the network edge. The design of hICN allows the rest of the
 infrastructure to remain unmodified, and to leverage existing management and
 monitoring tools.
 
-#### hICN in a slice
+#### hICN in a slice {#sec-hicn-deployment-slice}
 
 The use of hICN does not impose any specific slicing of the network. Rather, it
 can assist a transition of services towards hICN, and/or the coexistence of
@@ -2089,7 +2089,7 @@ appropriate mobility management, and dedicated hICN nodes with appropriate
 caching/forwarding strategies at places aggregating considerable number of user
 requests.
 
-#### End-to-end deployment
+#### End-to-end deployment {#sec-hicn-deployment-e2e}
 
 The deployment of an hICN stack in endpoints is the preferred option and offers
 the full range of benefits. The hICN network stack and forwarder are available
@@ -2100,7 +2100,7 @@ as an application/library for all major OS vendors including iOS, Android, Linux
 and Windows. The second targets high-performance routers and servers, and
 leverages the VPP kernel-bypass technology.
 
-#### Network-contained deployment
+#### Network-contained deployment {#sec-hicn-deployment-network}
 
 It is not always possible nor desirable to affect endpoints, and a
 deployment fully contained in the network, or within the N9 interface is
@@ -2121,7 +2121,7 @@ removing the mapping system, and of a lightweight FIB update process. No
 encapsulation is required and packet headers are not modified, which allows the
 network to have visibility in the source and/or destination identifiers.
 
-## Summary
+## Summary {#sec-hicn-summary}
 
 hICN proposes a general purpose architecture that combines the benefits of a
 pure-ID architecture with those of ICN. While a full deployment is recommended
