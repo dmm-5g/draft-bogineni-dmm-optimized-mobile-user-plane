@@ -267,6 +267,7 @@ traffic in the visited PLMN.
 This document focuses on the N9 interface which represents the user data
 plane between UPFs in 5G architecture.
 
+~~~~
  
                             +-----------------+
                             |       SMF       |
