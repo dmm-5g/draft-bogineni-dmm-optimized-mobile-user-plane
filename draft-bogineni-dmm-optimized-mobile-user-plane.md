@@ -1645,9 +1645,9 @@ Privacy in addressing is a consideration. ILA endeavors to provide a mechanism
 of address assignment that prevents inference of user identity or location. This
 problem is described in [ADDRPRIV].
 
-# hICN-based mobility architecture
+# hICN-based mobility architecture {#sec-hicn}
 
-## Overview
+## Overview {#sec-hicn-overview}
 
 __Locator-based architectures__
 
