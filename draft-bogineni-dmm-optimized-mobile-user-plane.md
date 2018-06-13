@@ -488,13 +488,14 @@ and ARP of the associated QoS flow.
 includes the support and handling of the ARP priority of QoS Flows over the N4
 interface, to support priority mechanism:
 
-      - "For a UE that is not configured for priority treatment, upon receiving
+   - "For a UE that is not configured for priority treatment, upon receiving
       the "N7 PDU-CAN Session Modification" message from the PCF with an ARP
       priority level that is entitled for priority use, the SMF sends an "N4
       Session Modification Request" to update the ARP for the Signalling QoS
       Flows, and sends an "N11 SM Request with PDU Session Modification Command"
       message to the AMF, as specified in clause 4.3.3.2 of TS 23.502.
-      - "If an IP packet arrives at the UPF for a UE that is CM-IDLE over a QoS
+	  
+   - "If an IP packet arrives at the UPF for a UE that is CM-IDLE over a QoS
       Flow which has an ARP priority level value that is entitled for priority
       use, delivery of priority indication during the Paging procedure is
       provided by inclusion of the ARP in the N4 interface "Downlink Data
@@ -531,15 +532,15 @@ operator policies.
 The following information is sent in an encapsulation header over the N3
 interface. N9 needs to support that.
 
-    - QFI (QoS Flow Identifier), see subclause 5.7.1 of 3GPP TS 23.501.
+   - QFI (QoS Flow Identifier), see subclause 5.7.1 of 3GPP TS 23.501.
 
-    - RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of 3GPP TS
-    23.501.
+   - RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of 3GPP TS
+     23.501.
 
-    - Support of RAN initiated QoS Flow mobility, when using Dual connectivity,
-    also requires the QFI to be sent within End Marker packets. See subclause
-    5.11.1 of 3GPP TS 23.501 and subclause 4.14.1 of 3GPP TS 23.502
-    respectively.
+   - Support of RAN initiated QoS Flow mobility, when using Dual connectivity,
+     also requires the QFI to be sent within End Marker packets. See subclause
+     5.11.1 of 3GPP TS 23.501 and subclause 4.14.1 of 3GPP TS 23.502
+     respectively.
 
 GTPv1-U as defined in 3GPP TS 29.281 is used over the N3 and N9 interfaces in
 Release 15. Release 15 is still work-in-progress and RAN3 will specify the
