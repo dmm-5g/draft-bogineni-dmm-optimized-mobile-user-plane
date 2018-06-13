@@ -897,7 +897,7 @@ to IPV6 DA field.
 
 Alternatively, entropy related information can be encoded as optional TLV field in SRV6's SRH.
 
-# SRV6 and 5G Slicing
+## SRV6 and 5G Slicing
 
 Slicing is one of the main features in 5G [3GPP 23501]. Several Slices with
 different requirements can coexist on top of the common network infrastructure.
@@ -1645,102 +1645,6 @@ Privacy in addressing is a consideration. ILA endeavors to provide a mechanism
 of address assignment that prevents inference of user identity or location. This
 problem is described in [ADDRPRIV].
 
-# Coexistence of 5GS and ID Locator Separation Architecture
-
-## Overview of the Low Impact Approach
-
-ID-Locator separation architecture can be implemented by control plane of a
-dedicated protocol such as LISP, ILNP, ILA, etc., however, it may cause major
-impact to the specifications of 3GPP 5GS. This approach, described in
-{{?I-D.homma-dmm-5gs-id-loc-coexistence}}, enables to introduce such ID-Locator
-separation protocols into 5GS with no or low impacts. It would also support a
-migration path toward a network which an ID-Locator separation protocol is
-completely incorporated.
-
-This approach establishes an individual domain/slice in which an ID-Locator
-separation protocol works as packet forwarding mechanism, and divert appropriate
-packets to the domain by using Up-Link Classifier (ULCL) which is a fundamental
-function of UPF. An overview of this architecture is shown in
-{{fig_Overview-ID-LOC-with-Low-Impact}}.
-
-~~~~
-                      .--.
-                     (    )-.
-                   .'  cDN/  '
-                  (  Internet )
-                   (         -'
-                    '-(     )
-                       '---'
-                         |N6         ,---------.
-                   +-----+-----+     | Mapping |
-                   |   cUPF    |     | System  |
-                   +-----+-----+     `---------'
-                         |N9              .
- ,-----------------------+----------------.---------.
-/ Transport Network   . . . . . . . . . . . . . . .  \
-|                     .                           .  |
-\                  #===========================#===  /
- `----+------------#--.-----------+------------#--.-'
-      |N9          #  .           |N9          #  .
-+-----+-----+   +-------+   +-----+-----+   +-------+
-|   dUPF#1  |N6 | LOC-  |   |   dUPF#2  |N6 | LOC-  |
-|       [UL]+---+ Node#1|   |       [UL]+---| Node#2|..
-|       [CL]|   |       |   |       [CL]|   |       |
-+-----+-----+   +---+---+   +-----+-----+   +---+---+
-      |N3           |             |N3           |
-                 ,-----.                     ,-----.
-   (( o ))      /       \      (( o ))      /       \
-      A         | dDN#A |         A         | dDN#B |
-     /-\  RAN   \       /        /-\  RAN   \       /
-    /-|-\        `-----'        /-|-\        `-----'
-
-      |                           |
-
-   [ UE ] ..                   [ UE ] ..
-
-
-                  dUPF/cUPF: Distributed/Central UPF
-                   dDN/cDN : Distributed/Central DN
-                     ===== : Connection between LOC nodes
-                     . . . : IF to Mapping System
-~~~~
-{: #fig_Overview-ID-LOC-with-Low-Impact title="Overview of Proposed Architecture"}
-
-LOC-node is a node which has a locator and forwards packets to appropriate
-destination based on looking up of destination ID. It is defined as xTR in LISP,
-and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
-NF in dDN) and their bineded Locators which each ID is connected.
-
-## Data Plane
-
-GTP-U or any forwarding protocol described in this document can be used as data
-plane mechanism of this approach. However, each LOC-Node must be connected to
-the all other LOC-Nodes and thus it may cause complexity of path management if
-you use a protocol which needs session establishment.
-
-## Control Plane
-
-A control plane of every dedicated ID-Locator separation protocol described in
-this document can be used for this approach. For management of mobility of UEs
-in ID-Locator separation domain, some cooperation between SMF and mapping system
-is needed. In this approach, a UE is attached to a LOC-Node only when it
-communicates to another UE or an NF in a dDN. In 5GS, SMF manages sessions, and
-thus SMF may be required to update mapping database when an UE moves to under
-another UPF or an NF is moved to another dDN. The impact caused by such
-cooperation can be reduced by using Naf interface which is defined in 5GS
-specifications.
-
-## Features
-
-This approach provides a mechanism for introducing ID-Locator separation
-architecture into 5GS with no or nominal impact, and achieves optimization of
-forwarding path and session continuity. Moreover, this can keep scalability on
-forwarding on down link from cDN/Internet because it can use the current
-GTP-based mechanism.
-
-On the other hand, this approach causes an extra hop when diverting packets to
-ID-Locator separation domain, and it may leads to increase of latency.
-
 # hICN-based mobility architecture
 
 ## Overview
@@ -2232,6 +2136,103 @@ change in the 5G architecture nor in its control plane. The architecture will
 further leverage the incremental insertion of information centric
 functionalities through proxies or direct insertion in user devices as the
 technology gets adopted and deployed.
+
+# Coexistence of 5GS and ID Locator Separation Architecture
+
+## Overview of the Low Impact Approach
+
+ID-Locator separation architecture can be implemented by control plane of a
+dedicated protocol such as LISP, ILNP, ILA, etc., however, it may cause major
+impact to the specifications of 3GPP 5GS. This approach, described in
+{{?I-D.homma-dmm-5gs-id-loc-coexistence}}, enables to introduce such ID-Locator
+separation protocols into 5GS with no or low impacts. It would also support a
+migration path toward a network which an ID-Locator separation protocol is
+completely incorporated.
+
+This approach establishes an individual domain/slice in which an ID-Locator
+separation protocol works as packet forwarding mechanism, and divert appropriate
+packets to the domain by using Up-Link Classifier (ULCL) which is a fundamental
+function of UPF. An overview of this architecture is shown in
+{{fig_Overview-ID-LOC-with-Low-Impact}}.
+
+~~~~
+                      .--.
+                     (    )-.
+                   .'  cDN/  '
+                  (  Internet )
+                   (         -'
+                    '-(     )
+                       '---'
+                         |N6         ,---------.
+                   +-----+-----+     | Mapping |
+                   |   cUPF    |     | System  |
+                   +-----+-----+     `---------'
+                         |N9              .
+ ,-----------------------+----------------.---------.
+/ Transport Network   . . . . . . . . . . . . . . .  \
+|                     .                           .  |
+\                  #===========================#===  /
+ `----+------------#--.-----------+------------#--.-'
+      |N9          #  .           |N9          #  .
++-----+-----+   +-------+   +-----+-----+   +-------+
+|   dUPF#1  |N6 | LOC-  |   |   dUPF#2  |N6 | LOC-  |
+|       [UL]+---+ Node#1|   |       [UL]+---| Node#2|..
+|       [CL]|   |       |   |       [CL]|   |       |
++-----+-----+   +---+---+   +-----+-----+   +---+---+
+      |N3           |             |N3           |
+                 ,-----.                     ,-----.
+   (( o ))      /       \      (( o ))      /       \
+      A         | dDN#A |         A         | dDN#B |
+     /-\  RAN   \       /        /-\  RAN   \       /
+    /-|-\        `-----'        /-|-\        `-----'
+
+      |                           |
+
+   [ UE ] ..                   [ UE ] ..
+
+
+                  dUPF/cUPF: Distributed/Central UPF
+                   dDN/cDN : Distributed/Central DN
+                     ===== : Connection between LOC nodes
+                     . . . : IF to Mapping System
+~~~~
+{: #fig_Overview-ID-LOC-with-Low-Impact title="Overview of Proposed Architecture"}
+
+LOC-node is a node which has a locator and forwards packets to appropriate
+destination based on looking up of destination ID. It is defined as xTR in LISP,
+and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
+NF in dDN) and their bineded Locators which each ID is connected.
+
+## Data Plane
+
+GTP-U or any forwarding protocol described in this document can be used as data
+plane mechanism of this approach. However, each LOC-Node must be connected to
+the all other LOC-Nodes and thus it may cause complexity of path management if
+you use a protocol which needs session establishment.
+
+## Control Plane
+
+A control plane of every dedicated ID-Locator separation protocol described in
+this document can be used for this approach. For management of mobility of UEs
+in ID-Locator separation domain, some cooperation between SMF and mapping system
+is needed. In this approach, a UE is attached to a LOC-Node only when it
+communicates to another UE or an NF in a dDN. In 5GS, SMF manages sessions, and
+thus SMF may be required to update mapping database when an UE moves to under
+another UPF or an NF is moved to another dDN. The impact caused by such
+cooperation can be reduced by using Naf interface which is defined in 5GS
+specifications.
+
+## Features
+
+This approach provides a mechanism for introducing ID-Locator separation
+architecture into 5GS with no or nominal impact, and achieves optimization of
+forwarding path and session continuity. Moreover, this can keep scalability on
+forwarding on down link from cDN/Internet because it can use the current
+GTP-based mechanism.
+
+On the other hand, this approach causes an extra hop when diverting packets to
+ID-Locator separation domain, and it may leads to increase of latency.
+
 
 # No Protocol Option
 
