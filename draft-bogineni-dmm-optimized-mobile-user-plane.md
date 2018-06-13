@@ -263,45 +263,113 @@ traffic in the visited PLMN.
 ~~~~
 {: #fig_3GPP-5GS-SBA title="5G Service Based Architecture"}
 
-    # Description of the network functions (maybe description and not bullet
-            list?)
 
-    # Some procedures for mobility use cases.
+This document focuses on the N9 interface which represents the user data
+plane between UPFs in 5G architecture.
 
-The roaming architectures are depicted in the two figures below.
+ 
+                            +-----------------+
+                            |       SMF       |
+                            +-+-------------+-+
+	                      |             |
+			      N4            N4
+                              |             |
+   +-----------+        +------+-+         +-+------+
+   |  gNB/RAN  |---N3---+  UPF   |---N9----|  UPF   +---N6----
+   +-----------+        +--------+         +--------+ 
+~~~~
+{: #fig_3GPP-5GS-N9 title="N3, N4, N9, and N6 interfaces in 5G Service Based Architecture"}
+
+
+3GPP specifies two roaming model namely the Local Break Out(LBO) and
+the Homre Routed (HR) model.
+
+In LBO model, visted operator routes user traffic locally through
+UPFs that are local to the visted operator. In this model, the SMF and 
+all UPF(s) involved by the PDU Session are located and are under the
+control of the Visited PLMN (VPLMN).
+
+In HR model, user traffic is routed to the UPF in Home PLMN(HPLMN)
+via the UPF in the visited network. In this scenario, the SMF in HPLMN
+(H-SMF) selects the UPF(s) in the HPLMN and the SMF in VPLMN(V-SMF)
+selects the UPF(s) in the VPLMN.
+In this model, the UE obtains services from its home network. 
+Here, the UPF acting as PGW resides in home network, and can 
+directly communicate with policy and billing system. 
+
+A given UE can have multiple simultaneous PDU sessions with different
+roaming model. In these scenarios, the HPLMN uses subscription data
+per Data Netwrok Name(DNN) and per Single Network Slice Selection 
+Assistance Information(S-NSSAI) to determine PDU sessions's roaming
+model.
+
+In the HR roaming model: 
+
+- The NAS SM terminates at the V-SMF. 
+
+- The V-SMF forwards SM related informaton to the SMF in the HPLMN.
+
+- The V-SMF sends UE's Subscription Permanent 
+  Identifier(SUPI) to the H-SMF during the PDU session 
+  establishment procedure.
+
+- The V-SMF sends the PDU Session Establishment Request message 
+  to the H-SMF along with the S-NSSAI with the value from the HPLMN.
+
+- The H-SMF obtains subscription data directly from the 
+  Unified Data Management(UDM) and is responsible for checking the UE 
+  request with regard to the user subscription, and may reject the 
+  request in case of mismatch.  
+ 
+- The H-SMF may send QoS requirements associated with a PDU Session
+  to the V-SMF. This may happen at PDU Session establishment and after
+  the PDU Session is established. The interface between H-SMF and V-SMF 
+  is also able to carry (N9) User Plane forwarding information 
+  exchanged between H-SMF and V-SMF. 
+  The V-SMF may check QoS requests from the H-SMF with 
+  respect to roaming agreements.
+
+- The AMF selects a V-SMF and a H-SMF, and provides 
+  the identifier of the selected H-SMF to the selected V-SMF.
+
+- The H-SMF performs IP address management procedure based on the 
+  selected PDU session type.
+  
+
+Local Breakout and Home Routed roaming models are depicted in the two figures below.
+
 
 ~~~~
                                 VPLMN      |      HPLMN
  ----------+-------+------+------+----    N32 -------+------+----
-           |       |      |      |         |         |      |
-        +--+--+  +-+-+ +--+--+ +-+-+       |      +--+--+ +-+-+
-        | AMF |  |PCF| | SMF | |AF |       |      | UDM | |PCF|
-        +-+-+-+  +---+ +--+--+ +---+       |      +-----+ +---+
-          N1|             |                |
-+-------+ | |             N4               |
-| 5G UE +-+ |             |                |
-+---+---+   N2      +-----+--+             |
-    |       |       |        |             |
+                                           |
+                       +--+--+             |
+                       | SMF |             |
+                       +--+--+             |
+                          |                |
++-------+                N4                |
+| 5G UE +                 |                |
++---+---+           +-----+--+             |
+    |               |        |             |
     |   +---+-+   +-+-+    +-+-+  +----+   |
     +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
         +-----+   +-+-+    +---+  +----+   |
 ~~~~
 {: #fig_3GPP-5GS-Local-Breakout title="Roaming 5G System Architecture- Local Breakout Scenario"}
 
-    # Some procedures/flows for roaming use cases
 
 ~~~~
                            VPLMN   |      HPLMN
  ----------+------+------+-----  N32 --------+-------+------+-----+--
-           |      |      |         |         |       |      |     |
-        +--+--+ +-+-+ +--+--+      |      +--+--+ +--+--+ +-+-+ +-+-+
-        | AMF | |PCF| | SMF |      |      | SMF | | UDM | |PCF| |AF |
-        +-+-+-+ +---+ +--+--+      |      +--+--+ +-----+ +---+ +---+
-         N1 |            |         |         |
-+-------+ | |            |         |         |
-| 5G UE |-+ |            |         |         |
-+---+---+   N2          N4         |         N4
-    |       |            |                   |
+                         |         |         |
+                      +--+--+      |      +--+--+
+                      | SMF |      |      | SMF |
+                      +--+--+      |      +--+--+
+                         |         |         |
++-------+                |         |         |
+| 5G UE |                |         |         |
++---+---+               N4         |         N4
+    |                    |                   |
     |     +-+---+     +--+--+             +--+--+      +----+
     +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
           +-----+     +--+--+             +-----+      +----+
@@ -315,22 +383,21 @@ shows the architecture for multiple PDU Sessions where two SMFs are selected for
 the two different PDU Sessions. However, each SMF may also have the capability
 to control both a local and a central UPF within a PDU Session.
 
-    # Procedures/Flows for multiple PDU sessions and concurrent acces use cases
 
 
 ~~~~
                      Service Based Interfaces
  ---------+------------+------------------+----------------------
-          |            |                  |
-       +--+--+      +--+--+            +--+--+
-       | AMF |      | SMF |            | SMF |
-       +--+-++      +--+--+            +--+--+
-          N1|          |                  |
-+-------+ | |          N4                 N4
-| 5G UE |-+ |          |                  |
-+---+---+   N2      +--+--+    +----+     +-----------+
-    |       |   +---| UPF |----| DN |     |           |
-    |       |   |   +-----+    +----+     |           |
+                       |                  |
+                    +--+--+            +--+--+
+                    | SMF |            | SMF |
+                    +--+--+            +--+--+
+                       |                  |
++-------+             N4                 N4
+| 5G UE |              |                  |
++---+---+           +--+--+    +----+     +-----------+
+    |           +---| UPF |----| DN |     |           |
+    |           |   +-----+    +----+     |           |
     |     +-+---+-+                    +--+--+     +--+--+  +----+
     +-----|  gNB  |--------------------| UPF |--N9-| UPF |--| DN |
           +-------+                    +-----+     +-----+  +----+
@@ -341,14 +408,14 @@ to control both a local and a central UPF within a PDU Session.
 ~~~~
                      Service Based Interfaces
  ---------+-----------------------+-----------------------
-           |                      |
-       +--+---+                +--+--+
-       | AMF  |                | SMF |
-       +--+-+-+                +--+--+
-         N1 |                     |
-+-------+ | |              +------+-------+
-| 5G UE |-+ |              |              |
-+---+---+   N2             N4             N4
+                                  |
+                               +--+--+
+                               | SMF |
+                               +--+--+
+                                  |
++-------+                  +------+-------+
+| 5G UE |                  |              |
++---+---+                  N4             N4
     |     +-+---+       +--+--+        +--+--+    +----+
     +-----| gNB |-------| UPF |----N9--| UPF |----| DN |
           +-----+       +--+--+        +-----+    +----+
@@ -373,6 +440,10 @@ functionalities may be supported in a single instance of a UPF. Not all of the
 UPF functionalities are required to be supported in an instance of user plane
 function of a Network Slice.
 
+The following provides a breif list of main UPF functionalities.Please refert 
+to section 6.2.3 3GPP TS 23.501 for detailed description of UPF and its
+functionalities.
+
 - Anchor point for Intra-/Inter-RAT mobility (when applicable)"
 - Sending and forwarding of one or more end marker to the source NG-RAN node
 - External PDU Session point of interconnect to Data Network.
@@ -393,11 +464,7 @@ session to a data network, based on the source Prefix of the PDU
 - Uplink Classifier enforcement to support routing traffic flows to a data
 network, e.g. based on the destination IP address/Prefix of the UL PDU
 - Lawful intercept (UP collection)
-- Traffic usage reporting (e.g. allowing SMF support for charging, and/or
-    allowing the SMF to initiate a CN initiated deactivation of UP connection of
-    an existing PDU session when the UPF detects that the PDU Session has no
-    user plane data activity for a specified Inactivity period provided by the
-    SMF)
+- Traffic usage reporting
 - QoS handling for user plane including:
     - packet filtering, gating, UL/DL rate enforcement, UL/DL Session-AMBR
     enforcement (with the Session-AMBR computed by the UPF over the Averaging
@@ -415,10 +482,7 @@ N3 (the QoS flow is the finest granularity of QoS differentiation in the PDU
         in the UL PDUs are aligned with the QoS Rules provided to the UE or
         implicitly derived by the UE e.g. when using reflective QoS)
 - Transport level packet marking in the uplink and downlink, e.g. based on 5QI
-and ARP of the associated QoS flow
-- Packet Filter Set is used in the QoS rules or SDF template to identify a QoS
-flow. The Packet Filter Set may contain packet filters for the DL direction, the
-UL direction or packet filters that are applicable to both directions.
+and ARP of the associated QoS flow.
 - Downlink packet buffering and downlink data notification triggering: This
 includes the support and handling of the ARP priority of QoS Flows over the N4
 interface, to support priority mechanism:
@@ -448,36 +512,15 @@ providing the MAC address corresponding to the IP address sent in the request.
     traffic using traffic pattern based on at least any combination of:
         - PDU session
         - QFI
-        - IP Packet Filter Set, comprising:
-            - Source/destination IP address or IPv6 network prefix
-            - Source / destination port number
-            - Protocol ID of the protocol above IP/Next header type
-            - Type of Service (TOS) (IPv4) / Traffic class (IPv6) and Mask
-            - Flow Label (IPv6)
-            - Security parameter index
-        - Application Identifier: The Application ID is an index to a set of
-        application detection rules configured in UPF
-
-            - In the IP Packet Filter set:
-                - a value left unspecified in a filter matches any value of the
-                corresponding information in a packet
-                - an IP address or Prefix may be combined with a prefix mask
-                - port numbers may be specified as port ranges
-
+        - IP Packet Filter Set. Please refer to section 5.7.6.2 of 
+	  3GPP TS 23.501 for further details.
 
     - For Ethernet PDU session type, the SMF may control UPF traffic detection
     capabilities based on at least any combination of:
          - PDU session
          - QFI
-         - Ethernet Packet Filter Set, comprising:
-             - Source/destination MAC address
-             - EtherType as defined in IEEE 802.3
-             - Customer-VLAN tag (C-TAG) and/or Service-VLAN tag (S-TAG) VID
-             fields as defined in IEEE 802.1Q
-             - Customer-VLAN tag (C-TAG) and/or Service-VLAN tag (S-TAG) PCP/DEI
-             fields as defined in IEEE 802.1Q
-             - IP Packet Filter Set, in case Ethertype indicates IPv4/IPv6
-             payload
+         - Ethernet Packet Filter Set. Please refer to section 5.7.6.3 of 
+	  3GPP TS 23.501 for further details.
 
 - Network slicing Requirements for different MM mechanisms on different slice.
 The selection mechanism for SMF to select UPF based on the selected network
@@ -487,48 +530,15 @@ operator policies.
 The following information is sent in an encapsulation header over the N3
 interface. N9 needs to support that.
 
-    - QFI (QoS Flow Identifier), see subclause 5.7.1 of 3GPP TS 23.501:
-
-        "A QoS Flow ID (QFI) is used to identify a QoS flow in the 5G system.
-User Plane traffic with the same QFI within a PDU session receives the same
-traffic forwarding treatment (e.g. scheduling, admission threshold). The QFI is
-carried in an encapsulation header on N3 (and N9) i.e. without any changes to
-the e2e packet header. It can be applied to PDUs with different types of
-payload, i.e. IP packets, non-IP PDUs and Ethernet frames. The QFI shall be
-unique within a PDU session." The QFI is sent for both downlink and uplink user
-plane traffic.
-
+    - QFI (QoS Flow Identifier), see subclause 5.7.1 of 3GPP TS 23.501.
 
     - RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of 3GPP TS
-    23.501:
-
-        "When the 5GC determines to activate reflective QoS via U-plane, the SMF
-        shall include a QoS rule including an indication to the UPF via N4
-        interface to activate User Plane with user plane reflective. When the
-        UPF receives a DL packet matching the QoS rule that contains an
-        indication to activate reflective QoS, the UPF shall include the RQI in
-        the encapsulation header on N3 reference point. The UE creates a UE
-        derived QoS rule when the UE receives a DL packet with a RQI." The RQI
-        is sent for downlink user plane traffic only.
+    23.501.
 
     - Support of RAN initiated QoS Flow mobility, when using Dual connectivity,
     also requires the QFI to be sent within End Marker packets. See subclause
     5.11.1 of 3GPP TS 23.501 and subclause 4.14.1 of 3GPP TS 23.502
-    respectively:
-
-        - " For some other PDU sessions of an UE: Direct the DL User Plane
-        traffic of some QoS flows of the PDU session to the Secondary
-        (respectively Master) RAN Node while the remaining QoS flows of the PDU
-        session are directed to the Master (respectively Secondary) RAN Node. In
-        this case there are, irrespective of the number of QoS Flows, two N3
-        tunnel terminations at the RAN for such PDU session."
-
-        - " In order to assist the reordering function in the Master RAN node
-        and/or Secondary RAN node, for the QFIs that are switched between Master
-        RAN node and Secondary RAN node, the UPF sends one or more "end marker"
-        packets along with QFI on the old tunnel immediately after switching the
-        tunnel for the QFI. The UPF starts sending downlink packets to the
-        Target RAN."
+    respectively.
 
 GTPv1-U as defined in 3GPP TS 29.281 is used over the N3 and N9 interfaces in
 Release 15. Release 15 is still work-in-progress and RAN3 will specify the
