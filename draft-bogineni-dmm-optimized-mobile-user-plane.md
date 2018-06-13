@@ -124,21 +124,6 @@ informative:
     -
         ins: M. Papalini
     date: 2018
-  I-D.irtf-icnrg-mapme:
-    title: "MAP-Me : Managing Anchorless Mobility in Content Centric Networking"
-    author:
-    -
-        ins: J. Augé
-    -
-        ins: G. Carofiglio
-    -
-        ins: L. Muscariello
-    -
-        ins: M. Papalini
-    seriesinfo:
-      name: draft-irtf-icnrg-mapme-00
-      value: https://datatracker.ietf.org/meeting/interim-2018-icnrg-01/materials/slides-interim-2018-icnrg-01-sessa-map-me-managing-anchor-less-producer-mobility-in-content-centric-networks-jordan-auge.pptx
-    date: March 2018
   MAPME: DOI.10.1109/TNSM.2018.2796720
   WLDR: DOI.10.1145/2984356.2984361
   CICN:
@@ -1764,7 +1749,7 @@ Producer mobility is not natively supported by ICN architecture, rather handled
 in different ways according to the selected producer mobility management
 scheme.
 
-In {{I-D.irtf-icnrg-mapme}} and {{MAPME}} producer mobility schemes are
+In {{?I-D.irtf-icnrg-mapme}} and {{MAPME}} producer mobility schemes are
 classified into four classes:
 
 - _Resolution based_ solutions rely on dedicated rendez-vous nodes (similar to
@@ -1786,7 +1771,7 @@ rendez-vous point.
 
 The selected mobility management scheme for hICN is MAP-Me, an anchorless
 producer mobility management solution originally proposed for ICN
-{{I-D.irtf-icnrg-mapme}} {{MAPME}} and further extended to hICN in
+{{?I-D.irtf-icnrg-mapme}} {{MAPME}} and further extended to hICN in
 {{I-D.auge-hicn-mobility}}.
 
 MAP-Me belongs to the class of anchorless approaches that relies on
