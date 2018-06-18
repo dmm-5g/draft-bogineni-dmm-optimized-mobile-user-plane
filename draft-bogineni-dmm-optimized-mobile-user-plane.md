@@ -774,23 +774,23 @@ GTP tunnels as discussed later in this document in {{sec-alternative}}.
 |_ Mobility Management
    |_ Locator-based / Map-and-Encapsulate
       |_ Tunnelling
-         |_ 3GPP / GTP-U                {{sec-gtp}}
+         |_ 3GPP / GTP-U                Sec. XX
       |_ Packet steering
-         |_ SRv6 (backwards-compatible) {{sec-srv6-gtpu}}
+         |_ SRv6 (backwards-compatible) Sec. 5.2.1
    |_ Loc/ID split
+      |_ Packet steering
+         |_ SRv6                        Sec 5.2.2
       |_ Encapsulation
-         |_ LISP, LISP-MN, ILSR         {{sec-lisp}}
+         |_ LISP, LISP-MN, ILSR         Sec. 5.3
       |_ Address rewrite
          |_ Host-based address change
-            |_ ILNP, esp. ILNPv6        {{sec-ilnp}}
+            |_ ILNP, esp. ILNPv6        Sec. 5.4
          |_ Network-based translation
-            |_ ILA                      {{sec-ila}}
-      |_ Packet steering
-         |_ SRv6                        {{sec-srv6-adv}}
+            |_ ILA                      Sec. 5.5
    |_ ID-based
       |_ Information-Centric Networking
          |_ ID-based mobility / IPv6
-            |_ Hybrid ICN               {{sec-hicn}}
+            |_ Hybrid ICN               Sec. 5.6
 ~~~~
 {: #fig-approaches title="Overview of reviewed approaches"}
 
@@ -950,7 +950,7 @@ examples.
 
 ### Deployment considerations
 
-__Partial deployment__
+__Partial insertion__
 
 The benefits previously described can be obtained by an upgrade of only a few
 selected routers at the network edge. The design of hICN allows the rest of the
@@ -961,8 +961,12 @@ and benefits which are proportionally related to the degree of hICN penetration.
 __End-to-end deployment__
 
 The deployment of an hICN stack in endpoints is the preferred option and offers
-the full range of benefits. The hICN network stack and forwarder are available
-through two reference implementations based on the CICN project {{CICN}}.
+the full range of benefits. Both the hICN forwarder and the transport stack are
+available as reference implementations based on the CICN project {{CICN}}. They
+are both designed to facilitate insertion on routers and end-user devices thanks
+to implementation in user space, one targetting high-performance, the other
+aiming at wide support from major vendors including iOS, Android, Linux, MacOSX
+and Windows.
 
 __Network-contained deployment__
 
@@ -1009,6 +1013,22 @@ One realization being to create SRv6 domains in between hICN nodes. The hICN
 router (through forwarding strategies) would then act as a control plane for
 SRv6 by specifying the list of SIDs to insert in the packet.
 
+
+### Summary
+
+hICN proposes a general purpose architecture that combines the benefits of a
+pure-ID architecture with those of ICN. While a full deployment is recommended
+to make efficient use of available network resources, it is still possible to
+opt for a partial or phased deployment, with the associated tradeoffs that we
+have reviewed here.
+
+An hICN enabled network offers native offloading capabilities thanks to the
+anchorless properties resulting from the pure-ID communication scheme. It does
+so without the need for a third party mapping system, and further requires no
+change in the 5G architecture nor in its control plane. The architecture will
+further leverage the incremental insertion of information centric
+functionalities through proxies or direct insertion in user devices as the
+technology gets adopted and deployed.
 
 
 <!--
