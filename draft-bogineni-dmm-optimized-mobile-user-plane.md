@@ -2148,8 +2148,11 @@ completely incorporated.
 
 This approach establishes an individual domain/slice in which an ID-Locator
 separation protocol works as packet forwarding mechanism, and divert appropriate
-packets to the domain by using Up-Link Classifier (ULCL) which is a fundamental
-function of UPF. An overview of this architecture is shown in
+packets (e.g., packets for UE-to-UE communication) to the domain/slice at local/distributed 
+UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it 
+diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
+(e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
+An overview of this architecture is shown in
 {{fig_Overview-ID-LOC-with-Low-Impact}}.
 
 ~~~~
@@ -2188,10 +2191,10 @@ function of UPF. An overview of this architecture is shown in
    [ UE ] ..                   [ UE ] ..
 
 
-                  dUPF/cUPF: Distributed/Central UPF
-                   dDN/cDN : Distributed/Central DN
-                     ===== : Connection between LOC nodes
-                     . . . : IF to Mapping System
+                    dUPF/cUPF: distrbuted/Central UPF
+                     dDN/cDN : distributed/Central DN
+                       ===== : Connection between LOC nodes
+                       . . . : IF to Mapping System
 ~~~~
 {: #fig_Overview-ID-LOC-with-Low-Impact title="Overview of Proposed Architecture"}
 
