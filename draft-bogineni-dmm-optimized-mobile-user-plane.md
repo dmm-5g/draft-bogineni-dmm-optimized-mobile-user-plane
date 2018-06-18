@@ -45,6 +45,18 @@ author:
     org: Cisco
     email: natal@cisco.com
 -
+    ins: G. Carofiglio
+    name: Giovanna Carofiglio
+    role:
+    org: Cisco
+    email: gcarofig@cisco.com
+-
+    ins: J. Augé
+    name: Jordan Augé
+    role:
+    org: Cisco
+    email: jordan.auge@cisco.com
+-
     ins: S. Homma
     name: Shunsuke Homma
     role:
@@ -182,6 +194,7 @@ be used in the 3GPP 5G architecture. Specifically Segment Routing v6 (SRv6),
    etc.
 
 A comparison of the various protocols is also provided.
+
 
 # Conventions Used in This Document
 
@@ -653,55 +666,188 @@ The criteria for evaluation will be the ability to support the above scenarios
 and identifying the impacts to N2, N3, N4, gNB, AMF and SMF. Reference
 procedures/flows for above use cases from existing 3GPP specs.
 
-# Integration of ID-LOC Architecture into the 5G Framework
+# Beyond GTP-U: objectives and architectural requirements
+
+- What is criticized to GTP
+- What is required by the architecture
+- What is desirable for future needs and use cases
+
+## GTP limitations
+
+## Architectural requirements
+
+## Desired benefits
+
+### Anchorless
+
+## Architectural requirements
+
+# Mobility management architectures
+
+## Classification of existing approches
+
+Based on their use of identifiers and locators, mobility approaches can be
+broadly categorized in the three following classes:
+
+__Locator-based, or Map-and-Encapsulate architectures__
+
+IP communication relies solely on locators (host interfaces’ addresses) that
+are also used as node/service identifiers at network layer. Such semantic
+overloading of IP addresses as both identifiers and locators does not allow to
+disentangle locators from location-independent traffic identifiers, thus
+complexifying mobility management.
+
+As a result, traffic anchors and tunnels have been introduced to handle
+mobility while preserving the identifier exposed to the transport
+layer.
+
+__Locator-ID separation architectures__
+
+To overcome the limitations of purely locator-based architectures, there have
+been proposed the so called "identifier/locator separation" (or Loc/ID split)
+schemes, using separate namespaces for identifiers and locators, and a mapping
+system allowing routers to bind them together.
+
+Loc/ID split has been originally proposed by LISP to solve the scalability
+challenges of Internet routing, and further adapted as a mobility management
+solution. This category includes other approaches reviewed in this document,
+namely ILA, ILNP, ILSR and one SRv6-based solution, which all share the
+requirement for a mapping system. This service can be centralized/decentralized
+or distributed where a correspondence of ID and locators is stored and updated
+upon changes.
+
+__ID-based architectures__
+
+A third class of approaches exists that redefines IP communication principles
+(i.e. network and transport layers) around location-independent identifiers
+{{?I-D.vonhugo-5gangip-ip-issues}}.
+
+Information-Centric Networking (ICN) approaches fall into such class of
+approaches that we refer to as purely ID-based, or in that specific case, as
+name-based {{?I-D.irtf-icnrg-terminology}}. Previous work has highlighted the
+interest of ICN for mobility management {{!RFC7476}}.
+
+## Overview of the document
+
+In {{fig-approaches}}, this classification is further extended to position the
+reviewed architectures, namely SRv6, LISP, ILSR, ILNP, ILA and hICN, with
+respect to their specific realization of above-mentioned architectures.
 
 ~~~~
-                                 +----+----+
-         +-------------N4--------+   SMF   +--------N4-----------+                 
-         |                       +----+----+                     |
-         |                            |                          |
-         |                       +----+----+                     |
-         |                       | ID-LOC  |                     |
-         |                       | Mapping |      ID-LOC         |
-         |               +------>| System  |<--control-plane     |
-         |               |       +----+----+     |               |
-         |               V                       V               |
-     +---+---+      +----+----+             +----+----+      +---+---+
---N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
-     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+  
+|_ Mobility Management
+   |_ Locator-based / Map-and-Encapsulate
+      |_ Tunnelling
+         |_ 3GPP / GTP-U                {{sec-gtp}}
+      |_ Packet steering
+         |_ SRv6 (backwards-compatible) {{sec-srv6-gtpu}}
+   |_ Loc/ID split
+      |_ Encapsulation
+         |_ LISP, LISP-MN, ILSR         {{sec-lisp}}
+      |_ Address rewrite
+         |_ Host-based address change
+            |_ ILNP, esp. ILNPv6        {{sec-ilnp}}
+         |_ Network-based translation
+            |_ ILA                      {{sec-ila}}
+      |_ Packet steering
+         |_ SRv6                        {{sec-srv6-adv}}
+   |_ ID-based
+      |_ Information-Centric Networking
+         |_ ID-based mobility / IPv6
+            |_ Hybrid ICN               {{sec-hicn}}
 ~~~~
-{: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
+{: #fig-approaches title="Overview of reviewed approaches"}
 
-~~~~
-                                 +----+----+
-         +-------------N4--------+   SMF   +--------N4-----------+                 
-         |                       +----+----+                     |
-         |                            |                          |
-         |                       +----+----+                     |
-         |                       | ID-LOC  |                     |
-         |                       | Mapping |      ID-LOC         |
-         |  +------------------->| System  |<--control-plane--+  |
-         |  |                    +----+----+                  |  |
-         |  V                                                 V  |
-     +---+---+                                               +---+---+
---N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
-     +-------+                                               +-------+  
-~~~~
-{: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
+# Overview of the different approaches
+
+## SRv6 {#sec-srv6}
+
+### Description
+
+<!--
+Small description, references, implementations
+-->
+
+### N9 replacement
+
+### Key ideas
+
+### Benefits
+
+<!--
+WRT GTP-U
+Additional
+-->
+
+### Discussion
+
+
+### SRv6 in "enhanced mode" {#sec-srv6-adv}
+
+## LISP {#sec-lisp}
+
+### LISP-MN
+
+### ILSR
+
+## ILNP
+
+## ILA
+
+## hICN
+
+
+# Comparative analysis
+
+This section provides a succint overview of the different solutions,
+discussing the potential benefits coming from GTP replacement on the N9
+infrastructure, and well as related changes and requirements over the reference
+architecture.
+
+Common integration discussion as well as alternative deployment options and
+their tradeoff will be further discussed in the rest of this document.
+
+How the different approaches do things
+
+What they have in common
+What are the main differences
+    between categories
+    within each category
 
 
 
-An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.
+# Control plane considerations
 
-ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses. SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.
+## Mapping system deployment
 
-The ID-LOC mapping system is a database that provides mappings of Identity to Location for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC control-plane protocol to make available at the data-plane nodes the ID-LOC mappings that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP and ILAMP.
+## Control plane protocols
 
-When integrating ID-LOC architecture into the 5G framework there are several aspects to take into account. First the ID-LOC data-plane function needs to be performed in the data-plane path as the packets enter and leave the ID-LOC domain. On option for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC operation on the traffic as it leaves or enters the UPFs (as shown in Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part of the N9 interface along with current GTP. Another option is to implement the ID-LOC data-plane function directly in the UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled UPFs will directly generate packets encapsulated or transformed and will be able to directly process packets encapsulated or transformed. In this case the ID-LOC protocol will completely replace GTP in the N9 interface.
+LISP CP
+- with ILA
+- with SRv6
 
-Second, the Mapping System needs to contain the appropriate ID-LOC mappings in coordination with the SMF. In order to do so, the mappings in the Mapping System are populated either by the SMF directly or by the ID-LOC nodes that should be in synch with the SMF. In the former case, an interface from the SMF to the Mapping System is needed (as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
+ILA CP
 
-See also section [REF] for discussion on an approach for incremental deployment of ID-LOC solutions in the 5G framework.
+with related references
+
+
+# Alternative deployment options
+
+## Further extend to N3
+
+Cost/benefits
+
+Motivate this
+
+## Coexistence with GTP-based architecture
+
+### Deploy in UPF
+
+### Use local breakout
+
+
+# Conclusions and future work
+
+
 
 # SRv6 Based Solution
 
@@ -931,7 +1077,7 @@ Slice-B             |                         |
 
 TBD
 
-## SRV6 and Alternative Approaches to Advanced Mobility Support
+## SRV6 and Alternative Approaches to Advanced Mobility Support {#sec-srv6-advold}
 
 SRV6 flexibility enables it to support different methods of providing mobility
 in the network. ID-LOC for mobility support is one such option.
@@ -1644,45 +1790,18 @@ problem is described in [ADDRPRIV].
 
 # hICN-based mobility architecture {#sec-hicn}
 
-## Overview {#sec-hicn-overview}
+A novel mobility management approach is described in {{I-D.auge-hicn-mobility}},
+that leverages routable location-independent identifiers (IDs) and an
+Information-Centric Networking (ICN) communication model integrated in IPv6,
+(also referred to as Hybrid ICN, or hICN) {{?I-D.muscariello-intarea-hicn}}.
 
-__Locator-based architectures__
+Such approach belongs to the category of pure ID-based mobility management
+schemes whose objective is (i) to overcome the limitations of traditional
+locator-based solutions like Mobile IP (conf)using locators as identifiers, (ii)
+to remove the need for a global mapping system as the one required by
+locator-identifier separation solutions.
 
-IP communication relies solely on locators (host interfaces’ addresses) that
-are also used as node/service identifiers at network layer. Such semantic
-overloading of IP addresses as both identifiers and locators does not allow to
-disentangle locators from location-independent traffic identifiers, thus
-complexifying mobility management.
-
-As a result, traffic anchors and tunnels have been introduced to handle
-mobility while preserving the identifier exposed to the transport
-layer.
-
-__Locator-ID separation architectures__
-
-To overcome the limitations of purely locator-based architectures, there have
-been proposed the so called "identifier/locator separation" (or Loc/ID split)
-schemes, using separate namespaces for identifiers and locators, and a mapping
-system allowing routers to bind them together.
-
-Loc/ID split has been originally proposed by LISP, and is central to ILSR and
-ILNP proposals. The other approaches reviewed in this document, namely ILA, or
-the SRv6 proposal, also falls in the same category and share the requirements of
-a mapping system. This service can be centralized/decentralized or distributed where a
-correspondence of ID and locators is stored and updated upon changes.
-
-__ID-based architectures__
-
-A third class of approaches exists that redefines IP communication principles
-(i.e. network and transport layers) around location-independent identifiers
-{{?I-D.vonhugo-5gangip-ip-issues}}.
-
-The work done around Information-Centric Networking (ICN)
-falls into such class of approaches that we refer to as purely ID-based, also
-known as name-based {{?I-D.irtf-icnrg-terminology}}, and whose properties
-especially for mobility management we focus on in the rest of the section.
-
-## Motivations {#sec-hicn-motivations}
+## Benefits {#sec-hicn-benefits}
 
 The appeal of purely ID-based architectures is that they move Loc/ID
 split one step further by embedding ID-awareness in the network and transport
@@ -1900,53 +2019,6 @@ IPv6 PDU layer, transported over N9 directly over L2.
 ~~~~
 {: #fig-hicn-prot-n9 title="Replacement of N9 interface - Protocol layers" }
 
-### Replacement of both N3 and N9 interfaces {#sec-hicn-3gpp-n3}
-
-This option additionally removes the GTP tunnels between the RAN and the first
-UPF. It is illustrated in {{fig-hicn-sba-n9n3}} and {{fig-hicn-prot-n9n3}}.
-
-~~~~
-  +------------------+          +------------------+
-  |        AMF       |          |        SMF       |
-  +-+--------------+-+          +-+--------------+-+
-    |              |              |              |
-    | N1           | N2           | N4           | N4
-    |              |              |              |
-+---+---+      +---+---+  N3  +---+---+  N9  +---+---+  N6  +-------+
-|  UE   +------+  gNB  +------+  UPF  +------+  UPF  +------+  DN   |
-+-------+      +-------+  ^   +-------+  ^   +-------+      +-------+
-                          |              |
-                          |              |
-                           hICN insertion
-~~~~
-{: #fig-hicn-sba-n9n3 title="Replacement of N3 and N9 interfaces" }
-
-~~~~
-    UE            5G-AN        N3         UPF        N9   UPF    N6
-                               |                     |            |
-+--------+                     |                     |            |
-|  App.  |--------------------------------------------------------|
-+--------+                     | +--------+--------+ | +--------+ |
-| IP PDU |                     | | IP PDU | IP PDU | | | IP PDU | |
-| (hICN) |-----------------------| (hICN) | (hICN) |-|-| (hICN) | |
-+--------+ +-----------------+ | |        |        | | |        | |
-|        | |\     decap     /  | |        |        | | |        | |
-|        | | \_____________/   | |        |        | | |        | |
-|        | |        |          | |        |        | | |        | |
-|        | |        |          | |        |        | | |        | |
-|   5G   | |   5G   |          | |        |        | | |        | |
-|   AN   |-|   AN   |          | |        |        | | |        | |
-|protocol| |protocol|          | |        |        | | |        | |
-| layers | | layers +--------+ | +--------+--------+ | +--------+ |
-|        | |        |   L2   |-|-|   L2   |   L2   |-|-|   L2   | |
-|        | |        +--------+ | +--------+--------+ | +--------+ |
-|        | |        |   L1   |-|-|   L1   |   L1   |-|-|   L1   | |
-+--------+ +-----------------+ | +-----------------+ | +--------+ |
-                               |                     |            |
-~~~~
-{: #fig-hicn-prot-n9n3 title="Replacement of N3 and N9 interfaces : Protocol
-    layers" }
-
 ### Enhanced data plane: hICN/SRv6 combination {#sec-hicn-3gpp-srv6}
 
 hICN is designed to operate inside an IPv6 network by means
@@ -1979,7 +2051,7 @@ hICN-unaware IP network segments and it could guarantee request/reply IP path
 symmetry (instrumental for efficient round trip delay measurements and
 rate/congestion control).
 
-## Benefits {#sec-hicn-benefits}
+## Benefits {#sec-hicn-benefitsold}
 
 Benefits of the deployed solution result both from the purely identifier-based
 approach, as well as from specific hICN properties. We provide an overview of
@@ -2134,9 +2206,90 @@ further leverage the incremental insertion of information centric
 functionalities through proxies or direct insertion in user devices as the
 technology gets adopted and deployed.
 
-# Coexistence of 5GS and ID Locator Separation Architecture
 
-## Overview of the Low Impact Approach
+
+# Integration of new data planes into the 5G framework
+
+## Integration of ID-LOC Architecture
+
+~~~~
+                                 +----+----+
+         +-------------N4--------+   SMF   +--------N4-----------+                 
+         |                       +----+----+                     |
+         |                            |                          |
+         |                       +----+----+                     |
+         |                       | ID-LOC  |                     |
+         |                       | Mapping |      ID-LOC         |
+         |               +------>| System  |<--control-plane     |
+         |               |       +----+----+     |               |
+         |               V                       V               |
+     +---+---+      +----+----+             +----+----+      +---+---+
+--N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
+     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+  
+~~~~
+{: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
+
+~~~~
+                                 +----+----+
+         +-------------N4--------+   SMF   +--------N4-----------+                 
+         |                       +----+----+                     |
+         |                            |                          |
+         |                       +----+----+                     |
+         |                       | ID-LOC  |                     |
+         |                       | Mapping |      ID-LOC         |
+         |  +------------------->| System  |<--control-plane--+  |
+         |  |                    +----+----+                  |  |
+         |  V                                                 V  |
+     +---+---+                                               +---+---+
+--N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
+     +-------+                                               +-------+  
+~~~~
+{: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
+
+
+
+An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.
+
+ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses. SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.
+
+The ID-LOC mapping system is a database that provides mappings of Identity to Location for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC control-plane protocol to make available at the data-plane nodes the ID-LOC mappings that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP and ILAMP.
+
+When integrating ID-LOC architecture into the 5G framework there are several aspects to take into account. First the ID-LOC data-plane function needs to be performed in the data-plane path as the packets enter and leave the ID-LOC domain. On option for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC operation on the traffic as it leaves or enters the UPFs (as shown in Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part of the N9 interface along with current GTP. Another option is to implement the ID-LOC data-plane function directly in the UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled UPFs will directly generate packets encapsulated or transformed and will be able to directly process packets encapsulated or transformed. In this case the ID-LOC protocol will completely replace GTP in the N9 interface.
+
+Second, the Mapping System needs to contain the appropriate ID-LOC mappings in coordination with the SMF. In order to do so, the mappings in the Mapping System are populated either by the SMF directly or by the ID-LOC nodes that should be in synch with the SMF. In the former case, an interface from the SMF to the Mapping System is needed (as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
+
+See also section [REF] for discussion on an approach for incremental deployment of ID-LOC solutions in the 5G framework.
+
+## Existing control planes for ID-Loc separation architectures
+
+## Integration of hICN
+
+## Slicing
+
+    - Coexistance of several solutions in different slices
+
+## Additional benefits resulting from N3 integration
+
+Althrough this is not in the scope of the current study, it might be benefial in
+all contexts to extend further the deployment of new data plane architectures
+towards the RAN, and remove remaining GTP tunnels between the RAN and the first
+UPF.
+
+This has the advantage of completely removing the complexity of managing
+tunnels, and of ensuring interoperability between two distinct data planes.
+
+It also push the benefits and flexibity of the different solutions possibly
+closer to the edge.
+
+
+# Coexistence with an unmodified 5G core
+
+An alternative vision, although not recommended, would be to preserve the
+current architecture as is, and deploy alternative data planes on top.
+
+## Id/Loc Separation architecture
+
+### Overview of the Low Impact Approach
 
 ID-Locator separation architecture can be implemented by control plane of a
 dedicated protocol such as LISP, ILNP, ILA, etc., however, it may cause major
@@ -2200,14 +2353,14 @@ destination based on looking up of destination ID. It is defined as xTR in LISP,
 and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
 NF in dDN) and their bineded Locators which each ID is connected.
 
-## Data Plane
+### Data Plane
 
 GTP-U or any forwarding protocol described in this document can be used as data
 plane mechanism of this approach. However, each LOC-Node must be connected to
 the all other LOC-Nodes and thus it may cause complexity of path management if
 you use a protocol which needs session establishment.
 
-## Control Plane
+### Control Plane
 
 A control plane of every dedicated ID-Locator separation protocol described in
 this document can be used for this approach. For management of mobility of UEs
@@ -2219,7 +2372,7 @@ another UPF or an NF is moved to another dDN. The impact caused by such
 cooperation can be reduced by using Naf interface which is defined in 5GS
 specifications.
 
-## Features
+### Features
 
 This approach provides a mechanism for introducing ID-Locator separation
 architecture into 5GS with no or nominal impact, and achieves optimization of
@@ -2230,6 +2383,78 @@ GTP-based mechanism.
 On the other hand, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
+## hICN
+
+This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G
+reference architecture, where GTP tunnels are preserved. As previously stated,
+maintaining GTP tunnels does not allow to overcome limitations of anchor-based
+approaches. However, a transparent integration of hICN-AMM limits to the minimum
+deployment costs and already brings advantages over the baseline architecture
+presented earlier.
+
+### Local breakout in Mobile Edge Computing (MEC)
+
+The first option shares some similarities with the previous situation and
+proposes to deploy hICN-AMM within Mobile Edge Computing (MEC) platforms, as
+illustrated in {{fig-hicn-sba-mec}}.
+
+~~~~
+  +------------------+          +------------------+
+  |        AMF       |          |        SMF       |
+  +-+--------------+-+          +++--------------+-+
+    |              |             .|              |
+    | N1           | N2       N4 .| N4           | N4
+    |              |             .|              |
++---+---+      +---+---+  N3  +---+---+  N9  +---+---+  N6  +-------+
+|  UE   +------+  gNB  +------+ UL/CL +------+  UPF  +------+  DN   |
++-------+      +-------+      +---+---+      +-------+      +-------+
+                                 .|
+                                 .| N9
+                                 .|                            _
+                              +--++---+  N9  +-------+  MEC  _( )___
+                              |  UPF  +------+   DN  +------(  hICN )_
+                              +-------+      +-------+      (_________)
+                                 ^               ^              ^
+                                 |_______________|              |
+                                   local breakout        hICN insertion
+~~~~
+{: #fig-hicn-sba-mec title="hICN insertion in MEC" }
+
+It relies on the local breakout capability introduced in
+5G, i.e. a specific UPF denoted UL/CL (uplink classifier) that locally diverts
+specific flows to an alternative DN, filtering packets based for instance on
+information carried in packet headers. In the hICN-AMM case, this function is
+used to realize the hICN punting function described in (put ref), i.e. to
+identify hICN traffic (Interest and Data packets) and forward it to the local
+MEC hICN instance.
+
+Although it preserves tunnels and anchor points, this option permits an early
+termination of tunnels and the distribution of hICN capabilities close to the
+edge like in path caching and rate/loss/congestion control which may be
+leveraged for efficient low-latency content distribution especially in presence
+of consumer mobility.
+
+### hICN as a UPF
+
+The second option consists in the deployment of hICN-AMM as User Plane
+Function (UPF) inside mobile user plane. It has the advantage of preserving the
+advantage of hICN in terms of consumer mobility and flexible transport.
+
+A more in depth presentation of those alternative deployments can be found in
+{{I-D.auge-hicn-mobility-deployment-options}}.
+
+## Discussion
+
+    Motivate the introduction of optimized solutions with respect to :
+
+    - the gap between both "coexistence" and "integrated" deployment strategies;
+    - how well architectural requirements are addressed
+    - how well we address GTP shortcomings (provided they are detailed in the
+    beginning of the document)
+
+    complex management
+    out of 3GPP control plane as we do an early termination
+    keep overhead and complexity of tunnel
 
 # No Protocol Option
 
@@ -2264,8 +2489,9 @@ TBD
 
 # Acknowledgement
 
-The author would like to thank Farooq Bari, Devaki Chandramouli, Ravi
+The authors would like to thank Farooq Bari, Devaki Chandramouli, Ravi
 Guntupalli, Sri Gundavelli, Peter Ashwood Smith, Satoru Matsushima, Michael
-Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, and Cameron Byrne for
+Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne, Giovanna
+Carofiglio and Luca Muscariello for
 reviewing various iterations of the document and for providing content into
 various sections.
