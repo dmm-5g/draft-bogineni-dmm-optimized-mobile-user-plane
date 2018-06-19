@@ -1343,7 +1343,7 @@ A more in depth presentation of those alternative deployments can be found in
 {{I-D.auge-hicn-mobility-deployment-options}}.
 
 
-## Discussion
+# Discussion
 
     Motivate the introduction of optimized solutions with respect to :
 
