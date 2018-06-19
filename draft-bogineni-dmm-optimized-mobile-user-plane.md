@@ -714,15 +714,26 @@ The criteria for evaluation will be the ability to support the above scenarios
 and identifying the impacts to N2, N3, N4, gNB, AMF and SMF. Reference
 procedures/flows for above use cases from existing 3GPP specs.
 
-
-# Mobility management architectures
+# Data plane architecture models for N9
 
 ## Overview
+
+1. "Disjoint" model:
+    - This model uses GWs.
+    - UPFs and 3GPP control remain unchanged.
+    - 3GPP data plane becomes an overlay on top of new data planes
+    - GWs convert GTP traffic to underlying data plane format.
+2. Integrated model
+    - In this model UPFs Tx/Rx packets in accordance with the new data plane format.
+    - UPFs and 3GPP control will be modified.
+    - 3GPP and transport data plane are collapsed into one data plane.
+
+## Forwarding paradigms
 
 Based on their use of identifiers and locators, mobility approaches can be
 broadly categorized in the three following classes:
 
-__Locator-based, or Map-and-Encapsulate architectures__
+__Locator-based__
 
 IP communication relies solely on locators (host interfaces’ addresses) that
 are also used as node/service identifiers at network layer. Such semantic
@@ -734,7 +745,7 @@ As a result, traffic anchors and tunnels have been introduced to handle
 mobility while preserving the identifier exposed to the transport
 layer.
 
-__Locator-ID separation architectures__
+__Locator-ID separation__
 
 To overcome the limitations of purely locator-based architectures, there have
 been proposed the so called "identifier/locator separation" (or Loc/ID split)
@@ -749,7 +760,7 @@ requirement for a mapping system. This service can be centralized/decentralized
 or distributed where a correspondence of ID and locators is stored and updated
 upon changes.
 
-__ID-based architectures__
+__ID-based__
 
 A third class of approaches exists that redefines IP communication principles
 (i.e. network and transport layers) around location-independent identifiers
