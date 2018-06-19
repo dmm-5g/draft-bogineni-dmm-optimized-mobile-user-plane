@@ -1201,8 +1201,36 @@ completely incorporated.
 This approach establishes an individual domain/slice in which an ID-Locator
 separation protocol works as packet forwarding mechanism, and divert appropriate
 packets to the domain by using Up-Link Classifier (ULCL) which is a fundamental
-function of UPF. An overview of this architecture is shown in
-{{fig_Overview-ID-LOC-with-Low-Impact}}.
+function of UPF. The architecture and an overview of assumed network model are 
+shown in {{ fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-ID-LOC-with-Low-Impact}}.
+
+~~~~
+            +-----------------------------+
+            |              SMF            +--------------+
+            +--+----------------------+---+              |
+               |                      |                  |
+               |                      |                  |
+            +--+---+               +--+---+    +-----+   |
+ ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
+            |[ULCL]|               |      |    |     |   |
+            +--+---+               +------+    +-----+   |
+               |                                         |
+               N6                                        |
+           . . | . . . . . . . . . . . . . .             |
+ +-----+  . +--+---+                        .            |
+ | dDN +-N6-+ LOC- +--ID-LOC DP--           .            |
+ |     |  . | Node |               +-----+  .            |
+ +-----+  . |      +--ID-LOC CP----+ MS  +---------------+
+          . +------+               +-----+  .
+           . . . . . . . . . . . . . . . . .
+                    ID-LOC Domain
+		    
+		       dUPF/cUPF: Distributed/Central UPF
+                        dDN/cDN : Distributed/Central DN
+~~~~
+
+
+
 
 ~~~~
                       .--.
