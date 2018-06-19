@@ -1200,9 +1200,42 @@ completely incorporated.
 
 This approach establishes an individual domain/slice in which an ID-Locator
 separation protocol works as packet forwarding mechanism, and divert appropriate
-packets to the domain by using Up-Link Classifier (ULCL) which is a fundamental
-function of UPF. An overview of this architecture is shown in
-{{fig_Overview-ID-LOC-with-Low-Impact}}.
+packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed 
+UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it 
+diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
+(e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
+
+The architecture and an overview of assumed network model are 
+shown in {{ fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-ID-LOC-with-Low-Impact}}.
+
+~~~~
+            +-----------------------------+
+            |              SMF            +--------------+
+            +--+----------------------+---+              |
+               N4                     N4                 |
+               |                      |                  |
+            +--+---+               +--+---+    +-----+   |
+ ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
+            |[ULCL]|               |      |    |     |   |
+            +--+---+               +------+    +-----+   |
+               |                                         |
+               N6                                        |
+           . . | . . . . . . . . . . . . . .             |
+ +-----+  . +--+---+                        .            |
+ | dDN +-N6-+ LOC- +--ID-LOC DP--           .            |
+ |     |  . | Node |               +-----+  .            |
+ +-----+  . |      +--ID-LOC CP----+ MS  +---------------+
+          . +------+               +-----+  .
+           . . . . . . . . . . . . . . . . .
+                    ID-LOC Domain
+		    
+		       dUPF/cUPF: Distributed/Central UPF
+                        dDN/cDN : Distributed/Central DN
+			     MS : Mapping System 
+~~~~
+
+
+
 
 ~~~~
                       .--.
