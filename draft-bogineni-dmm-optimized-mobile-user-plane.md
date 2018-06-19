@@ -1612,10 +1612,6 @@ Slice-B             |                         |
 ~~~~
 {: #fig_SRV6-Slicing title="SRV6 TE, Service Chaining, Sparing, and Protection for 5G Slices"}
 
-## SRV6 and Lawful Interception for 5G
-
-TBD
-
 ## SRV6 and Alternative Approaches to Advanced Mobility Support
 
 SRV6 flexibility enables it to support different methods of providing mobility
