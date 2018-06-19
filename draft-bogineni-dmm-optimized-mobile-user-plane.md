@@ -717,8 +717,10 @@ procedures/flows for above use cases from existing 3GPP specs.
 # Data plane architecture models for N9
 
 ## Overview
+The data plane arhictures considered for UPF connectivity in mobile packet 
+core fall into two categories:
 
-1. "Disjoint" model:
+1. "Interworking" model:
     - This model uses GWs.
     - UPFs and 3GPP control remain unchanged.
     - 3GPP data plane becomes an overlay on top of new data planes
