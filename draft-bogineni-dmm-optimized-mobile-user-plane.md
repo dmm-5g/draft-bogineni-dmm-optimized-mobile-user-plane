@@ -15,8 +15,8 @@ pi: [toc, sortrefs, symrefs]
 
 author:
 -
-    ins: K. Bogigeni
-    name: Kalyani Bogigeni
+    ins: K. Bogineni
+    name: Kalyani Bogineni
     role:
     org: Verizon
     email: kalyani.bogineni@verizon.com
