@@ -795,7 +795,6 @@ core fall into two categories:
     - In this model UPFs Tx/Rx packets in accordance with the new data plane format.
     - UPFs and 3GPP control will be modified.
     - 3GPP and transport data plane are collapsed into one data plane.
--->
 
 ## Forwarding paradigms
 
