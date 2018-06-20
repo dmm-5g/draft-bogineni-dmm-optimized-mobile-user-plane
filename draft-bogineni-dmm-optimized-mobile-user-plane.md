@@ -709,6 +709,9 @@ clarifying some terminology at the same occasion.
 __Simplification__ : simplify the management of networks, flat and converge architecture with other
 mobility proposals.
 
+__Efficiency__ : performance of the proposal for both packet forwarding, and
+handling of traffic during mobility events.
+
 __Overhead__ : remove encapsulation overhead due to tunneling.
 
 __Data plane anchors__ : remove anchoring of all communications in a central core location, and opt for
@@ -1147,7 +1150,7 @@ What are the main differences
 
 # Integration of new data planes into the 5G framework
 
-## Integration of ID-LOC Architecture
+## ID/Loc split
 
 ~~~~
                                  +----+----+
@@ -1197,7 +1200,7 @@ Second, the Mapping System needs to contain the appropriate ID-LOC mappings in c
 
 See also section [REF] for discussion on an approach for incremental deployment of ID-LOC solutions in the 5G framework.
 
-## Control planes for ID-Loc separation architectures
+## Control planes for ID/Loc split
 
     TODO
     - fix some redundancies
@@ -1428,7 +1431,7 @@ __ID-based__
 Finally, in slice #4, a slice using hICN-AMM is shown, that does not require any
 mapping system nor changes in N4.
 
-## Coexistence of different mobility protocols
+## Interoperability considerations
 
     TODO:
 
@@ -1521,6 +1524,8 @@ Potential gains can result for an early handling of traffic right from the RAN
 and thus possibly closer to the UE. The result is a simpler and lighter
 architecture, allowing convergence with other non-3GPP accesses.
 
+### Any technology specific comment here ?
+
 ### hICN
 
 This option ensures that forwarding beyond the radio access is directly managed
@@ -1537,15 +1542,13 @@ the locally-management mobility (a design objective of the mobile architecture),
 while allowing distributed selection of ingress UPFs, and dynamic per-packet
 load balancing of traffic across them.
 
-### Any technology specific comment here ?
-
 
 ## Coexistence with GTP-based architecture
 
 An alternative vision, although not recommended, would be to preserve the
 current architecture as is, and deploy alternative data planes on top.
 
-### Coexistence of Id/Loc Separation architecture with current 5GC
+### ID/Loc split
 
 #### Overview of the Low Impact Approach
 
@@ -1677,7 +1680,7 @@ GTP-based mechanism.
 On the other hand, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-### Coexistence of hICN with current 5GC
+### hICN
 
 This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G
 reference architecture, where GTP tunnels are preserved. As previously stated,
