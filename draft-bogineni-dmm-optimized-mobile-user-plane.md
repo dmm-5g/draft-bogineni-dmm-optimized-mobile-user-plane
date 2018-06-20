@@ -799,7 +799,7 @@ core fall into two categories:
     - UPFs and 3GPP control will be modified.
     - 3GPP and transport data plane are collapsed into one data plane.
 
-## Forwarding paradigms
+## Forwarding and mobility paradigms
 
 Based on their use of identifiers and locators, mobility approaches can be
 broadly categorized in the three following classes:
