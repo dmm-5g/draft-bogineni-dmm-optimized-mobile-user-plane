@@ -1466,6 +1466,7 @@ interconnection.
 ~~~~
 {: #fig-multiple-direct title="Direct Connectivity between operators with UPFs supporting more than one mobility protocols"}
 
+~~~~
                            VPLMN   |      HPLMN
                     -----+-----  N32 --------+--------
                          |         |         |
