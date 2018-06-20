@@ -706,27 +706,21 @@ respect to the GTP-U tunnel-based architecture. We succintly discuss those
 aspects here, that will be detailed in the sections dedicated to each protocol, 
 clarifying some terminology at the same occasion.
 
-Simplification
-: simplify the management of networks, flat and converge architecture with other
+__Simplification__ : simplify the management of networks, flat and converge architecture with other
 mobility proposals.
 
-Overhead
-: remove encapsulation overhead due to tunneling.
+__Overhead__ : remove encapsulation overhead due to tunneling.
 
-Data plane anchors
-: remove anchoring of all communications in a central core location, and opt for
+__Data plane anchors__ : remove anchoring of all communications in a central core location, and opt for
 distributed/decentralized/full removal of anchors.
 
-Offloading of local communications
-: a direct consequence on the distribution/removal of data plane anchors is the
+__Offloading of local communications__ : a direct consequence on the distribution/removal of data plane anchors is the
 ability to offload local traffic from the core.
 
-Control plane anchors
-: remove dependency on additional control plane anchors, and interoperability
+__Control plane anchors__ : remove dependency on additional control plane anchors, and interoperability
 with the SMF.
 
-Transport
-: Relieve transport and application layers from the impact of mobility and
+__Transport__ : Relieve transport and application layers from the impact of mobility and
 related management protocols.
 
 ## Usage of GTP
@@ -1335,7 +1329,7 @@ RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
 are popular in SDN.
 
 
-## Integration of hICN
+## hICN
 
 By operating directly on routers’ FIBs for mobility updates, dynamic hop-by-hop
 forwarding strategies etc., hICN inherits the simplicity of IP forwarding and
@@ -1411,6 +1405,7 @@ approaches can be deployed incrementally or in parts of the network. As
 demonstrated, the use of network slices can provide domain isolation for this.
 
 __ID/Loc split__
+
 Slice #2 and #3 support ID/Loc. We illustrate in slice #2 a typical deployment
 with ILA. Mapping then corresponds to ILA-M, LOC-A to ILA-N and LOC-B to ILA-R.
 
