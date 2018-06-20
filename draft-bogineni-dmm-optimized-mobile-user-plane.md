@@ -42,19 +42,19 @@ author:
     ins: A. Rodriguez-Natal
     name: Alberto Rodriguez-Natal
     role:
-    org: Cisco
+    org: Cisco Systems, Inc.
     email: natal@cisco.com
 -
     ins: G. Carofiglio
     name: Giovanna Carofiglio
     role:
-    org: Cisco
+    org: Cisco Systems, Inc.
     email: gcarofig@cisco.com
 -
     ins: J. Augé
     name: Jordan Augé
     role:
-    org: Cisco
+    org: Cisco Systems, Inc.
     email: jordan.auge@cisco.com
 -
     ins: S. Homma
@@ -112,6 +112,11 @@ informative:
     author:
       - org: 3rd Generation Partnership Project (3GPP)
     date: December 2017
+  CT4SID:
+    title: "Study on User Plane Protocol in 5GC, 3GPP TR 29.892 (study item)"
+    author:
+      - org: 3rd Generation Partnership Project (3GPP)
+    date: 2017
   I-D.hmm-dmm-5g-uplane-analysis:
     title: "User Plane Protocol and Architectural Analysis on 3GPP 5G System"
     author:
@@ -177,11 +182,11 @@ several combinations of control plane and user plane protocols.
 
 # Introduction and Problem Statement
 
-3GPP CT4 WG has approved a study item [CT4SID] to study user-plane protocol for
-N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and {{TS.23.502-3GPP}}
-for Rel-15. This provides an opportunity to investigate potential limits of the
-existing user plane solution and potential benefits of alternative user plane
-solutions.
+3GPP CT4 WG has approved a study item {{CT4SID}} to study user-plane protocol
+for N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and
+{{TS.23.502-3GPP}} for Rel-15. This provides an opportunity to investigate
+potential limits of the existing user plane solution and potential benefits of
+alternative user plane solutions.
 
     # Include scope of CT4 study item (user plane)
 
@@ -638,39 +643,104 @@ end-to-end, backhaul and underlay for Mobile core)?
 
 The objective of this draft is to propose a set of candidate protocols for
 possible replacement of GTP-U at N9 interface. This section first reviews a list
-of architectural requirements that candidate solution should address. Then some
-identified limitations of GTP are discussed, as emerging from the different
-proposals. Finally, a set of reference scenarios for evaluations are proposed.
+of architectural requirements that candidate solution should address, before
+reviewing the main motivations for replacement that emerge from the different
+proposals. We conclude on an overview on GTP-U usage in the 5G architecture
+beyond N9; such aspects will be discussed in {{sec-alt}}.
 
 ## Architectural requirements
 
-A comprehensive summary of GTP architecture, as well as architectural
-requirements collected for the various 3GPP specifications, are covered by
-{{I-D.hmm-dmm-5g-uplane-analysis}}. We summarize here the main architectural
-requirements:
+{{I-D.hmm-dmm-5g-uplane-analysis}} provides a comprehensive summary of GTP
+architecture, and related architectural requirements collected from 3GPP
+specifications that we summarize here (labels are introduced for easier
+referencing in the rest of this document):
 
-- TODO
+ARCH-Req-1 (R1-PDU-TYPES)
+: IPv4, IPv6, Ethernet and Unstructured Packet Data Unit (PDU) are supported in
+the 5G system.
 
-## GTP limitations and desired benefits
+ARCH-Req-2 (R2-UNSTRUCTURED)
+: The 5G system provides IP connectivity over N3, N6, and N9 interfaces. On N6
+interface, point-to-point tunneling based on UDP/IPv6 may be used to deliver
+unstructured PDU type data. Then, the content information of the PDU may be
+mapped into UDP port number, and the UDP port numbers is pre-configured in the
+UPF and DN.
+
+ARCH-Req-3 (R3-MULTIHOMING)
+: The 5G system allows to deploy multiple UPFs as anchors for a single PDU
+session, and a single PDU session supports multi-homing for such anchor UPFs. 
+
+ARCH-Req-4 (R4-UPF-SELECT)
+: The 5G system potentially supports flexible UPF selection for PDU compared to
+persistent S/P-GW in 4G.
+
+ARCH-Req-5 (R5-UPF-LIMIT)
+: There's no limitation for number of UPFs in a data plane path.
+
+ARCH-Req-6 (R6-QFI)
+: A PDU session is able to aggregate multiple QoS Flow indicated with QFI.
+
+ARCH-Req-7 (R7-UUID)
+: A unique identifier in a 5G network is allocated to each UE, and its PDU
+sessions are handled based on the identifiable information such as subscription
+information.
+
+ARCH-Req-8 (R8-UPP-REQ)
+: UPF supports several functionalities for handling PDU sessions, and some of them
+potentially have requirements for UPP.
+
+ARCH-Req-9 (R9-UPP-DETECT)
+: UPF shall detect user plane depending on information indicated by SMF.
+
+For each protocol, we will attempt in the next section to discuss to what extent
+those architectural requirements are addressed. However, it is worth noticing
+that it is not mandatory that all those requirements are supported by the user
+plane protocol itself, as they might be realized through complementary
+mechanisms {{sec-req-summary}}.
+
+## Rationale for GTP replacement
 
 Although being different in terms of architecture or implementations, common
-characteristics emerge from the different proposals in particular with how they
-are positioned with respect to GTP, and the advertised benefits. We describe the
-main aspects here that will be further discussed in further sections, clarifying
-some terminology at the same occasion.
+objectives emerge from the different proposals and their positioning with
+respect to the GTP-U tunnel-based architecture. We succintly discuss those
+aspects here, that will be detailed in the sections dedicated to each protocol, 
+clarifying some terminology at the same occasion.
 
-__Tunnel and encapsulations__
+Simplification
+: simplify the management of networks, flat and converge architecture with other
+mobility proposals.
 
-- Not clear if required by the specification, or something that can be optimized
+Overhead
+: remove encapsulation overhead due to tunneling.
 
-__Signalling overhead__
+Data plane anchors
+: remove anchoring of all communications in a central core location, and opt for
+distributed/decentralized/full removal of anchors.
 
-- 
+Offloading of local communications
+: a direct consequence on the distribution/removal of data plane anchors is the
+ability to offload local traffic from the core.
 
-__Anchorless mobility__
+Control plane anchors
+: remove dependency on additional control plane anchors, and interoperability
+with the SMF.
 
-- Data plane anchor
-- Control plane anchor
+Transport
+: Relieve transport and application layers from the impact of mobility and
+related management protocols.
+
+## Usage of GTP
+
+The main objective of the present document is to provide an overview of
+candidate approaches for GTP replacement. Following 3GPP study item, the main
+focus of the study is on the N9 interfaces, that interconnect UPFs and spans
+over the mobile backhaul. However, GTP is used at multiple interfaces beyond N9.
+
+N3 and N9 interfaces are tightly coupled and we will discuss in {{sec-alt}} the
+possibility to extend the deployment of new data planes to N3. The impact on
+other interfaces is still TBD.
+
+<!--
 
 ## Reference Scenario(s) for Evaluation
 
@@ -730,6 +800,7 @@ core fall into two categories:
     - In this model UPFs Tx/Rx packets in accordance with the new data plane format.
     - UPFs and 3GPP control will be modified.
     - 3GPP and transport data plane are collapsed into one data plane.
+-->
 
 ## Forwarding paradigms
 
@@ -750,18 +821,18 @@ layer.
 
 __Locator-ID separation__
 
-To overcome the limitations of purely locator-based architectures, there have
-been proposed the so called "identifier/locator separation" (or Loc/ID split)
-schemes, using separate namespaces for identifiers and locators, and a mapping
-system allowing routers to bind them together.
+To overcome the limitations of purely locator-based architectures,
+"locator/identifier separation" (or Loc/ID split) schemes have been proposed,
+that use separate namespaces for so-called End-point Identifiers (EID) and Route
+Locators (RLOC), bound together through a mapping system. This service can be
+centralized, decentralized or distributed and offers control plane protocols for
+storage, update or retrieval of the correspondence between EIDs and RLOCs.
 
 Loc/ID split has been originally proposed by LISP to solve the scalability
 challenges of Internet routing, and further adapted as a mobility management
-solution. This category includes other approaches reviewed in this document,
-namely ILA, ILNP, ILSR and one SRv6-based solution, which all share the
-requirement for a mapping system. This service can be centralized/decentralized
-or distributed where a correspondence of ID and locators is stored and updated
-upon changes.
+solution. This category includes most of the approaches reviewed in this
+document, namely ILA, ILNP, ILSR and a SRv6-based solution, which all share the
+requirement for a mapping system. 
 
 __ID-based__
 
@@ -782,13 +853,15 @@ in depth description. The focus is then given to a discussion on its integration
 at N9 interface in light of the architectural requirements discussed in
 {{sec-requirements}}, and the additional benefits it brings with respect to
 GTP-U. Extensions to N3 interface as well as alternative deployments preserving
-GTP tunnels as discussed later in this document in {{sec-alternative}}.
+GTP tunnels as discussed later in this document in {{sec-alt}}.
+
+__Reviewed approaches__
 
 ~~~~
 |_ Mobility Management
-   |_ Locator-based / Map-and-Encapsulate
+   |_ Locator-based
       |_ Tunnelling
-         |_ 3GPP / GTP-U                Sec. XX
+         |_ 3GPP / GTP-U                Sec. 4
       |_ Packet steering
          |_ SRv6 (backwards-compatible) Sec. 5.2.1
    |_ Loc/ID split
@@ -809,12 +882,20 @@ GTP tunnels as discussed later in this document in {{sec-alternative}}.
 {: #fig-approaches title="Overview of reviewed approaches"}
 
 ## SRv6 {#sec-srv6}
+<!--
+ID/Loc introduction has been merged in this section
+-->
 
 ### SRv6 in "traditional mode" {#sec-srv6-gtpu}
 
 ### SRv6 in "enhanced mode" {#sec-srv6-adv}
 
 ## LISP {#sec-lisp}
+
+<!--
+Control plane sections from original documents have been borrowed/integrated in
+the next section
+-->
 
 ### LISP-MN
 
@@ -823,6 +904,11 @@ GTP tunnels as discussed later in this document in {{sec-alternative}}.
 ## ILNP {#sec-ilnp}
 
 ## ILA {#sec-ila}
+
+<!--
+Slicing sections from original documents have been borrowed/integrated in the
+next section
+-->
 
 ## Hybrid ICN (hICN) {#sec-hicn}
 
@@ -1117,13 +1203,136 @@ Second, the Mapping System needs to contain the appropriate ID-LOC mappings in c
 
 See also section [REF] for discussion on an approach for incremental deployment of ID-LOC solutions in the 5G framework.
 
-## Existing control planes for ID-Loc separation architectures
+## Control planes for ID-Loc separation architectures
 
-- LISP-CP
-    - for ILA
-    - for SRv6
-- ILAMP
-- BGP
+    TODO
+    - fix some redundancies
+    - shorten
+    - add missing references
+
+### LISP Control-Plane
+
+Many years of research dating back to 2007 have gone into LISP scalable mapping
+systems. They can be found at [LISP-WG] and [IRTF-RRG].  The two that show
+promise and have deployment experience are LISP-DDT {{!RFC8111}} and LISP-ALT
+{{!RFC6836}}.
+
+The control-plane API which LISP xTRs are the clients of is documented in
+{{!RFC6833}}. Various mapping system and control-plane tools are available
+{{!RFC6835}} {{!RFC8112}} and are in operational use.
+
+### LISP Control-Plane with ILA Data-Plane
+
+The current LISP control-plane (LISP-CP) specification
+{{?I-D.ietf-lisp-rfc6833bis}} is data-plane agnostic and can serve as
+control-plane for different data-plane protocols. In this section we describe
+how LISP-CP can serve to enable the operation of an ILA data-plane. A similar
+approach can be followed to use LISP-CP as control-plane for other data-plane
+protocols (e.g. VXLAN, SRv6, etc).
+
+~~~~
+      +------------------------------------------------------+
+      |                         SMF                          |
+      +-+-----------+- - - - - - - - - - - - - +---+-------+-+
+        |           |      Mapping System      |   |       |
+        |           +--+----+---------------+--+   |       |
+        N4             |    |               |      N4      N4
+        |              |  LISP-CP           |      |       |
+        |              |    |               |      |       |
+     +--+---+          |    | +------+      |      |   +---+--+
+     |      |          |    | |      +-------------+   |      |
+--N3-+ UPF  +          |    | + UPF  +      |          + UPF  +-N6--
+     |      +--LISP-CP-+    +-+      |      +--LISP-CP-+      |
+     +--+-+-+                 +-+--+-+                 +-+-+--+
+        | |                     |  |                     | |
+        | +---------ILA---------+  +----------ILA--------+ |
+        |                                                  |
+        +------------------------ILA-----------------------+
+~~~~
+{: #fig-LISP-CP-ILA title="LISP-CP + ILA in the 5G architecture"}
+
+
+
+Please refer to Section 8 for description of the ILA data-plane. The complete
+specification of how to use the LISP-CP in conjunction with an ILA data-plane
+can be found in {{?I-D.rodrigueznatal-ila-lisp}}. Below are summarized the major
+points to take into account when running LISP-CP as control-plane for ILA.
+
+- Leveraging on the flexible LISP-CP address encoding defined in {{!RFC8060}},
+different ILA address types are defined in {{?I-D.rodrigueznatal-ila-lisp}} to
+carry ILA metadata over the LISP-CP.
+- XTRs can serve as both ILA-Ns (when their map-cache is incomplete) or ILA-Rs
+(when their map-cache is complete). XTRs serving as ILA-Rs subscribe to the
+Mapping System to populate their map-cache with all the mappings in the domain
+(or its shard) using {{?I-D.ietf-lisp-pubsub}}.
+- LISP-CP can run over TCP or UDP. The same signaling and logic applies
+independently of the transport. Additionally, when running over TCP, the
+optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}}
+can be applied.
+- The ILA control-plane operations "request/response" and "push" are implemented
+via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} and
+{{?I-D.ietf-lisp-pubsub}} respectively. When the Mapping System is co-located
+with the XTRs serving as ILA-Rs, the ILA "redirect" operation is implemented via
+the mapping notifications described in {{?I-D.ietf-lisp-pubsub}}.
+- XTRs serving as ILA-Ns can use LISP-CP as described in
+{{?I-D.ietf-lisp-rfc6833bis}} to register and keep updated in the Mapping System
+the information regarding their local mappings.
+- When using ILA as data-plane, the mobility features and benefits discussed in
+Section 8 and in {{?I-D.ietf-lisp-eid-mobility}} still apply.
+- As discussed in {{?I-D.rodrigueznatal-ila-lisp}}, the LISP-CP can be used not
+only to resolve ID-Loc mappings but also to obtain the ILA Identifier when it is
+not possible to locally derivate it from the endpoint address. These two mapping
+operations can be combined into one to obtain the ILA Identifier and associated
+locators in a single round of signaling.
+
+### LISP Control-Plane with SRv6 Data-Plane
+
+~~~~
+      +------------------------------------------------------+
+      |                         SMF                          |
+      +-+-----------+- - - - - - - - - - - - - +---+-------+-+
+        |           |      Mapping System      |   |       |
+        |           +--+----+---------------+--+   |       |
+        N4             |    |               |      N4      N4
+        |              |  LISP-CP           |      |       |
+        |              |    |               |      |       |
+     +--+---+          |    | +------+      |      |   +---+--+
+     |      |          |    | |      +-------------+   |      |
+--N3-+ UPF  +          |    | + UPF  +      |          + UPF  +-N6--
+     |      +--LISP-CP-+    +-+      |      +--LISP-CP-+      |
+     +--+-+-+                 +-+--+-+                 +-+-+--+
+        | |                     |  |                     | |
+        | +---------SRv6--------+  +---------SRv6--------+ |
+        |                                                  |
+        +-----------------------SRv6-----------------------+
+~~~~
+{: #fig-LISP-CP-SRV6 title="LISP-CP + SRv6 in the 5G architecture"}
+
+### ILA control plane
+
+The ILA control plane is composed of mapping protocols that manage and
+disseminate information about the mapping database. There are two levels of
+mapping protocols: one used by ILA routers that require the full set of ILA
+mappings for a domain, and one used by ILA nodes that maintain a caches of
+mappings.
+
+The ILA mapping system is effectively a key/value datastore that maps
+identifiers to locators. The protocol for sharing mapping information amongst
+ILA routers can thus be implemented by a distributed database
+{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the data plane,
+so alternative control plane protocols may be used with a common data plane
+{{?I-D.lapukhov-bgp-ila-afi}}, {{?I-D.rodrigueznatal-ila-lisp}}.
+
+The ILA Mapping Protocol {{?I-D.herbert-ila-ilamp}} is used between ILA
+forwarding nodes and ILA mapping routers. The purpose of the protocol is to
+populate and maintain the ILA mapping cache in forwarding nodes. ILAMP defines
+redirects, a request/response protocol, and a push mechanism to populate the
+mapping table. Unlike traditional routing protocols that run over UDP, this
+protocol is intended to be run over TCP and may be RPC oriented. TCP provides
+reliability, statefulness implied by established connections, ordering, and
+security in the form of TLS. Secure redirects are facilitated by the use of TCP.
+RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
+are popular in SDN.
 
 
 ## Integration of hICN
@@ -1144,12 +1353,163 @@ beneficial in case of dense deployments or failure of the central control
 entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
 
-## Slicing
+## Coexistence of multiple protocols in network slices
 
-    - Coexistence of several solutions in different slices
+<!-- merge of SRv6, ILA, hICN sections related to slicing + separate word
+document -->
+
+Slicing is one of the main features in 5G. Several Slices with
+different requirements can coexist on top of the common network infrastructure.
+Diverse flows belonging to different 5G slices can be completely disjoint or can
+share different parts of the network infrastructure.
+
+All proposals reviewed in this draft lend themselves well to 5G slicing
+paradigm, that can assist a transition of services towards these new user plane
+protocols, or allow the coexistence of different deployment options.
+
+{{fig-slices-5g}} illustrates the use of network slices with the different
+proposals. All categories of approach can coexist in separate slices, so as
+different deployments of the same approach. We refer to previous sections for
+more details about the possible configurations for ID/Loc, and limit our
+discussion here to the possibility for different slices to deploy their own
+mapping system, or share it as illustrated here.
 
 
-# Alternative deployment options {#sec-alternative}
+~~~~
+Locator-based                   ID/Loc split              ID-based
+(GTP, SRv6-T)          (LISP, ILSR, ILNP, ILA, SRv6-E)     (hICN)
+ ----+-------------------------------+-----------------------+----------
+     |                               |                       |
++---------------------+ +-----------------------+ +--------------------+
+| +-------+  Slice #1 | | +----------+ Slice #2 | | +-------+ Slice #4 |
+| | SMF   |---+   GTP | | | Mapping  +---+      | | | SMF   |---+ hICN |
+| +--+----+   |       | | +---+-----++   |      | | +--+----+   |  AMM |
+| N4 |        | N4    | |     |     |    |      | | N4 |        | N4   |
+| +--+--+  +--+----+  | | +---+---+ | +--+----+ | | +--+--+  +--+----+ |
+| | UPF |  | UPF   |  | | | LOC-A | | | LOC-B | | | | UPF |  | UPF   | |
+| +-----+  +-------+  | | +-------+ | +-------+ | | +-----+  +-------+ |
++----------- ---------+ +-----------|-----------+ +--------------------+
+                  |                 |       |           |          |
+               +--+-+               |    +--+-+      +--+--+    +--+-+
+               | DN |               |    | DN |      | MEC |    | DN |
+               +----+               |    +----+      +-----+    +----+
+                       +------------|------------+
+                       |            |   Slice #3 |
+                       |     +------+---+        |
+                       |     |          |        |
+                       | +---+---+    +-+-----+  |   +----+
+              +-----+  | | LOC-A |    | LOC-B |  |---| DN |
+              | MEC |--| +-------+    +-------+  |   +----+
+              +-----+  +-------------------------+
+~~~~
+{: #fig-slices-5g title="Network slices in 5G"}
+
+__Locator-based__
+
+Slice #1 illustrates legacy use of UPFs with GTP in a slice. New
+approaches can be deployed incrementally or in parts of the network. As
+demonstrated, the use of network slices can provide domain isolation for this.
+
+__ID/Loc split__
+Slice #2 and #3 support ID/Loc. We illustrate in slice #2 a typical deployment
+with ILA. Mapping then corresponds to ILA-M, LOC-A to ILA-N and LOC-B to ILA-R.
+
+Some number of ILA-Ns and ILA-Rs are deployed. ILA transformations are
+performed over the N9 interface. ILA-Rs would be deployed at the N6 interface to
+perform transformations on packets received from a data network. ILA-Ns will be
+deployed deeper in the network at one side of the N3 interface. ILA-Ns may be
+supplemented by ILA-Rs that are deployed in the network. ILA-M manages the ILA
+nodes and mapping database within the slice.
+
+Slice #3 shows another slice that supports ILA. In this scenario, the slice is
+for Mobile Edge Computing. The slice contains ILA-Rs and ILA-Ns, and as
+illustrated, it may also contain ILA_Hs that run directly on edge computing
+servers. Note in this example, one ILA-M, and hence one ILA domain, is shared
+between slice #2 and slice #3. Alternatively, the two slices could each have
+their own ILA-M and define separate ILA domains.
+
+__ID-based__
+
+Finally, in slice #4, a slice using hICN-AMM is shown, that does not require any
+mapping system nor changes in N4.
+
+## Coexistence of different mobility protocols
+
+    TODO:
+
+    - This section require some text to introduce the two scenarios, and review
+    protocol specific interactions
+
+Different situations including roaming scenarios might require the coexistence
+of different mobility protocols for the same user plane. In
+{{fig-multiple-direct}} and {{fig-multiple-exchange}}, we illustrate two
+possible deployments for the Home-Routed Roaming Scenario, respectively using a
+UPF supporting several protocols, and relying on an exchange service point for
+interconnection.
+
+~~~~
+
+                           VPLMN   |      HPLMN
+                    -----+-----  N32 --------+--------
+                         |         |         |
+                      +--+--+      |      +--+--+
+                      | SMF |      |      | SMF |
+                      +--+--+      |      +--+--+
+                         |         |         |
++-------+                |         |         |
+| 5G UE |                |         |         |
++---+---+               N4         |         N4
+    |                    |                   |
+    |     +-----+     +--+--+             +--+--+      +----+
+    +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
+          +-----+     +-----+             +-----+      +----+
+~~~~
+{: #fig-multiple-direct title="Direct Connectivity between operators with UPFs supporting more than one mobility protocols"}
+
+                           VPLMN   |      HPLMN
+                    -----+-----  N32 --------+--------
+                         |         |         |
+                      +--+--+      |      +--+--+
+                      | SMF |      |      | SMF |
+                      +--+--+      |      +--+--+
+                         |         |         |
++-------+                |         |         |
+| 5G UE |                |         |         |
++---+---+               N4         |         N4
+    |                    |                   |
+    |     +-----+     +--+--+   +-----+    +--+--+      +----+
+    +-----| gNB |-----| UPF |---| Exc |----| UPF |------| DN |
+          +-----+     +-----+   +-----+    +-----+      +----+
+~~~~
+{: #fig-multiple-exchange title="Connectivity between operators using an Exchange that supports multiple mobility protocols"}
+
+
+## Summary on architectural requirements {#sec-req-summary}
+
+    - Tentative table:
+    - We might want to add some comments with examples of complementary
+    mechanisms
+
+~~~~
+                  +--------+--------+------+------+------+-----+------+
+                  | SRv6-T | SRv6-E | LISP | ILSR | ILNP | ILA | hICN |
++-----------------+--------+--------+------+------+------+-----+------+
+| R1-PDU-TYPES    |        |        |      |      |      |     |  V   |
+| R2-UNSTRUCTURED |        |        |      |      |      |     |  V   |
+| R3-MULTIHOMING  |        |        |      |      |      |     |  V   |
+| R4-UPF-SELECT   |        |        |      |      |      |     |  V   |
+| R5-UPF-LIMIT    |        |        |      |      |      |     |  V   |
+| R6-QFI          |        |        |      |      |      |     |  -   |
+| R7-UUID         |        |        |      |      |      |     |  -   |
+| R8-UPP-REQ      |        |        |      |      |      |     |  -   |
+| R9-UPP-DETECT   |        |        |      |      |      |     |  -   |
++-----------------+--------+--------+------+------+------+-----+------+
+LEGEND:
+(V) natively supported  (-) through other mechanisms  (X) incompatible
+~~~~
+{: #fig-req-summary title="Summary of architectural requirement support"}
+
+# Alternative deployment options {#sec-alt}
 
 ## Extensions to N3 interface
 
@@ -1209,7 +1569,9 @@ diverts uplink traffic based on filter rules indicated by SMF. The other packets
 (e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
 
 The architecture and an overview of assumed network model are 
-shown in {{ fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-ID-LOC-with-Low-Impact}}.
+shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Network}}.
+
+<!-- was: {{fig_Overview-ID-LOC-with-Low-Impact}} -->
 
 ~~~~
             +-----------------------------+
@@ -1380,7 +1742,10 @@ A more in depth presentation of those alternative deployments can be found in
 {{I-D.auge-hicn-mobility-deployment-options}}.
 
 
-# Discussion
+# Summary
+
+This document summarized the various IETF protocol options for GTP replacement
+on N9 interface of 3GPP 5G architecture.
 
     Motivate the introduction of optimized solutions with respect to :
 
@@ -1397,6 +1762,7 @@ A more in depth presentation of those alternative deployments can be found in
 
 In this option, mobility is handled nomadically by the app.
 
+<!--
 # Comparison of Protocols
 
 This section will compare the different protocols with reference to how they
@@ -1405,11 +1771,7 @@ scenarios identified in Sections 3 and 4 will be supported and impacts to other
 interfaces and functions of the architecture (e.g. N3, N4, SMF, AMF, etc).
 
     # What is the criteria for comparison?
-
-# Summary
-
-This document summarized the various IETF protocol options for GTP replacement
-on N9 interface of 3GPP 5G architecture.
+-->
 
 # Formal Syntax
 
@@ -1428,10 +1790,9 @@ TBD
 
 The authors would like to thank Farooq Bari, Devaki Chandramouli, Ravi
 Guntupalli, Sri Gundavelli, Peter Ashwood Smith, Satoru Matsushima, Michael
-Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne, Giovanna
-Carofiglio and Luca Muscariello for
-reviewing various iterations of the document and for providing content into
-various sections.
+Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne, and Luca
+Muscariello for reviewing various iterations of the document and for providing
+content into various sections.
 
 
 --- back
