@@ -1225,7 +1225,7 @@ shown in {{ fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-ID-LOC-with-Low-Impa
                N6                                        |
            . . | . . . . . . . . . . . . . .             |
  +-----+  . +--+---+                        .            |
- | dDN +-N6-+ LOC- +--ID-LOC DP--           .            |
+ | dDN +-N6-+ LOC- +--ID-LOC UP--           .            |
  |     |  . | Node |               +-----+  .            |
  +-----+  . |      +--ID-LOC CP----+ MS  +---------------+
           . +------+               +-----+  .
@@ -1235,7 +1235,9 @@ shown in {{ fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-ID-LOC-with-Low-Impa
 		       dUPF/cUPF: Distributed/Central UPF
                         dDN/cDN : Distributed/Central DN
 			     MS : Mapping System 
+		   ID-LOC UP/CP : ID-LOC User Plane/Control Plane
 ~~~~
+{: #fig_5GS-IDLOC-Coexist-Arch title="Architecture of 5GS and ID-LOC Coexistence"}
 
 
 
@@ -1277,19 +1279,19 @@ shown in {{ fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-ID-LOC-with-Low-Impa
 
                   dUPF/cUPF: Distributed/Central UPF
                    dDN/cDN : Distributed/Central DN
-                     ===== : Connection between LOC nodes
+                     ===== : Connection between/among LOC nodes
                      . . . : IF to Mapping System
 ~~~~
-{: #fig_Overview-ID-LOC-with-Low-Impact title="Overview of Proposed Architecture"}
+{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Assumed Network"}
 
 LOC-node is a node which has a locator and forwards packets to appropriate
 destination based on looking up of destination ID. It is defined as xTR in LISP,
 and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
 NF in dDN) and their bineded Locators which each ID is connected.
 
-#### Data Plane
+#### User Plane
 
-GTP-U or any forwarding protocol described in this document can be used as data
+GTP-U or any forwarding protocol described in this document can be used as user
 plane mechanism of this approach. However, each LOC-Node must be connected to
 the all other LOC-Nodes and thus it may cause complexity of path management if
 you use a protocol which needs session establishment.
