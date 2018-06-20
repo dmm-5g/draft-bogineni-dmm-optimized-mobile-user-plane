@@ -777,6 +777,7 @@ protocols will be described.
 The criteria for evaluation will be the ability to support the above scenarios
 and identifying the impacts to N2, N3, N4, gNB, AMF and SMF. Reference
 procedures/flows for above use cases from existing 3GPP specs.
+-->
 
 # Data plane architecture models for N9
 
