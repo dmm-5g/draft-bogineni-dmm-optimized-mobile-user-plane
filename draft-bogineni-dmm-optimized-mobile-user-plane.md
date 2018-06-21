@@ -313,7 +313,7 @@ plane between UPFs in 5G architecture.
 3GPP specifies two roaming model namely the Local Break Out(LBO) and
 the Homre Routed (HR) model.
 
-In LBO model, visited operator routes user traffic locally through
+In the LBO model, visited operator routes user traffic locally through
 UPFs that are local to the visted operator. In this model, the SMF and 
 all UPF(s) involved by the PDU Session are located and are under the
 control of the Visited PLMN (VPLMN). 
@@ -327,7 +327,7 @@ session selection policies to the V-PCF. The V-PCF can either provide
 access and mobility policy information on its own, or alternatively obtain
 the required information from the H-PCF via the N24 interface.
 
-In HR model, user traffic is routed to the UPF in Home PLMN(HPLMN)
+In the HR model, user traffic is routed to the UPF in Home PLMN(HPLMN)
 via the UPF in the visited network. In this scenario, the SMF in HPLMN
 (H-SMF) selects the UPF(s) in the HPLMN and the SMF in VPLMN(V-SMF)
 selects the UPF(s) in the VPLMN.
