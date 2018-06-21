@@ -308,10 +308,19 @@ plane between UPFs in 5G architecture.
 3GPP specifies two roaming model namely the Local Break Out(LBO) and
 the Homre Routed (HR) model.
 
-In LBO model, visted operator routes user traffic locally through
+In LBO model, visited operator routes user traffic locally through
 UPFs that are local to the visted operator. In this model, the SMF and 
 all UPF(s) involved by the PDU Session are located and are under the
-control of the Visited PLMN (VPLMN).
+control of the Visited PLMN (VPLMN). 
+
+In this model, the V-PCF generates Policy and Charging Control(PCC) rules
+from the local configuration data that are based on the roaming agreement
+with the HPLMN. THe V-PCF might also use information from Application 
+Function(AF) to generate PCC rules for VPLMN delivered services. Here,
+the H-PCF uses the N24 interface to deliver UE access selection, and PDU 
+session selection policies to the V-PCF. The V-PCF can either provide
+access and mobility policy information on its own, or alternatively obtain
+the required information from the H-PCF via the N24 interface.
 
 In HR model, user traffic is routed to the UPF in Home PLMN(HPLMN)
 via the UPF in the visited network. In this scenario, the SMF in HPLMN
@@ -349,24 +358,60 @@ In the HR roaming model:
   to the V-SMF. This may happen at PDU Session establishment and after
   the PDU Session is established. The interface between H-SMF and V-SMF 
   is also able to carry (N9) User Plane forwarding information 
-  exchanged between H-SMF and V-SMF. 
-  The V-SMF may check QoS requests from the H-SMF with 
-  respect to roaming agreements.
+  exchanged between H-SMF and V-SMF. The V-SMF may check QoS requests 
+  from the H-SMF with respect to roaming agreements.At the data plane,
+  the ecapsulation header carries QoS flow ID (QFI) over N3, and N9 
+  without any changes to the end to end packet header.
 
 - The AMF selects a V-SMF and a H-SMF, and provides 
   the identifier of the selected H-SMF to the selected V-SMF.
 
 - The H-SMF performs IP address management procedure based on the 
   selected PDU session type.
-  
+ 
+
+Regardless of the roaming model, the PCFs in HPLMN and VPLMN 
+interact with their respective SMFs as well as one another to
+support roaming.
+
+The interface between the PCF and SMF allows the PCF to have
+dynamic control over policy and charging desicions at SMF. More
+specifically, the interface 
+
+- Enables the SMF to establish PDU session, 
+
+- Allows policy and charging control decisions to be requested 
+  from the SMF to the PCF direction or to be provisioned from the
+  opposite direction.
+
+- Provides a mean for SMF to deliver network events and
+  PDU session parameters to PCF.
+
+- Provides for PDU session termination at either PCF or SMF end.
+
+
+The N24 interface betweeen V-PCF and H-PCF provides a communication
+path between these two entities. The interface enables H-PCF to 
+provision access and mobility management related policies to V-PCF,
+and allows V-PCF to send Policy Association Establishmenent and 
+Termination requests to H-PCF during UE registration and deregistration
+procedures.
+
 
 Local Breakout and Home Routed roaming models are depicted in the two figures below.
 
 
 ~~~~
                                 VPLMN      |      HPLMN
- ----------+-------+------+------+----    N32 -------+------+----
+ ---------------------------------------- N32 -------------------
                                            |
+                                           |
+      +-----+         +-------+            |        +-------+
+      | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
+      +-----+         +-------+            |        +-------+
+                          |                |
+                         N7                |
+                          |                |
                        +--+--+             |
                        | SMF |             |
                        +--+--+             |
@@ -384,19 +429,26 @@ Local Breakout and Home Routed roaming models are depicted in the two figures be
 
 ~~~~
                            VPLMN   |      HPLMN
- ----------+------+------+-----  N32 --------+-------+------+-----+--
-                         |         |         |
+ -------------------------------- N32 --------------------------
+                                   |
+                     +-------+     |     +-------+        +-----+  
+                     | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
+                     +-------+     |     +-------+        +-----+
+                                   |         |
+                                   |        N7
+                                   |         |
                       +--+--+      |      +--+--+
-                      | SMF |      |      | SMF |
+                      |V-SMF|      |      |H-SMF|
                       +--+--+      |      +--+--+
                          |         |         |
 +-------+                |         |         |
 | 5G UE |                |         |         |
 +---+---+               N4         |         N4
-    |                    |                   |
-    |     +-+---+     +--+--+             +--+--+      +----+
+    |                    |         |         |
+    |     +-+---+     +--+--+      |      +--+--+      +----+
     +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
-          +-----+     +--+--+             +-----+      +----+
+          +-----+     +--+--+      |      +-----+      +----+
+
 ~~~~
 {: #fig_3GPP-5GS-Home-Routed title="Roaming 5G System Architecture- Home Routed Scenario"}
 
