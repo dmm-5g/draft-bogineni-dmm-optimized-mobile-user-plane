@@ -934,9 +934,9 @@ __Reviewed approaches__
 ID/Loc introduction has been merged in this section
 -->
 
-### SRv6 in "traditional mode" {#sec-srv6-gtpu}
+### SRv6 in "Interworking Model" {#sec-srv6-gtpu}
 
-### SRv6 in "enhanced mode" {#sec-srv6-adv}
+### SRv6 in "Integrated Model" {#sec-srv6-adv}
 
 ## LISP {#sec-lisp}
 
