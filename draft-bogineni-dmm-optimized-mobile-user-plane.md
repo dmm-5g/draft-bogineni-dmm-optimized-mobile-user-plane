@@ -313,10 +313,43 @@ plane between UPFs in 5G architecture.
 3GPP specifies two roaming model namely the Local Break Out(LBO) and
 the Homre Routed (HR) model.
 
+A given UE can have multiple simultaneous PDU sessions with different
+roaming model. In these scenarios, the HPLMN uses subscription data
+per Data Netwrok Name(DNN) and per Single Network Slice Selection 
+Assistance Information(S-NSSAI) to determine PDU sessions's roaming
+model.
+
+In general, the Policy Control Functions (PCF)s in Home PLMN (HPLMN) 
+and Visited PLMN (VPLMN) interact with their respective SMFs as well
+as one another to support roaming.
+
+The interface between the PCF and SMF allows the PCF to have
+dynamic control over policy and charging desicions at SMF. More
+specifically, the interface 
+
+- Enables the SMF to establish PDU session, 
+
+- Allows policy and charging control decisions to be requested 
+  from the SMF to the PCF direction or to be provisioned from the
+  opposite direction.
+
+- Provides a mean for SMF to deliver network events and
+  PDU session parameters to PCF.
+
+- Provides for PDU session termination at either PCF or SMF end.
+
+
+The N24 interface betweeen V-PCF and H-PCF provides a communication
+path between these two entities. The interface enables H-PCF to 
+provision access and mobility management related policies to V-PCF,
+and allows V-PCF to send Policy Association Establishmenent and 
+Termination requests to H-PCF during UE registration and deregistration
+procedures.
+
 In the LBO model, visited operator routes user traffic locally through
 UPFs that are local to the visted operator. In this model, the SMF and 
 all UPF(s) involved by the PDU Session are located and are under the
-control of the Visited PLMN (VPLMN). 
+control of the VPLMN. 
 
 In this model, the V-PCF generates Policy and Charging Control(PCC) rules
 from the local configuration data that are based on the roaming agreement
@@ -327,19 +360,13 @@ session selection policies to the V-PCF. The V-PCF can either provide
 access and mobility policy information on its own, or alternatively obtain
 the required information from the H-PCF via the N24 interface.
 
-In the HR model, user traffic is routed to the UPF in Home PLMN(HPLMN)
+In the HR model, user traffic is routed to the UPF in HPLMN
 via the UPF in the visited network. In this scenario, the SMF in HPLMN
 (H-SMF) selects the UPF(s) in the HPLMN and the SMF in VPLMN(V-SMF)
 selects the UPF(s) in the VPLMN.
 In this model, the UE obtains services from its home network. 
 Here, the UPF acting as PGW resides in home network, and can 
 directly communicate with policy and billing system. 
-
-A given UE can have multiple simultaneous PDU sessions with different
-roaming model. In these scenarios, the HPLMN uses subscription data
-per Data Netwrok Name(DNN) and per Single Network Slice Selection 
-Assistance Information(S-NSSAI) to determine PDU sessions's roaming
-model.
 
 In the HR roaming model: 
 
@@ -374,34 +401,6 @@ In the HR roaming model:
 - The H-SMF performs IP address management procedure based on the 
   selected PDU session type.
  
-
-Regardless of the roaming model, the PCFs in HPLMN and VPLMN 
-interact with their respective SMFs as well as one another to
-support roaming.
-
-The interface between the PCF and SMF allows the PCF to have
-dynamic control over policy and charging desicions at SMF. More
-specifically, the interface 
-
-- Enables the SMF to establish PDU session, 
-
-- Allows policy and charging control decisions to be requested 
-  from the SMF to the PCF direction or to be provisioned from the
-  opposite direction.
-
-- Provides a mean for SMF to deliver network events and
-  PDU session parameters to PCF.
-
-- Provides for PDU session termination at either PCF or SMF end.
-
-
-The N24 interface betweeen V-PCF and H-PCF provides a communication
-path between these two entities. The interface enables H-PCF to 
-provision access and mobility management related policies to V-PCF,
-and allows V-PCF to send Policy Association Establishmenent and 
-Termination requests to H-PCF during UE registration and deregistration
-procedures.
-
 
 Local Breakout and Home Routed roaming models are depicted in the two figures below.
 
