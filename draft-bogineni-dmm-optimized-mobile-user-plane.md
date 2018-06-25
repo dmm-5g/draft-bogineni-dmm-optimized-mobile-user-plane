@@ -531,7 +531,7 @@ storage, update or retrieval of the correspondence between EIDs and RLOCs.
 Loc/ID split has been originally proposed by LISP to solve the scalability
 challenges of Internet routing, and further adapted as a mobility management
 solution. This category includes most of the approaches reviewed in this
-document, namely ILA, ILNP, ILSR and a SRv6-based solution, which all share the
+document, namely ILA, ILSR and a SRv6-based solution, which all share the
 requirement for a mapping system. 
 
 __ID-based__
@@ -547,7 +547,7 @@ interest of ICN for mobility management {{!RFC7476}}.
 
 
 The rest of this section details the set of reviewed approaches, namely SRv6,
-LISP, ILSR, ILNP, ILA and hICN, as summarized in {{fig-approaches}}. Each
+LISP, ILSR, ILA and hICN, as summarized in {{fig-approaches}}. Each
 proposal consists in an overview with pointers to reference material for a more
 in depth description. The focus is then given to a discussion on its integration
 at N9 interface, as well as the benefits with respect to GTP-U. Extensions to N3
@@ -569,8 +569,6 @@ __Reviewed approaches__
       |_ Encapsulation
          |_ LISP, LISP-MN, ILSR         Sec. 5.3
       |_ Address rewrite
-         |_ Host-based address change
-            |_ ILNP, esp. ILNPv6        Sec. 5.4
          |_ Network-based translation
             |_ ILA                      Sec. 5.5
    |_ ID-based
@@ -658,8 +656,6 @@ architecture. A detailed whitepaper can be found at [ILSR-WP]. The
 recommendation is to use the mechanisms in
 {{?I-D.farinacci-lisp-mobile-network}}.
 
-
-## ILNP {#sec-ilnp}
 
 ## ILA {#sec-ila}
 
@@ -1058,7 +1054,7 @@ mapping system, or share it as illustrated here.
 
 ~~~~
 Locator-based                   ID/Loc split              ID-based
-(GTP, SRv6-T)          (LISP, ILSR, ILNP, ILA, SRv6-E)     (hICN)
+(GTP, SRv6-T)             (LISP, ILSR, ILA, SRv6-E)        (hICN)
  ----+-------------------------------+-----------------------+----------
      |                               |                       |
 +---------------------+ +-----------------------+ +--------------------+
@@ -1174,19 +1170,19 @@ interconnection.
     mechanisms
 
 ~~~~
-                  +--------+--------+------+------+------+-----+------+
-                  | SRv6-T | SRv6-E | LISP | ILSR | ILNP | ILA | hICN |
-+-----------------+--------+--------+------+------+------+-----+------+
-| R1-PDU-TYPES    |        |        |      |      |      |     |  V   |
-| R2-UNSTRUCTURED |        |        |      |      |      |     |  V   |
-| R3-MULTIHOMING  |        |        |      |      |      |     |  V   |
-| R4-UPF-SELECT   |        |        |      |      |      |     |  V   |
-| R5-UPF-LIMIT    |        |        |      |      |      |     |  V   |
-| R6-QFI          |        |        |      |      |      |     |  -   |
-| R7-UUID         |        |        |      |      |      |     |  -   |
-| R8-UPP-REQ      |        |        |      |      |      |     |  -   |
-| R9-UPP-DETECT   |        |        |      |      |      |     |  -   |
-+-----------------+--------+--------+------+------+------+-----+------+
+                  +--------+--------+------+------+-----+------+
+                  | SRv6-T | SRv6-E | LISP | ILSR | ILA | hICN |
++-----------------+--------+--------+------+------+-----+------+
+| R1-PDU-TYPES    |        |        |      |      |     |  V   |
+| R2-UNSTRUCTURED |        |        |      |      |     |  V   |
+| R3-MULTIHOMING  |        |        |      |      |     |  V   |
+| R4-UPF-SELECT   |        |        |      |      |     |  V   |
+| R5-UPF-LIMIT    |        |        |      |      |     |  V   |
+| R6-QFI          |        |        |      |      |     |  -   |
+| R7-UUID         |        |        |      |      |     |  -   |
+| R8-UPP-REQ      |        |        |      |      |     |  -   |
+| R9-UPP-DETECT   |        |        |      |      |     |  -   |
++-----------------+--------+--------+------+------+-----+------+
 LEGEND:
 (V) natively supported  (-) through other mechanisms  (X) incompatible
 ~~~~
@@ -1237,7 +1233,7 @@ current architecture as is, and deploy alternative data planes on top.
 #### Overview of the Low Impact Approach
 
 ID-Locator separation architecture can be implemented by control plane of a
-dedicated protocol such as LISP, ILNP, ILA, etc., however, it may cause major
+dedicated protocol such as LISP, ILA, etc., however, it may cause major
 impact to the specifications of 3GPP 5GS. This approach, described in
 {{?I-D.homma-dmm-5gs-id-loc-coexistence}}, enables to introduce such ID-Locator
 separation protocols into 5GS with no or low impacts. It would also support a
@@ -2041,9 +2037,6 @@ locators in a single round of signaling.
 ~~~~
 {: #fig_LISP-CP-SRV6 title="LISP-CP + SRv6 in the 5G architecture"}
 
-# ILNP based Solution
-
-TBD
 
 # ILA based Solution
 
