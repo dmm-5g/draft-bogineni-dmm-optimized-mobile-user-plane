@@ -112,6 +112,12 @@ informative:
     author:
       - org: 3rd Generation Partnership Project (3GPP)
     date: December 2017
+  TS.38.801-3GPP:
+    title: "Study on new radio access technology: Radio access architecture and interfaces"
+    author:
+      - org: 3rd Generation Partnership Project (3GPP)
+    date: December 2017
+
   CT4SID:
     title: "Study on User Plane Protocol in 5GC, 3GPP TR 29.892 (study item)"
     author:
@@ -182,34 +188,49 @@ several combinations of control plane and user plane protocols.
 
 # Introduction and Problem Statement
 
-3GPP CT4 WG has approved a study item {{CT4SID}} to study user-plane protocol
-for N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and
-{{TS.23.502-3GPP}} for Rel-15. This provides an opportunity to investigate
-potential limits of the existing user plane solution and potential benefits of
-alternative user plane solutions.
+The 15th release of the 3GPP specifications has delivered the first set of 5G
+standards as {{TS.23.501-3GPP}} and {{TS.23.502-3GPP}}. They come with
+significant changes to the radio and core architectures with respect to previous
+generations, with the objective of enabling new use case requirements expected
+from 5G networks. The data plane is however still based on GTP-U, and tunnelling
+user-traffic to anchor points in the core network.
 
-    # Include scope of CT4 study item (user plane)
-
-    # Add SA2 study item and relevant scope of the work (control plane)
-
-    # Scope of control plane and user plane considerations
-
-IETF has some protocols for potential consideration as candidates. These
-protocols have the potential to simplify the architecture through
-reduction/elimination of encapsulation; use of native routing mechanisms;
-support of anchor-less mobility management; reduction of session state and
-reduction of signaling associated with mobility management.
+3GPP CT4 WG is in charge of specifying the central user plane interface named
+N9, and has approved a study item {{CT4SID}} to identify a set of candidate
+protocols at IETF for potential GTP-U replacement. This provides an opportunity
+to investigate potential limits of the existing user plane solution and
+potential benefits of alternative user plane solutions.
 
 This document comprehensively describes the various protocols and how they can
 be used in the 3GPP 5G architecture. Specifically Segment Routing v6 (SRv6),
-   Locator Identifier Separation Protocol (LISP) and Identifier Locator
-   Addressing (ILA) are described in the context of the 3GPP 5G architecture for
-   several scenarios: as a replacement of GTP on N9; as a replacement of GTP in
-   the whole system; integrated with transport; used in specific network slices,
-   etc.
+Locator Identifier Separation Protocol (LISP), Identifier Locator Addressing
+(ILA) and Hybrid Information-Centric Networking (hICN) are introducted and their
+use as replacement of GTP for N9 is further described.
 
-A comparison of the various protocols is also provided.
+With respect to GTP-based mobility, these protocols have the potential to
+simplify the architecture through:
 
+- reduction/elimination of encapsulation;
+- use of native routing mechanisms;
+- efficient forwarding during, and in between mobility events
+- support of anchor-less mobility management and offloading of local traffic;
+- reduction of session state and signaling associated with mobility management;
+- convergence towards a flatter architecture, consistent with other mobility
+proposals.
+
+This document will first summarize important architectural aspects of the 3GPP
+5G architecture, that will allow us to further document how these new data plane
+protocols can be inserted, and their impact on the specified architecture. We
+will then present the three main paradigms used for managing forwarding and
+mobility, followed by a specific description of each new proposal. A next
+section will describe common and high-level architectural considerations
+relative to the introduction of these new protocols, and in particular their
+potential impact on control plane. A final section will then propose the
+extension of these data plane protocols beyond N9 and onto other interfaces
+using GTP, in particular at the frontier with the RAN, as well as alternative
+deployment models leaving the current architecture untouched, before conclusion
+with a general discussion on the cost/tradeoffs and benefits of the possible
+deployment options.
 
 # Conventions Used in This Document
 
@@ -229,44 +250,10 @@ a statement using the key words listed above. This convention aids reviewers in
 quickly identifying or finding the portions of this RFC covered by these
 keywords.
 
-# Overview of Existing Architecture and Protocol Stack
+# Overview of the 3GPP 5G architecture
 
 This section briefly describes the 5G system architecture as specified in 3GPP
-TS 23.501. The key relevant features for session management and mobility
-management are:
-
-- Separate the User Plane (UP) functions from the Control Plane (CP) functions,
-    allowing independent scalability, evolution and flexible deployments e.g.
-    centralized location or distributed (remote) location.
-- Support concurrent access to local and centralized services. To support low
-latency services and access to local data networks, UP functions can be deployed
-close to the Access Network.
-- Support roaming with both Home routed traffic as well as Local breakout
-traffic in the visited PLMN.
-
-
-~~~~
-       +------+ +------+     +------+
-       | NSSF | | AUSF +-N13-+ UDM  |
-       +------+ +------+     +------+
-             \      |      /      \
-              N22  N12   N8        N10
-               \    |    /          \
-               +----+----+       +-------+      +------+      +------+
-   +-----------+   AMF   +- N11 -+  SMF  +- N7 -+  PCF +- N5 -+  AF  |
-   |           +++-----+++       +---+---+      +--+---+      +------+
-   |            ||     ||            |             |
-   |            ||     |+------------|----- N15 ---+
-   N1         N2|+-N14-+            N4
-   |            |                    |
-+--+--+        ++-------+        +---+---+        +------+
-|  UE +-- NR --+ (R)AN  +-- N3 --+  UPF  +-- N6 --+  DN  |
-+-----+        +--------+        ++-----++        +------+
-                                  |     |
-                                  +--N9-+
-~~~~
-{: #fig_3GPP-5GS-in-Reference-Point title="5G System Architecture in Reference Point Representation"}
-
+TS 23.501, and represented in {{fig_3GPP-5GS-SBA}}. 
 
 ~~~~
                      Service Based Interfaces
@@ -291,12 +278,13 @@ traffic in the visited PLMN.
 ~~~~
 {: #fig_3GPP-5GS-SBA title="5G Service Based Architecture"}
 
+## Mobility management functions
 
-This document focuses on the N9 interface which represents the user data
-plane between UPFs in 5G architecture.
+This document focus on the N9 interface, situated at the frontier between the
+different UPFs, but we will also refer to other elements of the mobility
+management subsystem isolated in {{fig_3GPP-5GS-N9}}.
 
 ~~~~
- 
                             +-----------------+
                             |       SMF       |
                             +-+-------------+-+
@@ -305,156 +293,101 @@ plane between UPFs in 5G architecture.
                               |             |
    +-----------+        +------+-+         +-+------+
    |  gNB/RAN  |---N3---+  UPF   |---N9----|  UPF   +---N6----
-   +-----------+        +--------+         +--------+ 
+   +-----------+        +--------+         +--------+
 ~~~~
 {: #fig_3GPP-5GS-N9 title="N3, N4, N9, and N6 interfaces in 5G Service Based Architecture"}
 
+UPFs (User Plane Functions) handle the user plane datapath of a PDU session,
+which is transported over a single tunnel between the (R)AN and the 5G core. A
+detailed description of UPF and their functionalities can be found in Section
+6.2.3 of {{TS.23.501-3GPP}}.
 
-3GPP specifies two roaming model namely the Local Break Out(LBO) and
-the Homre Routed (HR) model.
+As emerges from the general architecture, the key relevant features for session
+and mobility management are:
 
-A given UE can have multiple simultaneous PDU sessions with different
-roaming model. In these scenarios, the HPLMN uses subscription data
-per Data Netwrok Name(DNN) and per Single Network Slice Selection 
-Assistance Information(S-NSSAI) to determine PDU sessions's roaming
-model.
+- separation of User Plane (UP) functions from Control Plane (CP) functions,
+  allowing independent scalability, evolution and flexible deployments e.g.
+  centralized location or distributed (remote) location.
+- support of concurrent access to local and centralized services,
+  instrumental to support low latency services and access to local data
+  networks, by deploying UP functions close to the Access Network.
+- support of roaming with both Home Routed (HR) traffic and Local Breakout (LBO)
+  traffic in the visited PLMN.
 
-In general, the Policy Control Functions (PCF)s in Home PLMN (HPLMN) 
-and Visited PLMN (VPLMN) interact with their respective SMFs as well
-as one another to support roaming.
+The two latter aspects relate to the possible coexistence of multiple mobility
+protocols, and will be detailed below.
 
-The interface between the PCF and SMF allows the PCF to have
-dynamic control over policy and charging desicions at SMF. More
-specifically, the interface 
+## GTP protocol
 
-- Enables the SMF to establish PDU session, 
+GTPv1-U as defined in {{TS.29.281-3GPP}} is used in particular over the N3 and
+N9 interfaces in Release 15. Release 15 is still work-in-progress and RAN3 will
+specify the contents of the 5GS Container. It is to be decided whether CT4 needs
+to specify new GTP-U extension header(s) {{TS.29.281-3GPP}} for the 5GS
+Container.
 
-- Allows policy and charging control decisions to be requested 
-  from the SMF to the PCF direction or to be provisioned from the
-  opposite direction.
-
-- Provides a mean for SMF to deliver network events and
-  PDU session parameters to PCF.
-
-- Provides for PDU session termination at either PCF or SMF end.
-
-
-The N24 interface betweeen V-PCF and H-PCF provides a communication
-path between these two entities. The interface enables H-PCF to 
-provision access and mobility management related policies to V-PCF,
-and allows V-PCF to send Policy Association Establishmenent and 
-Termination requests to H-PCF during UE registration and deregistration
-procedures.
-
-In the LBO model, visited operator routes user traffic locally through
-UPFs that are local to the visted operator. In this model, the SMF and 
-all UPF(s) involved by the PDU Session are located and are under the
-control of the VPLMN. 
-
-In this model, the V-PCF generates Policy and Charging Control(PCC) rules
-from the local configuration data that are based on the roaming agreement
-with the HPLMN. THe V-PCF might also use information from Application 
-Function(AF) to generate PCC rules for VPLMN delivered services. Here,
-the H-PCF uses the N24 interface to deliver UE access selection, and PDU 
-session selection policies to the V-PCF. The V-PCF can either provide
-access and mobility policy information on its own, or alternatively obtain
-the required information from the H-PCF via the N24 interface.
-
-In the HR model, user traffic is routed to the UPF in HPLMN
-via the UPF in the visited network. In this scenario, the SMF in HPLMN
-(H-SMF) selects the UPF(s) in the HPLMN and the SMF in VPLMN(V-SMF)
-selects the UPF(s) in the VPLMN.
-In this model, the UE obtains services from its home network. 
-Here, the UPF acting as PGW resides in home network, and can 
-directly communicate with policy and billing system. 
-
-In the HR roaming model: 
-
-- The NAS SM terminates at the V-SMF. 
-
-- The V-SMF forwards SM related informaton to the SMF in the HPLMN.
-
-- The V-SMF sends UE's Subscription Permanent 
-  Identifier(SUPI) to the H-SMF during the PDU session 
-  establishment procedure.
-
-- The V-SMF sends the PDU Session Establishment Request message 
-  to the H-SMF along with the S-NSSAI with the value from the HPLMN.
-
-- The H-SMF obtains subscription data directly from the 
-  Unified Data Management(UDM) and is responsible for checking the UE 
-  request with regard to the user subscription, and may reject the 
-  request in case of mismatch.  
- 
-- The H-SMF may send QoS requirements associated with a PDU Session
-  to the V-SMF. This may happen at PDU Session establishment and after
-  the PDU Session is established. The interface between H-SMF and V-SMF 
-  is also able to carry (N9) User Plane forwarding information 
-  exchanged between H-SMF and V-SMF. The V-SMF may check QoS requests 
-  from the H-SMF with respect to roaming agreements.At the data plane,
-  the ecapsulation header carries QoS flow ID (QFI) over N3, and N9 
-  without any changes to the end to end packet header.
-
-- The AMF selects a V-SMF and a H-SMF, and provides 
-  the identifier of the selected H-SMF to the selected V-SMF.
-
-- The H-SMF performs IP address management procedure based on the 
-  selected PDU session type.
- 
-
-Local Breakout and Home Routed roaming models are depicted in the two figures below.
-
+A GTP-U tunnel is used per PDU session to encapsulate T-PDUs and GTP-U signaling
+messages (e.g. End Marker, Echo Request, Error Indication) between GTP-U peers.
+The resulting protocol stack for the User Plane transport for a PDU session is
+depicted below in {{fig_Protocol-Stack}}.
 
 ~~~~
-                                VPLMN      |      HPLMN
- ---------------------------------------- N32 -------------------
-                                           |
-                                           |
-      +-----+         +-------+            |        +-------+
-      | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
-      +-----+         +-------+            |        +-------+
-                          |                |
-                         N7                |
-                          |                |
-                       +--+--+             |
-                       | SMF |             |
-                       +--+--+             |
-                          |                |
-+-------+                N4                |
-| 5G UE +                 |                |
-+---+---+           +-----+--+             |
-    |               |        |             |
-    |   +---+-+   +-+-+    +-+-+  +----+   |
-    +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
-        +-----+   +-+-+    +---+  +----+   |
-~~~~
-{: #fig_3GPP-5GS-Local-Breakout title="Roaming 5G System Architecture- Local Breakout Scenario"}
++-----+                     |                       |          |
+| App +---------------------|-----------------------|----------|
++-----+                     |                       | +------+ |
+| PDU +---------------------|-----------------------|-+ PDU  | |
++-----+  +---------------+  |  +-----------------+  | +------+ |
+|     |  |\             /|  |  |\               /|  | |      | |
+|     |  |  \  Relay  /  |  |  |  \    Relay  /  |  | |      | |
+|     |  |    \     /    |  |  |    \       /    |  | |5G UP | |
+| AN  |  |     --+--     |  |  |     ---+---     |  | | Enc  | |
+| Pro |  |AN Pro | GTP-U +--|--+ GTP-U  |5GUP Enc+--|-+      | |
+| Lyrs|  | Lyrs  +-------+  |  +--------+--------+  | +------+ |
+|     +--+       |UDP/IP +--|--+ UDP/IP | UDP/IP +--|-+UDP/IP| |
+|     |  |       +-------+  |  +--------+--------+  | +------+ |
+|     |  |       |  L2   +--|--+  L2    |   L2   +--|-+  L2  | |
+|     |  |       +-------+  |  +--------+--------+  | +------+ |
+|     |  |       |  L1   +--|--+  L1    |   L1   +--|-+  L1  | |
++-----+  +-------+-------+  |  +--------+--------+  | +------+ |
+  UE            AN          N3         UPF        N9          N6
+                                                          UPF
+                                                 (PDU Session Anchor)
 
 
+Legend:
+o PDU layer: This layer corresponds to the PDU carried between the UE
+    and the DN over the PDU session. When the PDU session Type is
+    IPV6, it corresponds to IPv6 packets; When the PDU session Type
+    is Ethernet, it corresponds to Ethernet frames; etc.
+o GPRS Tunnelling Protocol for the user plane (GTP U): This protocol
+    supports multiplexing traffic of different PDU sessions (possibly
+    corresponding to different PDU session Types) by tunnelling user
+    data over N3 (i.e. between the AN node and the UPF) in the
+    backbone network. GTP shall encapsulate all end user PDUs. It
+    provides encapsulation on a per PDU session level. This layer
+    carries also the marking associated with a QoS Flow.
+o 5G Encapsulation: This layer supports multiplexing traffic of
+    different PDU sessions (possibly corresponding to different PDU
+    session Types) over N9 (i.e. between different UPF of the 5GC).
+    It provides encapsulation on a per PDU session level. This layer
+    carries also the marking associated with a QoS Flow.
 ~~~~
-                           VPLMN   |      HPLMN
- -------------------------------- N32 --------------------------
-                                   |
-                     +-------+     |     +-------+        +-----+  
-                     | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
-                     +-------+     |     +-------+        +-----+
-                                   |         |
-                                   |        N7
-                                   |         |
-                      +--+--+      |      +--+--+
-                      |V-SMF|      |      |H-SMF|
-                      +--+--+      |      +--+--+
-                         |         |         |
-+-------+                |         |         |
-| 5G UE |                |         |         |
-+---+---+               N4         |         N4
-    |                    |         |         |
-    |     +-+---+     +--+--+      |      +--+--+      +----+
-    +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
-          +-----+     +--+--+      |      +-----+      +----+
+{: #fig_Protocol-Stack title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface}
 
-~~~~
-{: #fig_3GPP-5GS-Home-Routed title="Roaming 5G System Architecture- Home Routed Scenario"}
+A 5GS Container is defined as a new single GTP-U Extension Header over the N3
+and N9 interfaces and the elements are added to this container as they appear
+with the forthcoming features and releases. This approach would allow to design
+the 5GS information elements independently from the tunneling protocol used
+within the 5GS, i.e. it would achieve the separation of the Transport Network
+Layer (TNL) and Radio Network Layer (RNL) as required in {{TS.38.801-3GPP}}
+subclause 7.3.2. This would allow to not impact the RNL if in a future release a
+new transport network layer (TNL) other than GTP-U/UDP/IP (e.g. GRE/IP) was
+decided to be supported.
+
+A comprehensive summary of GTP architecture, as well as related architectural
+requirements collected from 3GPP specifications, is available in
+{{I-D.hmm-dmm-5g-uplane-analysis}}.
+
+## Concurrent data networks
 
 {{fig_3GPP-5GS-Multi-PDU-Sessions-SBI}} depicts the non-roaming architecture for
 UEs concurrently accessing two (e.g. local and central) data networks using
@@ -510,328 +443,71 @@ to control both a local and a central UPF within a PDU Session.
 concurrent access to two (e.g. local and central) data networks is provided
 within a single PDU Session.
 
-The User plane function (UPF) is the function relevant to this evaluation and
-the N9 interface between two UPFs [23501].
+## Roaming and policy models
 
-The User Plane Function (UPF) handles the user plane path of PDU sessions. The
-UPF transmits the PDUs of the PDU session in a single tunnel between 5GC and
-(R)AN. The UPF includes the following functionality. Some or all of the UPF
-functionalities may be supported in a single instance of a UPF. Not all of the
-UPF functionalities are required to be supported in an instance of user plane
-function of a Network Slice.
-
-The following provides a breif list of main UPF functionalities.Please refert 
-to section 6.2.3 3GPP TS 23.501 for detailed description of UPF and its
-functionalities.
-
-- Anchor point for Intra-/Inter-RAT mobility (when applicable)"
-- Sending and forwarding of one or more end marker to the source NG-RAN node
-- External PDU Session point of interconnect to Data Network.
-- PDU session type: IPv4, IPv6, Ethernet, Unstructured (type of  PDU totally
-    transparent to the 5GS)
-- Activation and release of the UP connection of an PDU session, upon UE
-transition between the CM-IDLE and CM-CONNECTED states(i.e. activation and
-        release of N3 tunnelling towards the access network)
-- Data forwarding between the SMF and the UE or DN (e.g. IP address allocation
-        or DN authorization during the establishment of a PDU session)
-- Packet routing and forwarding (e.g. support of Uplink classifier to route
-        traffic flows to an instance of a data network, support of Branching
-        point to support IPv6 multi-homed PDU session>
-- Branching Point to support routing of traffic flows of an IPv6 multi-homed PDU
-session to a data network, based on the source Prefix of the PDU
-- User Plane part of policy rule enforcement (e.g. Gating, Redirection, Traffic
-    steering)
-- Uplink Classifier enforcement to support routing traffic flows to a data
-network, e.g. based on the destination IP address/Prefix of the UL PDU
-- Lawful intercept (UP collection)
-- Traffic usage reporting
-- QoS handling for user plane including:
-    - packet filtering, gating, UL/DL rate enforcement, UL/DL Session-AMBR
-    enforcement (with the Session-AMBR computed by the UPF over the Averaging
-        window provisioned over N4, see subclause 5.7.3 of 3GPP TS 23.501),
-    UL/DL Guaranteed Flow Bit Rate (GFBR) enforcement, UL/DL Maximum Flow Bit
-    Rate (MFBR) enforcement, etc
-    - marking packets with the QoS Flow ID (QFI) in an encapsulation header on
-N3 (the QoS flow is the finest granularity of QoS differentiation in the PDU
-        session)
-    - enabling/disabling reflective QoS activation via the User Plane, i.e.
-    marking DL packets with the Reflective QoS Indication (RQI) in the
-    encapsulation header on N3, for DL packets matching a QoS Rule that contains
-    an indication to activate reflective QoS
-- Uplink Traffic verification (SDF to QoS flow mapping, i.e. checking that QFIs
-        in the UL PDUs are aligned with the QoS Rules provided to the UE or
-        implicitly derived by the UE e.g. when using reflective QoS)
-- Transport level packet marking in the uplink and downlink, e.g. based on 5QI
-and ARP of the associated QoS flow.
-- Downlink packet buffering and downlink data notification triggering: This
-includes the support and handling of the ARP priority of QoS Flows over the N4
-interface, to support priority mechanism:
-
-   - "For a UE that is not configured for priority treatment, upon receiving
-      the "N7 PDU-CAN Session Modification" message from the PCF with an ARP
-      priority level that is entitled for priority use, the SMF sends an "N4
-      Session Modification Request" to update the ARP for the Signalling QoS
-      Flows, and sends an "N11 SM Request with PDU Session Modification Command"
-      message to the AMF, as specified in clause 4.3.3.2 of TS 23.502.
-	  
-   - "If an IP packet arrives at the UPF for a UE that is CM-IDLE over a QoS
-      Flow which has an ARP priority level value that is entitled for priority
-      use, delivery of priority indication during the Paging procedure is
-      provided by inclusion of the ARP in the N4 interface "Downlink Data
-      Notification" message, as specified in clause 4.2.3.4 of TS 23.502."
-
-- ARP proxying as specified in {{!RFC1027}} and / or IPv6 Neighbour Solicitation
-Proxying as specified in {{!RFC4861}} functionality for the Ethernet PDUs. The
-UPF responds to the ARP and / or the IPv6 Neighbour Solicitation Request by
-providing the MAC address corresponding to the IP address sent in the request.
-
-- Packet inspection (e.g. Application detection based on service data flow
-        template and the optional PFDs received from the SMF in addition)
-
-- Traffic detection capabilities.
-    - For IP PDU session type, the UPF traffic detection capabilities may detect
-    traffic using traffic pattern based on at least any combination of:
-        - PDU session
-        - QFI
-        - IP Packet Filter Set. Please refer to section 5.7.6.2 of 
-	  3GPP TS 23.501 for further details.
-
-    - For Ethernet PDU session type, the SMF may control UPF traffic detection
-    capabilities based on at least any combination of:
-         - PDU session
-         - QFI
-         - Ethernet Packet Filter Set. Please refer to section 5.7.6.3 of 
-	  3GPP TS 23.501 for further details.
-
-- Network slicing Requirements for different MM mechanisms on different slice.
-The selection mechanism for SMF to select UPF based on the selected network
-slice instance, DNN and other information e.g. UE subscription and local
-operator policies.
-
-The following information is sent in an encapsulation header over the N3
-interface. N9 needs to support that.
-
-   - QFI (QoS Flow Identifier), see subclause 5.7.1 of 3GPP TS 23.501.
-
-   - RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of 3GPP TS
-     23.501.
-
-   - Support of RAN initiated QoS Flow mobility, when using Dual connectivity,
-     also requires the QFI to be sent within End Marker packets. See subclause
-     5.11.1 of 3GPP TS 23.501 and subclause 4.14.1 of 3GPP TS 23.502
-     respectively.
-
-GTPv1-U as defined in 3GPP TS 29.281 is used over the N3 and N9 interfaces in
-Release 15. Release 15 is still work-in-progress and RAN3 will specify the
-contents of the 5GS Container. It is to be decided whether CT4 needs to specify
-new GTP-U extension header(s) in 3GPP TS 29.281 for the 5GS Container.
-
-A GTP-U tunnel is used per PDU session to encapsulate T-PDUs and GTP-U signaling
-messages (e.g. End Marker, Echo Request, Error Indication) between GTP-U peers.
-
-A 5GS Container is defined as a new single GTP-U Extension Header over the N3
-and N9 interfaces and the elements are added to this container as they appear
-with the forthcoming features and releases. This approach would allow to design
-the 5GS information elements independently from the tunneling protocol used
-within the 5GS, i.e. it would achieve the separation of the Transport Network
-Layer (TNL) and Radio Network Layer (RNL) as required in 3GPP TR 38.801
-subclause 7.3.2. This would allow to not impact the RNL if in a future release a
-new transport network layer (TNL) other than GTP-U/UDP/IP (e.g. GRE/IP) was
-decided to be supported.
-
-The protocol stack for the User Plane transport for a PDU session is depicted
-below in {{fig_Protocol-Stack}}.
+3GPP specifies two roaming model namely the Local Break Out(LBO) and
+the Home Routed (HR) model, respectively depicted in
+{{ig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}}.
 
 ~~~~
-+-----+                     |                       |          |
-| App +---------------------|-----------------------|----------|
-+-----+                     |                       | +------+ |
-| PDU +---------------------|-----------------------|-+ PDU  | |
-+-----+  +---------------+  |  +-----------------+  | +------+ |
-|     |  |\             /|  |  |\               /|  | |      | |
-|     |  |  \  Relay  /  |  |  |  \    Relay  /  |  | |      | |
-|     |  |    \     /    |  |  |    \       /    |  | |5G UP | |
-| AN  |  |     --+--     |  |  |     ---+---     |  | | Enc  | |
-| Pro |  |AN Pro | GTP-U +--|--+ GTP-U  |5GUP Enc+--|-+      | |
-| Lyrs|  | Lyrs  +-------+  |  +--------+--------+  | +------+ |
-|     +--+       |UDP/IP +--|--+ UDP/IP | UDP/IP +--|-+UDP/IP| |
-|     |  |       +-------+  |  +--------+--------+  | +------+ |
-|     |  |       |  L2   +--|--+  L2    |   L2   +--|-+  L2  | |
-|     |  |       +-------+  |  +--------+--------+  | +------+ |
-|     |  |       |  L1   +--|--+  L1    |   L1   +--|-+  L1  | |
-+-----+  +-------+-------+  |  +--------+--------+  | +------+ |
-  UE            AN          N3         UPF        N9          N6
-                                                          UPF
-                                                 (PDU Session Anchor)
-
-
-Legend:
-o PDU layer: This layer corresponds to the PDU carried between the UE
-    and the DN over the PDU session. When the PDU session Type is
-    IPV6, it corresponds to IPv6 packets; When the PDU session Type
-    is Ethernet, it corresponds to Ethernet frames; etc.
-o GPRS Tunnelling Protocol for the user plane (GTP U): This protocol
-    supports multiplexing traffic of different PDU sessions (possibly
-    corresponding to different PDU session Types) by tunnelling user
-    data over N3 (i.e. between the AN node and the UPF) in the
-    backbone network. GTP shall encapsulate all end user PDUs. It
-    provides encapsulation on a per PDU session level. This layer
-    carries also the marking associated with a QoS Flow.
-o 5G Encapsulation: This layer supports multiplexing traffic of
-    different PDU sessions (possibly corresponding to different PDU
-    session Types) over N9 (i.e. between different UPF of the 5GC).
-    It provides encapsulation on a per PDU session level. This layer
-    carries also the marking associated with a QoS Flow.
+                                VPLMN      |      HPLMN
+ ---------------------------------------- N32 -------------------
+                                           |
+                                           |
+      +-----+         +-------+            |        +-------+
+      | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
+      +-----+         +-------+            |        +-------+
+                          |                |
+                         N7                |
+                          |                |
+                       +--+--+             |
+                       | SMF |             |
+                       +--+--+             |
+                          |                |
++-------+                N4                |
+| 5G UE +                 |                |
++---+---+           +-----+--+             |
+    |               |        |             |
+    |   +---+-+   +-+-+    +-+-+  +----+   |
+    +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
+        +-----+   +-+-+    +---+  +----+   |
 ~~~~
-{: #fig_Protocol-Stack title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface}
-
-    # Sections on GTP-U, PFCP for Release 15 and SBI for Release 16
-
-Is there a need for deployment scenarios (to address regarding IPv4/IPv6
-end-to-end, backhaul and underlay for Mobile core)?
-
-# Objectives and architectural requirements {#sec-requirements}
-
-The objective of this draft is to propose a set of candidate protocols for
-possible replacement of GTP-U at N9 interface. This section first reviews a list
-of architectural requirements that candidate solution should address, before
-reviewing the main motivations for replacement that emerge from the different
-proposals. We conclude on an overview on GTP-U usage in the 5G architecture
-beyond N9; such aspects will be discussed in {{sec-alt}}.
-
-## Architectural requirements
-
-{{I-D.hmm-dmm-5g-uplane-analysis}} provides a comprehensive summary of GTP
-architecture, and related architectural requirements collected from 3GPP
-specifications that we summarize here (labels are introduced for easier
-referencing in the rest of this document):
-
-ARCH-Req-1 (R1-PDU-TYPES)
-: IPv4, IPv6, Ethernet and Unstructured Packet Data Unit (PDU) are supported in
-the 5G system.
-
-ARCH-Req-2 (R2-UNSTRUCTURED)
-: The 5G system provides IP connectivity over N3, N6, and N9 interfaces. On N6
-interface, point-to-point tunneling based on UDP/IPv6 may be used to deliver
-unstructured PDU type data. Then, the content information of the PDU may be
-mapped into UDP port number, and the UDP port numbers is pre-configured in the
-UPF and DN.
-
-ARCH-Req-3 (R3-MULTIHOMING)
-: The 5G system allows to deploy multiple UPFs as anchors for a single PDU
-session, and a single PDU session supports multi-homing for such anchor UPFs. 
-
-ARCH-Req-4 (R4-UPF-SELECT)
-: The 5G system potentially supports flexible UPF selection for PDU compared to
-persistent S/P-GW in 4G.
-
-ARCH-Req-5 (R5-UPF-LIMIT)
-: There's no limitation for number of UPFs in a data plane path.
-
-ARCH-Req-6 (R6-QFI)
-: A PDU session is able to aggregate multiple QoS Flow indicated with QFI.
-
-ARCH-Req-7 (R7-UUID)
-: A unique identifier in a 5G network is allocated to each UE, and its PDU
-sessions are handled based on the identifiable information such as subscription
-information.
-
-ARCH-Req-8 (R8-UPP-REQ)
-: UPF supports several functionalities for handling PDU sessions, and some of them
-potentially have requirements for UPP.
-
-ARCH-Req-9 (R9-UPP-DETECT)
-: UPF shall detect user plane depending on information indicated by SMF.
-
-For each protocol, we will attempt in the next section to discuss to what extent
-those architectural requirements are addressed. However, it is worth noticing
-that it is not mandatory that all those requirements are supported by the user
-plane protocol itself, as they might be realized through complementary
-mechanisms {{sec-req-summary}}.
-
-## Rationale for GTP replacement
-
-Although being different in terms of architecture or implementations, common
-objectives emerge from the different proposals and their positioning with
-respect to the GTP-U tunnel-based architecture. We succintly discuss those
-aspects here, that will be detailed in the sections dedicated to each protocol, 
-clarifying some terminology at the same occasion.
-
-__Simplification__ : simplify the management of networks, flat and converge architecture with other
-mobility proposals.
-
-__Efficiency__ : performance of the proposal for both packet forwarding, and
-handling of traffic during mobility events.
-
-__Overhead__ : remove encapsulation overhead due to tunneling.
-
-__Data plane anchors__ : remove anchoring of all communications in a central core location, and opt for
-distributed/decentralized/full removal of anchors.
-
-__Offloading of local communications__ : a direct consequence on the distribution/removal of data plane anchors is the
-ability to offload local traffic from the core.
-
-__Control plane anchors__ : remove dependency on additional control plane anchors, and interoperability
-with the SMF.
-
-__Transport__ : Relieve transport and application layers from the impact of mobility and
-related management protocols.
-
-## Usage of GTP
-
-The main objective of the present document is to provide an overview of
-candidate approaches for GTP replacement. Following 3GPP study item, the main
-focus of the study is on the N9 interfaces, that interconnect UPFs and spans
-over the mobile backhaul. However, GTP is used at multiple interfaces beyond N9.
-
-N3 and N9 interfaces are tightly coupled and we will discuss in {{sec-alt}} the
-possibility to extend the deployment of new data planes to N3. The impact on
-other interfaces is still TBD.
-
-<!--
-
-## Reference Scenario(s) for Evaluation
-
-Different proposals will be described for the following scenarios:
-
-1. Non-Roaming Scenarios
-    - UE-Internet Connectivity (mobility cases)
-    - UE-UE IP Packet Flow (mobility cases)
-    - UE-2 DNs with multiple PDU sessions
-    - UE-2 DNs Single PDU session
-
-2. Roaming Scenarios
-    - Local Break out
-    - Home Routed
-
-Flows will be provided for mobility cases (UE mobility, UPF mobility) and
-session continuity cases (SSC Mode 1/2/3).
-
-1. UE mobility SSC Mode 1
-    - Single UPF
-    - Multiple UPF
-
-2. UE mobility SSC Mode 2
-    - Single UPF
-    - Multiple UPF
-
-3. UE mobility SSC Mode 3
-    - Single UPF
-    - Multiple UPF
-
-Each proposal will also describe how network slicing will be supported for the
-following configurations:
-
-- Support for independent slices using GTP and/or other protocol will be
-covered. Mobility Management will be within each slice.
-- Support for one UE connected to multiple slices using different mobility
-protocols will be described.
+{: #fig_3GPP-5GS-Local-Breakout title="Roaming 5G System Architecture- Local Breakout Scenario"}
 
 
-The criteria for evaluation will be the ability to support the above scenarios
-and identifying the impacts to N2, N3, N4, gNB, AMF and SMF. Reference
-procedures/flows for above use cases from existing 3GPP specs.
--->
+~~~~
+                           VPLMN   |      HPLMN
+ -------------------------------- N32 --------------------------
+                                   |
+                     +-------+     |     +-------+        +-----+  
+                     | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
+                     +-------+     |     +-------+        +-----+
+                                   |         |
+                                   |        N7
+                                   |         |
+                      +--+--+      |      +--+--+
+                      |V-SMF|      |      |H-SMF|
+                      +--+--+      |      +--+--+
+                         |         |         |
++-------+                |         |         |
+| 5G UE |                |         |         |
++---+---+               N4         |         N4
+    |                    |         |         |
+    |     +-+---+     +--+--+      |      +--+--+      +----+
+    +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
+          +-----+     +--+--+      |      +-----+      +----+
+
+~~~~
+{: #fig_3GPP-5GS-Home-Routed title="Roaming 5G System Architecture- Home Routed Scenario"}
+
+A given UE can have multiple simultaneous PDU sessions with different roaming
+model. In these scenarios, the HPLMN uses subscription data per Data Netwrok
+Name(DNN) and per Single Network Slice Selection Assistance Information(S-NSSAI)
+to determine PDU sessions's roaming model. In general, the Policy Control
+Functions (PCF)s in Home PLMN (HPLMN) and Visited PLMN (VPLMN) interact with
+their respective SMFs as well as one another to support roaming. The interface
+between the PCF and SMF allows the PCF to have dynamic control over policy and
+charging decisions at SMF.
 
 # Data plane architecture models for N9
 
@@ -2763,468 +2439,3 @@ redirects, use TCP. TLS or other protocols can be applied for strong security.
 Privacy in addressing is a consideration. ILA endeavors to provide a mechanism
 of address assignment that prevents inference of user identity or location. This
 problem is described in [ADDRPRIV].
-
-# hICN-based mobility architecture {#app-hicn}
-
-A novel mobility management approach is described in {{I-D.auge-hicn-mobility}},
-that leverages routable location-independent identifiers (IDs) and an
-Information-Centric Networking (ICN) communication model integrated in IPv6,
-(also referred to as Hybrid ICN, or hICN) {{?I-D.muscariello-intarea-hicn}}.
-
-Such approach belongs to the category of pure ID-based mobility management
-schemes whose objective is (i) to overcome the limitations of traditional
-locator-based solutions like Mobile IP (conf)using locators as identifiers, (ii)
-to remove the need for a global mapping system as the one required by
-locator-identifier separation solutions.
-
-## Motivations {#app-hicn-motivations}
-
-The appeal of purely ID-based architectures is that they move Loc/ID
-split one step further by embedding ID-awareness in the network and transport
-layer by default and as such completely decoupling data delivery from
-underlying network connectivity. Forwarding is performed directly based on
-identifiers stored in routers' FIBs and no mapping of ID into locators is
-required. In this way, purely ID-based architectures remove the need to
-maintain a global mapping system at scale, and its intrinsic management
-complexity.
-
-Additional benefits brought specifically by ICN principles motivate the
-consideration of ICN solutions for next generation mobility architectures, e.g.
-
-- the flexibility of multi-source/multi-path connectionless pull-based
-transport. An example is the native support for consumer mobility, i.e. the
-transparent emission of data requests over multiple and varying available
-network interfaces during node mobility;
-- the opportunity to define fine-grained per-application forwarding and
-security policies.
-
-An overview of ICN principles and advantages for a simplified mobility
-management resulting from name-based forwarding can be found in {{!RFC7476}}.
-
-## Hybrid Information-Centric Networking (hICN) {#app-hicn-architecture}
-
-Hybrid ICN (hICN) is an ICN architecture that defines integration of ICN
-semantics within IPv6, instead of over/under/aside. The only
-difference w.r.t. ICN as defined in {{?I-D.irtf-icnrg-ccnxsemantics}} is that it
-encodes names inside IP addresses, and thus can use RFC-compliant TCP/IP
-packets to transport ICN semantics.
-
-The goal of hICN is to ease ICN insertion in existing IP infrastructure by:
-
-1. selective insertion of hICN capabilities in a few network nodes at the edge
-(no need for pervasive fully hICN network enablement);
-2. guaranteed transparent interconnection with hICN-unaware IP nodes, without
-using overlays;
-3. minor modification to existing IP routers/endpoints (e.g. reuse of IP FIBs
-and of existing buffers, no modifications to L7 applications and user space hICN
-transport layer introduction in endpoints);
-4. re-use of existing IP control plane (e.g. for routing of IP prefixes carrying
-ID-semantics) along with performing mobility management and caching operations
-in forwarding plane;
-5. fallback capability to traditional IP network/transport layer.
-
-hICN architecture is described in detail in {{?I-D.muscariello-intarea-hicn}}.
-Hereafter we focus on mobility management in hICN and on the possible
-deployment options for insertion in 5G SBA.
-
-
-## hICN-based mobility {#app-hicn-mobility}
-
-In ICN and hICN endpoints can act as consumers and/or producers. Consumers when they
-emit requests for named data packets (so called Interests), producers when they
-send data packets in response to consumers request (pull-based transport
-model).
-
-Clearly a node can be a consumer and a producer at the same time (e.g. in a
-voice conversation).
-
-Consumer and producer mobility are handled in a different way due to
-the pull-based request model. More specifically, consumer mobility is natively
-supported: consumers pull traffic by sending Interest packets towards
-named content (wherever produced/stored, the source is a priori unknown by the
-consumer). Interests are named-based forwarded using the information found in
-traversed routers’ FIBs.
-
-In case of consumer mobility, i.e. mobility of the endpoint issuing the
-requests, selection of a new available output interface and retransmission of
-not-yet-satisfied Interests is sufficient for data delivery to continue,
-independently from the underlying change of locators. Consumer mobility is
-fully anchorless with hICN, and does not incur any signalization nor tunneling
-overhead.
-
-Producer mobility is not natively supported by ICN architecture, rather handled
-in different ways according to the selected producer mobility management
-scheme.
-
-In {{?I-D.irtf-icnrg-mapme}} and {{MAPME}} producer mobility schemes are
-classified into four classes:
-
-- _Resolution based_ solutions rely on dedicated rendez-vous nodes (similar to
-DNS) which map content names into routable location identifiers. To maintain
-this mapping updated, the producer signals every movement to the mapping system.
-Once the resolution is performed, packets can be correctly routed directly to
-the producer.
-- _Anchor-based_ proposals are inspired by Mobile IP, and maintain a mapping at
-network-layer by using a stable home address advertised by a rendez-vous node,
-or anchor. This acts as a relay, forwarding through tunneling both interests
-to the producer, and data packets coming back.
-- _Tracing-based_ solutions allow the mobile node to create a hop-by-hop
-forwarding reverse path from its RV back to itself by propagating and keeping
-alive traces stored by all involved routers. Forwarding to the new location is
-enabled without tunneling.
-- _Anchorless_ approaches allow the mobile nodes to advertise their
-mobility to the network without requiring any specific node to act as a
-rendez-vous point.
-
-The selected mobility management scheme for hICN is MAP-Me, an anchorless
-producer mobility management solution originally proposed for ICN
-{{?I-D.irtf-icnrg-mapme}} {{MAPME}} and further extended to hICN in
-{{I-D.auge-hicn-mobility}}.
-
-MAP-Me belongs to the class of anchorless approaches that relies on
-scope-limited forwarding updates triggered by producer mobility events to keep
-locally up-to-date FIB information for a low-latency guaranteed reroute of
-consumer Interests towards changing location of the producer.
-
-The difference w.r.t. to other classes of approaches is that it does not
-require an anchor neither in forwarding plane (traffic does not need to pass
-through a specific network node), nor in the control plane (no rendez-vous
-point, no mapping system).
-
-As detailed in {{I-D.auge-hicn-mobility}} using MAP-Me, hICN provides
-anchorless consumer and producer mobility removing the need for tunnels and for
-ID mapping.
-
-Signaling of mobility is only required upon producer movements and limited in
-scope to current-to-previous network hops. Unlike routing updates, it is not
-necessary to update all routers' FIBs after a node has moved, but only those
-located on the path between the new and a former position of the producer.
-MAP-Me realizes this process in a distributed fashion through in-band signaling
-packets, hence its anchorless property with respect to the control plane too.
-Scalability of producer mobility is guaranteed by an efficient and secure FIB
-update process with minimal and bounded path stretch.
-
-Forwarding and mobility management operations in hICN are based only
-location-independent identifiers, preserving coexistence with IP locators whose
-existence may be required by non-hICN services and by control/management plane
-operations specific to the considered network architecture. As an example, in
-the case of 3GPP architectures, MAP-Me mobility management does not require an
-additional control plane anchor.
-
-## hICN insertion in the 3GPP 5G architecture {#app-hicn-3gpp}
-
-{{I-D.auge-hicn-mobility-deployment-options}} reviews various insertion
-strategies for hICN, including overlay deployments using local breakout to hICN
-instances situated in MEC, or hICN forwarders deployed within an UPF. While
-those approaches have the merit of allowing an easy or early integration of hICN
-and exploiting some of its benefits, they do not fully exploit purely ID-based
-capabilities nor the dynamic hICN forwarding.
-
-Thus, in this section, we focus our attention on more integrated approaches
-leveraging hICN-enriched mobile backhaul network to offer an alternative to
-GTP-U tunnels over the N9 (and possibly N3) Interfaces, as shown in
-{{fig_3GPP-5GS-SBA}} and {{fig_Protocol-Stack}}.
-
-### Control plane considerations {#app-hicn-3gpp-cp}
-
-By operating directly on routers’ FIBs for mobility updates, dynamic hop-by-hop
-forwarding strategies etc., hICN inherits the simplicity of IP forwarding and
-reuses IP routing protocols for ID prefixes advertisement and routing.  In this
-way it removes the challenges of managing a distributed mapping service at scale
-(cache update/refresh, etc.).  In addition it remains compatible with the
-exiting control plane architecture as proposed in the 3GPP standard, with no
-change required to N1, N2 or N4.
-
-MAP-Me anchorless producer mobility management does not imply SMF interaction,
-but does not exclude neither to use SMF signaling to trigger MAP-Me updates
-or to handle FIB updates, at the condition to follow the same procedure
-described for MAP-Me. However, the absence of SMF interaction might be
-beneficial in case of dense deployments or failure of the central control
-entities (infrastructure-less communication scenarios) to empower distributed
-control of local mobility within an area.
-
-### Replacement of N9 interface only {#app-hicn-3gpp-n9}
-
-Replacing only the N9 interface (which represents the interface between UPFs,
-and as such most of the backhaul network) is the initial target of our study.
-This has the advantage of not touching the gNB as illustrated in
-{{fig-hicn-sba-n9}}. The corresponding protocol layering is shown in
-{{fig-hicn-prot-n9}} where we assume hICN-enablement of the end-points (the
-suboptimal case of hICN enablement via proxies is not considered in this
-document). We remark that in the protocol layer, hICN is associated to
-IPv6 PDU layer, transported over N9 directly over L2.
-
-~~~~
-  +------------------+          +------------------+
-  |        AMF       |          |        SMF       |
-  +-+--------------+-+          +-+--------------+-+
-    |              |              |              |
-    | N1           | N2           | N4           | N4
-    |              |              |              |
-+---+---+      +---+---+  N3  +---+---+  N9  +---+---+  N6  +-------+
-|  UE   +------+  gNB  +------+  UPF  +------+  UPF  +------+  DN   |
-+-------+      +-------+      +-------+      +-------+      +-------+
-                                         ^
-                                         |
-                                   hICN insertion
-~~~~
-{: #fig-hicn-sba-n9 title="Replacement of N9 interface" }
-
-~~~~
-    UE            5G-AN        N3         UPF        N9   UPF    N6
-                               |                     |            |
-+--------+                     |                     |            |
-|  App.  |--------------------------------------------------------|
-+--------+                     |                     | +--------+ |
-| IP PDU |                     |                     | | IP PDU | |
-| (hICN) |---------------------------------------------| (hICN) | |
-+--------+ +-----------------+ | +-----------------+ | |        | |
-|        | |\     relay     /| | |\     decap     /  | |        | |
-|        | | \_____________/ |-|-| \_____________/   | |        | |
-|        | |        | GTP-U  | | | GTP-U  |          | |        | |
-|        | |        +--------+ | +--------+          | |        | |
-|   5G   | |   5G   |  UDP   |-|-|  UDP   |          | |        | |
-|   AN   |-|   AN   +--------+ | +--------+          | |        | |
-|protocol| |protocol|   IP   |-|-|   IP   |          | |        | |
-| layers | | layers +--------+ | +--------+--------+ | +--------+ |
-|        | |        |   L2   |-|-|   L2   |   L2   |-|-|   L2   | |
-|        | |        +--------+ | +--------+--------+ | +--------+ |
-|        | |        |   L1   |-|-|   L1   |   L1   |-|-|   L1   | |
-+--------+ +-----------------+ | +-----------------+ | +--------+ |
-                               |                     |            |
-~~~~
-{: #fig-app-hicn-prot-n9 title="Replacement of N9 interface - Protocol layers" }
-
-### Replacement of both N3 and N9 interfaces {#app-hicn-3gpp-n3}
-
-This option additionally removes the GTP tunnels between the RAN and the first
-UPF. It is illustrated in {{fig-hicn-sba-n9n3}} and {{fig-hicn-prot-n9n3}}.
-
-~~~~
-  +------------------+          +------------------+
-  |        AMF       |          |        SMF       |
-  +-+--------------+-+          +-+--------------+-+
-    |              |              |              |
-    | N1           | N2           | N4           | N4
-    |              |              |              |
-+---+---+      +---+---+  N3  +---+---+  N9  +---+---+  N6  +-------+
-|  UE   +------+  gNB  +------+  UPF  +------+  UPF  +------+  DN   |
-+-------+      +-------+  ^   +-------+  ^   +-------+      +-------+
-                          |              |
-                          |              |
-                           hICN insertion
-~~~~
-{: #fig-hicn-sba-n9n3 title="Replacement of N3 and N9 interfaces" }
-
-~~~~
-    UE            5G-AN        N3         UPF        N9   UPF    N6
-                               |                     |            |
-+--------+                     |                     |            |
-|  App.  |--------------------------------------------------------|
-+--------+                     | +--------+--------+ | +--------+ |
-| IP PDU |                     | | IP PDU | IP PDU | | | IP PDU | |
-| (hICN) |-----------------------| (hICN) | (hICN) |-|-| (hICN) | |
-+--------+ +-----------------+ | |        |        | | |        | |
-|        | |\     decap     /  | |        |        | | |        | |
-|        | | \_____________/   | |        |        | | |        | |
-|        | |        |          | |        |        | | |        | |
-|        | |        |          | |        |        | | |        | |
-|   5G   | |   5G   |          | |        |        | | |        | |
-|   AN   |-|   AN   |          | |        |        | | |        | |
-|protocol| |protocol|          | |        |        | | |        | |
-| layers | | layers +--------+ | +--------+--------+ | +--------+ |
-|        | |        |   L2   |-|-|   L2   |   L2   |-|-|   L2   | |
-|        | |        +--------+ | +--------+--------+ | +--------+ |
-|        | |        |   L1   |-|-|   L1   |   L1   |-|-|   L1   | |
-+--------+ +-----------------+ | +-----------------+ | +--------+ |
-                               |                     |            |
-~~~~
-{: #fig-hicn-prot-n9n3 title="Replacement of N3 and N9 interfaces : Protocol
-    layers" }
-
-### Enhanced data plane: hICN/SRv6 combination {#app-hicn-3gpp-srv6}
-
-hICN is designed to operate inside an IPv6 network by means
-of an enriched communication layer supporting ICN primitives. The targeted
-deployment of a few hICN-empowered nodes leads to the tradeoff between
-incremental deployment and benefits which are proportionally related to the
-degree of hICN penetration. The association of hICN with other data planes
-technologies is investigated as a possibility to overcome the above-mentioned
-tradeoff yielding to a selective, yet fully beneficial insertion of hICN in IP
-networks.
-
-To this aim, we focus on hICN insertion in a Segment Routing (SR) enhanced data
-plane, specifically considering SRv6 instantiation of SR. More details are
-provided in {{I-D.auge-hicn-mobility-deployment-options}}.
-
-hICN/SRv6 combination inherits all SRv6 advantages presented in SR-dedicated
-section of this document, namely "underlay" management (fast reroute, etc.),
-service chaining or fine-grained TE for instance.
-
-In addition, it allows extending the reach of hICN on regular IP routers with
-SRv6 functionality. One realization being to create SRv6 domains in between hICN
-nodes. The hICN router (through forwarding strategies) would then act as a
-control plane for SRv6 by specifying the list of SIDs to insert in the packet.
-
-SRv6 forwarding of packets between hICN hops would allow to enforce dynamic
-per-application hICN forwarding strategies and their objectives (path steering,
-QoS, etc.), which would be otherwise not possible over not hICN-enabled IP
-network segments. It would also allow dynamic multi-path and load balancing in
-hICN-unaware IP network segments and it could guarantee request/reply IP path
-symmetry (instrumental for efficient round trip delay measurements and
-rate/congestion control).
-
-## Benefits {#app-hicn-benefits}
-
-Benefits of the deployed solution result both from the purely identifier-based
-approach, as well as from specific hICN properties. We provide an overview of
-expected benefits, described in more detail with examples in
-{{I-D.auge-hicn-mobility-deployment-options}}.
-
-### hICN benefits {#app-hicn-benefits-hicn}
-
-We review benefits resulting from the deployment of hICN nodes, not specific to
-the replacement of N9.
-
-- Low-latency and multicast capabilities by means of in-path edge caching
-
-The ability to satisfy UE requests close to the access is important for
-latency-sensitive applications such as AR/VR and for cost-efficient transport
-(that minimizes high-throughput traffic carrying to the core when it can be
-satisfied locally).
-
-In addition, hICN ability to serve requests from cache or to aggregate them
-implicitly realizes opportunistic multicast distribution of popular content
-improving users' QoE for service such as VoD or live streaming, while greatly
-offloading the mobile core.
-
-- Consumer mobility improvements
-
-The combined use of identifiers and a pull-model allows for seamless mobility
-across heterogeneous wired and wireless networks, as well as their simultaneous
-use for multi-homing and bandwidth aggregation. A specific feature of hICN
-is to allow the use of multiple path/sources of content at the same
-time, for instance edge caches located at the edge of different fixed/mobile
-network accesses.
-
-- Network-assisted transport
-
-On-path insertion of hICN enables the use of network buffers to optimize traffic
-engineering including multipath and load balancing support. One interesting
-deployment consists in enabling hICN in the PDU Session Anchor, so as to allow
-two downstream paths back to the mobile edge (due to hICN replacing the datagram
-source address by the locator of the output UPF), thereby exploiting additional
-upstream path diversity / resiliency. The ability to perform in-network
-assistance (for rate/loss/congestion control) is an additional advantage, e.g.
-to support rate adaptation in the case of dynamic adaptive streaming, or to
-improve reliability of WiFi connection through transparent wireless detection
-and recovery {{WLDR}}.
-
-### Additional benefits resulting from N9 replacement {#app-hicn-benefits-n9}
-
-- Anchorless consumer and producer mobility
-
-Removing N9 tunnels is key to allow a fully anchorless solution, by not forcing
-all traffic to transit through the anchoring point in the core. Local forwarding
-decisions will allow the offloading of device-to-device communications when the
-different UEs are topologically close, as well as network operations when some
-areas are disconnected from the core (disaster recovery for instance).
-
-- Dynamic forwarding strategies / UPF selection
-
-Dynamic selection of next hop or exit point is simplified as it can be performed
-locally based on identifiers and/or locally available information (e.g.
-interface measurements) in virtue of service-specific forwarding strategies.
-
-### Additional benefits resulting from N3 replacement {#app-hicn-benefits-n3}
-
-- Removal of tunnel management state and signaling
-
-The clear advantage is the complete removal of tunnels. Forwarding beyond the
-radio access is directly managed through hICN. As a consequence, no additional
-state nor signaling is required for static and mobile consumers, nor for static
-producers. The impact of producer mobility is low because of the small number of
-impacted routers.
-
-Deploying hICN on both N3 and N9 further presents the advantage of removing the
-need for inter-networking with remaining GTP tunnels between those two
-interfaces. The result is a simpler and lighter architecture, allowing
-convergence with other non-3GPP accesses.
-
-- Dynamic first UPF selection
-
-Dynamic forwarding capabilities are extended in this configuration to the
-selection of the first UPF, with the potential of additional performance
-improvement and higher traffic offload because of the deployment of hICN
-functionalities closer to the UE. A significant advantage arises in dense
-deployments scenarios where it becomes possible to isolate the core network from
-the locally-management mobility (a design objective of the mobile architecture),
-while allowing distributed selection of ingress UPFs, and dynamic per-packet
-load balancing of traffic across them.
-
-### Deployment considerations
-
-The benefits previously described can be obtained by an upgrade of only a few
-selected routers at the network edge. The design of hICN allows the rest of the
-infrastructure to remain unmodified, and to leverage existing management and
-monitoring tools.
-
-#### hICN in a slice {#app-hicn-deployment-slice}
-
-The use of hICN does not impose any specific slicing of the network. Rather, it
-can assist a transition of services towards hICN, and/or the coexistence of
-different hICN deployment options.
-
-As an example of use of hICN in a slice, a service provider might for instance
-decide to use an hICN-enabled slice dedicated to video delivery, with
-appropriate mobility management, and dedicated hICN nodes with appropriate
-caching/forwarding strategies at places aggregating considerable number of user
-requests.
-
-#### End-to-end deployment {#app-hicn-deployment-e2e}
-
-The deployment of an hICN stack in endpoints is the preferred option and offers
-the full range of benefits. The hICN network stack and forwarder are available
-through two reference implementations based on the CICN project {{CICN}}. They
-share an objective of smooth deployment in existing devices, and are fully
-userland based. The first is built on top of existing IP primitives and proposed
-as an application/library for all major OS vendors including iOS, Android, Linux
-and Windows. The second targets high-performance routers and servers, and
-leverages the VPP kernel-bypass technology.
-
-#### Network-contained deployment {#app-hicn-deployment-network}
-
-It is not always possible nor desirable to affect endpoints, and a
-deployment fully contained in the network, or within the N9 interface is
-possible through the deployment of proxies. An overview of different options
-implemented at the network, transport or application level are considered. An
-example would be the deployment of HTTP proxies at the ingress and egress (resp.
-first and last UPFs), in order to benefit from content awareness in the network.
-Such configuration however reduces the flexibility and dynamic forwarding
-capabilities in endpoints. In particular, existing transport protocols have
-limited support for dynamically changing paths or network conditions.
-
-Traffic that is not handled though hICN mechanisms can still benefit from the
-lower overhead and anchorless mobility capabilities coming from the removal of
-GTP tunnels, as well as dynamic forwarding capabilities that are inherent to the
-forwarding pipeline. This results from the ability to assign
-location-independent identifiers to endpoints. It preserves the advantage of
-removing the mapping system, and of a lightweight FIB update process. No
-encapsulation is required and packet headers are not modified, which allows the
-network to have visibility in the source and/or destination identifiers.
-
-## Summary {#app-hicn-summary}
-
-hICN proposes a general purpose architecture that combines the benefits of a
-pure-ID architecture with those of ICN. While a full deployment is recommended
-to make efficient use of available network resources, it is still possible to
-opt for a partial or phased deployment, with the associated tradeoffs that we
-have reviewed here.
-
-An hICN enabled network offers native offloading capabilities thanks to the
-anchorless properties resulting from the pure-ID communication scheme. It does
-so without the need for a third party mapping system, and further requires no
-change in the 5G architecture nor in its control plane. The architecture will
-further leverage the incremental insertion of information centric
-functionalities through proxies or direct insertion in user devices as the
-technology gets adopted and deployed.
