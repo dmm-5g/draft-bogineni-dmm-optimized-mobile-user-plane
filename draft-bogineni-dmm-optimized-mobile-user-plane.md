@@ -940,14 +940,73 @@ ID/Loc introduction has been merged in this section
 
 ## LISP {#sec-lisp}
 
-<!--
-Control plane sections from original documents have been borrowed/integrated in
-the next section
--->
+### Overview
 
-### LISP-MN
+The Locator/Identifier Separation Protocol (LISP), which provides a set of
+functions for routers to exchange information used to map from Endpoint
+Identifiers (EIDs) that are not globally routable to routable Routing Locators
+(RLOCs).  It also defines a mechanism for these LISP routers to encapsulate IP
+packets addressed with EIDs for transmission across a network infrastructure
+that uses RLOCs for routing and forwarding.
+
+An introduction to LISP can be found in {{?I-D.ietf-lisp-introduction}}.
+
+A complete RFC-set of specifications can be found in {{!RFC6830}}, {{!RFC6831}},
+{{!RFC6832}}, {{!RFC6833}}, {{!RFC6836}}, {{!RFC7215}}, {{!RFC8061}},
+{{!RFC8111}}. They describe support and mechanisms for all combinations of inner
+and outer IPv4 and IPv6 packet headers for unicast and multicast packet flows
+that also interwork with non-LISP sites as well as two designs to realize a
+scalable mapping system.
+
+A standards-track based set of drafts {{?I-D.ietf-lisp-rfc6830bis}}
+{{?I-D.ietf-lisp-rfc6833bis}} are products and work in progress of the LISP
+Working Group.
+
+### LISP Encapsulation
+
+LISP uses dynamic tunnel encapsulation as its fundadmental mechanism for the
+data-plane. Fixed headers are used between the outer and inner IP headers which
+are 16 bytes in length. Details can be found in {{!RFC6830}}.
+
+### LISP Mapping Systems
+
+Many years of research dating back to 2007 have gone into LISP scalable mapping
+systems. They can be found at [LISP-WG] and [IRTF-RRG].  The two that show
+promise and have deployment experience are LISP-DDT {{!RFC8111}} and LISP-ALT
+{{!RFC6836}}.
+
+The control-plane API which LISP xTRs are the clients of is documented in
+{{!RFC6833}}. Various mapping system and control-plane tools are available
+{{!RFC6835}} {{!RFC8112}} and are in operational use.
+
+### LISP Mobility Features
+
+LISP supports multi-homed shortest-path session survivable mobility. An EID can
+remain fixed for a node that roams while its dynamic binding changes to the
+RLOCs it uses when it reconnect to the new network location.
+
+When the roaming node supports LISP, its EIDs and RLOCs are local to the node.
+This form of mobility is call LISP Mobile-Node. Details can be found in
+{{?I-D.ietf-lisp-mn}}.
+
+When the roaming node does not support LISP, but LISP runs in the network the
+node roams to, the EIDs and RLOCs are not co-located in the same device. In this
+case, EIDs are assigned to the roaming node and RLOCs are assigned to LISP xTRs.
+So when the roaming node attaches to the network, its EIDs are mapped to the
+RLOCs of the LISP xTRs in the network. This form of mobility is called LISP
+EID-Mobility. Details can be found in {{?I-D.ietf-lisp-eid-mobility}}.
+
+For a 3GGP mobile network, the LISP EID-Mobility form of mobility is recommended
+and is specified in the use-case document
+{{?I-D.farinacci-lisp-mobile-network}}.
 
 ### ILSR
+
+ILSR is a specific recommendation for using LISP in the 3GPP 5G mobile network
+architecture. A detailed whitepaper can be found at [ILSR-WP]. The
+recommendation is to use the mechanisms in
+{{?I-D.farinacci-lisp-mobile-network}}.
+
 
 ## ILNP {#sec-ilnp}
 
@@ -1260,101 +1319,24 @@ See also section [REF] for discussion on an approach for incremental deployment 
 
 ### LISP Control-Plane
 
-Many years of research dating back to 2007 have gone into LISP scalable mapping
-systems. They can be found at [LISP-WG] and [IRTF-RRG].  The two that show
-promise and have deployment experience are LISP-DDT {{!RFC8111}} and LISP-ALT
-{{!RFC6836}}.
+The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}} is data-plane agnostic and can serve as control-plane for different data-plane protocols (beyond the LISP data-plane). In this section we describe how LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
 
-The control-plane API which LISP xTRs are the clients of is documented in
-{{!RFC6833}}. Various mapping system and control-plane tools are available
-{{!RFC6835}} {{!RFC8112}} and are in operational use.
+It should be noted that the LISP-CP can run over TCP or UDP. The same signaling and logic applies independently of the transport. Additionally, when running over TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}} can be applied.
 
-### LISP Control-Plane with ILA Data-Plane
+#### LISP-CP for ILA
 
-The current LISP control-plane (LISP-CP) specification
-{{?I-D.ietf-lisp-rfc6833bis}} is data-plane agnostic and can serve as
-control-plane for different data-plane protocols. In this section we describe
-how LISP-CP can serve to enable the operation of an ILA data-plane. A similar
-approach can be followed to use LISP-CP as control-plane for other data-plane
-protocols (e.g. VXLAN, SRv6, etc).
+The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the operation of an ILA data-plane. The required ILA control-plane operations of "request/response" and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered as response to data-plane events.
 
-~~~~
-      +------------------------------------------------------+
-      |                         SMF                          |
-      +-+-----------+- - - - - - - - - - - - - +---+-------+-+
-        |           |      Mapping System      |   |       |
-        |           +--+----+---------------+--+   |       |
-        N4             |    |               |      N4      N4
-        |              |  LISP-CP           |      |       |
-        |              |    |               |      |       |
-     +--+---+          |    | +------+      |      |   +---+--+
-     |      |          |    | |      +-------------+   |      |
---N3-+ UPF  +          |    | + UPF  +      |          + UPF  +-N6--
-     |      +--LISP-CP-+    +-+      |      +--LISP-CP-+      |
-     +--+-+-+                 +-+--+-+                 +-+-+--+
-        | |                     |  |                     | |
-        | +---------ILA---------+  +----------ILA--------+ |
-        |                                                  |
-        +------------------------ILA-----------------------+
-~~~~
-{: #fig-LISP-CP-ILA title="LISP-CP + ILA in the 5G architecture"}
+Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible to locally derivate it from the endpoint address. These two mapping operations, Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation to obtain the ILA Identifier and associated Locators in a single round of signaling.
 
+The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
 
+#### LISP-CP for SRv6
 
-Please refer to Section 8 for description of the ILA data-plane. The complete
-specification of how to use the LISP-CP in conjunction with an ILA data-plane
-can be found in {{?I-D.rodrigueznatal-ila-lisp}}. Below are summarized the major
-points to take into account when running LISP-CP as control-plane for ILA.
+The LISP-CP can be used by an ingress SRv6 node to obtain the egress SRv6 node associated with a given endpoint. Alternatively, an ingress SRv6 node can use the LISP-CP to obtain not only the egress SRv6 node for a particular endpoint but also the SRv6 path to steer the traffic to that egress SRv6 node.
 
-- Leveraging on the flexible LISP-CP address encoding defined in {{!RFC8060}},
-different ILA address types are defined in {{?I-D.rodrigueznatal-ila-lisp}} to
-carry ILA metadata over the LISP-CP.
-- XTRs can serve as both ILA-Ns (when their map-cache is incomplete) or ILA-Rs
-(when their map-cache is complete). XTRs serving as ILA-Rs subscribe to the
-Mapping System to populate their map-cache with all the mappings in the domain
-(or its shard) using {{?I-D.ietf-lisp-pubsub}}.
-- LISP-CP can run over TCP or UDP. The same signaling and logic applies
-independently of the transport. Additionally, when running over TCP, the
-optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}}
-can be applied.
-- The ILA control-plane operations "request/response" and "push" are implemented
-via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} and
-{{?I-D.ietf-lisp-pubsub}} respectively. When the Mapping System is co-located
-with the XTRs serving as ILA-Rs, the ILA "redirect" operation is implemented via
-the mapping notifications described in {{?I-D.ietf-lisp-pubsub}}.
-- XTRs serving as ILA-Ns can use LISP-CP as described in
-{{?I-D.ietf-lisp-rfc6833bis}} to register and keep updated in the Mapping System
-the information regarding their local mappings.
-- When using ILA as data-plane, the mobility features and benefits discussed in
-Section 8 and in {{?I-D.ietf-lisp-eid-mobility}} still apply.
-- As discussed in {{?I-D.rodrigueznatal-ila-lisp}}, the LISP-CP can be used not
-only to resolve ID-Loc mappings but also to obtain the ILA Identifier when it is
-not possible to locally derivate it from the endpoint address. These two mapping
-operations can be combined into one to obtain the ILA Identifier and associated
-locators in a single round of signaling.
+The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane can be found in [I-D.rodrigueznatal-lisp-srv6].
 
-### LISP Control-Plane with SRv6 Data-Plane
-
-~~~~
-      +------------------------------------------------------+
-      |                         SMF                          |
-      +-+-----------+- - - - - - - - - - - - - +---+-------+-+
-        |           |      Mapping System      |   |       |
-        |           +--+----+---------------+--+   |       |
-        N4             |    |               |      N4      N4
-        |              |  LISP-CP           |      |       |
-        |              |    |               |      |       |
-     +--+---+          |    | +------+      |      |   +---+--+
-     |      |          |    | |      +-------------+   |      |
---N3-+ UPF  +          |    | + UPF  +      |          + UPF  +-N6--
-     |      +--LISP-CP-+    +-+      |      +--LISP-CP-+      |
-     +--+-+-+                 +-+--+-+                 +-+-+--+
-        | |                     |  |                     | |
-        | +---------SRv6--------+  +---------SRv6--------+ |
-        |                                                  |
-        +-----------------------SRv6-----------------------+
-~~~~
-{: #fig-LISP-CP-SRV6 title="LISP-CP + SRv6 in the 5G architecture"}
 
 ### ILA control plane
 
