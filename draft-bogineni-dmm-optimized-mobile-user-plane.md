@@ -133,30 +133,6 @@ informative:
     -
         ins: S. Matsushima
     date: 2018
-  I-D.auge-hicn-mobility:
-    title: "Anchorless mobility through hICN principles"
-    author:
-    -
-        ins: J. Augé
-    -
-        ins: G. Carofiglio
-    -
-        ins: L. Muscariello
-    -
-        ins: M. Papalini
-    date: 2018
-  I-D.auge-hicn-mobility-deployment-options:
-    title: "Anchorless mobility through hICN principles: Deployment options"
-    author:
-    -
-        ins: J. Augé
-    -
-        ins: G. Carofiglio
-    -
-        ins: L. Muscariello
-    -
-        ins: M. Papalini
-    date: 2018
   MAPME: DOI.10.1109/TNSM.2018.2796720
   WLDR: DOI.10.1145/2984356.2984361
   CICN:
@@ -447,7 +423,7 @@ within a single PDU Session.
 
 3GPP specifies two roaming model namely the Local Break Out(LBO) and
 the Home Routed (HR) model, respectively depicted in
-{{ig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}}.
+{{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}}.
 
 ~~~~
                                 VPLMN      |      HPLMN
@@ -574,10 +550,9 @@ The rest of this section details the set of reviewed approaches, namely SRv6,
 LISP, ILSR, ILNP, ILA and hICN, as summarized in {{fig-approaches}}. Each
 proposal consists in an overview with pointers to reference material for a more
 in depth description. The focus is then given to a discussion on its integration
-at N9 interface in light of the architectural requirements discussed in
-{{sec-requirements}}, and the additional benefits it brings with respect to
-GTP-U. Extensions to N3 interface as well as alternative deployments preserving
-GTP tunnels as discussed later in this document in {{sec-alt}}.
+at N9 interface, as well as the benefits with respect to GTP-U. Extensions to N3
+interface as well as alternative deployments preserving GTP tunnels as discussed
+later in this document in {{sec-alt}}.
 
 __Reviewed approaches__
 
@@ -698,7 +673,7 @@ next section
 ### Description
 
 hCIN Anchorless Mobility Management (hICN-AMM) refers to a novel mobility
-management approach, introduced in {{I-D.auge-hicn-mobility}}, that leverages
+management approach, introduced in {{?I-D.auge-dmm-hicn-mobility}}, that leverages
 routable location-independent identifiers (IDs) and an Information-Centric
 Networking (ICN) communication model integrated in IPv6, (also referred to as
 Hybrid ICN, or hICN) {{?I-D.muscariello-intarea-hicn}}.
@@ -740,7 +715,7 @@ __Anchorless mobility support__
 The selected mobility management scheme for hICN is MAP-Me, an
 anchorless producer mobility management solution originally proposed for ICN
 {{?I-D.irtf-icnrg-mapme}} {{MAPME}} and further extended to hICN in
-{{I-D.auge-hicn-mobility}}.
+{{?I-D.auge-dmm-hicn-mobility}}.
 
 MAP-Me belongs to the class of anchorless approaches that relies on
 scope-limited forwarding updates triggered by producer mobility events to keep
@@ -828,7 +803,7 @@ security policies (in the network, and in-between UPFs);
 
 An in depth analysis of benefits originating from the coupling between a purely
 identifier-based approach and from specific hICN properties can be found in
-{{I-D.auge-hicn-mobility-deployment-options}} along with some illustrative
+{{?I-D.auge-dmm-hicn-mobility-deployment-options}} along with some illustrative
 examples.
 
 ### Deployment considerations
@@ -1447,7 +1422,7 @@ Function (UPF) inside mobile user plane. It has the advantage of preserving the
 advantage of hICN in terms of consumer mobility and flexible transport.
 
 A more in depth presentation of those alternative deployments can be found in
-{{I-D.auge-hicn-mobility-deployment-options}}.
+{{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
 
 
 # Summary
