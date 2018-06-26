@@ -57,6 +57,12 @@ author:
     org: Cisco Systems, Inc.
     email: jordan.auge@cisco.com
 -
+    ins: P. Camarillo
+    name: Pablo Camarillo Garvia
+    role:
+    org: Cisco Systems, Inc.
+    email: pcamaril@cisco.com
+-
     ins: S. Homma
     name: Shunsuke Homma
     role:
@@ -283,9 +289,7 @@ N3 and N9 interfaces are tightly coupled and we will discuss in
 to N3. The impact on other interfaces is still TBD.
 
 
-# Conventions and Acronyms Used in This Document
-
-## Conventions
+# Conventions and terminology
 
 In examples, "C:" and "S:" indicate lines sent by the client and server
 respectively.
@@ -303,9 +307,7 @@ a statement using the key words listed above. This convention aids reviewers in
 quickly identifying or finding the portions of this RFC covered by these
 keywords.
 
-## Acronyms
-
-TBD
+Placeholder acronyms/terminology.
 
 # Overview of 3GPP Release 15 5G Architecture 
 
@@ -917,13 +919,226 @@ __Reviewed approaches__
 {: #fig-approaches title="Overview of reviewed approaches"}
 
 ## SRv6 {#sec-srv6}
-<!--
-ID/Loc introduction has been merged in this section
--->
 
-### SRv6 in "Interworking Model" {#sec-srv6-gtpu}
+SRv6 {{?I-D.filsfils-spring-srv6-network-programming}} is the IPv6 dataplane
+instantiation of Segment Routing {{?I-D.ietf-spring-segment-routing}}.
+Segment Routing is a network architecture based on source-routing (the headend
+inserts the nodes that a packet must traverse for TE, NFV and VPN 
+purposes). Thus confining flow states to the ingress nodes in the SR domain.
 
-### SRv6 in "Integrated Model" {#sec-srv6-adv}
+The SRv6 dataplane consists on leveraging the IPv6 extension headers, defined
+in RFC8200, to include in the IPv6 header a new "Segment Routing Header" {{?I-D.ietf-6man-segment-routing-header}} (SRH).
+
+SRv6 encodes segments (SIDs) as IPv6 addresses in the Segment List of its header.
+The IPv6 Destination Address (DA) specifies the active segment in the Segment List,
+while the Segments Left (SL) field of the SRH points to the next active segment
+in the Segment List. SRv6 routes over the shortest ECMP-aware path in the 
+network up the the node instantiating the active segment. Once the packet has 
+reached this node, the segment is executed. This implies running its associated 
+function on the router, decrementing the SL value and updating the IPv6 DA to
+the next active segment. Notice that transit routers neither inspect the SRH
+nor process it. Thus they only need to be IPv6 capable.
+
+The main benefit of SRv6 overlays is the reduction of state in the network
+(there is no state in the forwarding fabric), with optimized MTU overhead,
+and its capability to integrate with the underlay (SLA;  Traffic Engineering) 
+and distributed NFVi. Hence there is no need NSH for NVF, RSVP for TE, or UDP
+for ECMP. SR also supports natively network slicing, which implies that SRv6
+can offer end-to-end network slices that spans all those elements
+(overlay, underlay, NFV).
+
+The versatility and adaptability of SR combined with IPv6's ample and flexible
+address space positions SRv6 as a viable data plane for the next
+generation of mobile user-plane, in particular the 3GPP N3 and N9 interfaces.
+Notice that SRv6 applicability does not require a new mobility control-plane,
+although SRv6 can be combined with other control-planes as described later
+in this document (LISP, hICN).
+
+The applicability of SRv6 to mobility is described in {{?I-D.ietf-dmm-srv6-mobile-uplane}}
+and its use-cases are described in [I-D.TBD].
+
+SRv6 counts with three open-source implementations (Linux Kernel, FD.io VPP, P4)
+and several propietary implementations (4xCisco, 1xBarefoot Networks, 1xUTStarcom)
+which have publicly participated in interops and all execute at linecard rate.
+
+This section starts by summarising the use of SRv6 as a drop-in alternative for
+GTP-U over the N9 interface connecting different User Plane Functions (UPF). It
+then shows how SRv6 as a GTP-U replacement can then provide additional features
+such as TE, IP session aggregation, rate limiting, and distributed NFVi
+that are not natively available by GTP.
+
+SRv6 appears well placed as a mechanism to replace GTP-U with initially no
+control plane changes, but to then offer a progressive path towards many
+innovations in routing.
+
+### SRv6 as Drop-In Alternative for GTP-U
+
+Existing mobile backhaul employs GTP tunnels to carry user traffic flows in the
+network. These tunnels are unidirectional, are established via the control plane
+for a particular QoS level, and run on links between access and the different
+anchor nodes all the way to DN gateways. 
+
+The Tunnel Endpoint Id (TEID) field in the GTP tunnel plays a crucial role in stitching
+the data path between the above mentioned network nodes for a particular user
+flow. In other words, TEIDs are used to coordinate traffic hand off between
+different UPFs.
+
+In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP
+tunnels. The control plane in this approach remains the same, and still attempts
+to establish GTP-U tunnels and communicate TEIDs between the tunnel endpoints.
+However, at the user plane, SRv6 capable nodes use SIDs to direct user traffic
+between the UPFs.
+
+A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
+and other relevant data can be encoded into SRv6 SIDs which can be mapped back
+to TEID's at the intermediate UPFs thus requiring no changes except at the 
+encapsulation and de-encapsulation points in the UPF chains.
+
+Note that this is a apple-to-apple replacement of GTP by SRv6. Its also worth
+noting that in this case the MTU overhead in the N9 interface is reduced.
+
+{{?I-D.ietf-dmm-srv6-mobile-uplane}} discusses the details of leveraging the
+existing control plane for distributing GTP tunnel information between the end
+nodes and employing SRv6 in data plane for UPF connectivity. The document
+defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how
+hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves
+a migration path toward a full SRv6 data plane.
+
+### SRv6 as Drop-In GTP Replacement with TE
+
+The previous section discussed using SRv6 as a drop-in replacement for GTP
+tunnels in existing mobile networks. No new capabilities were introduced by this
+simple 1 to 1 replacement. We now explore additional possible features once SRv6
+has been introduced.
+
+Traffic engineering is a native feature of SR. The SRv6 variant of SR of
+course supports both strict and loose models of source routing. Here, the SID
+list in SRH can represent a loose or strict path to UPFs. Therefore, traffic
+engineering can easily be supported regardless of any of the aforementioned
+approaches.
+
+The main benefit of leveraging SRv6 for TE is the natural ability to create
+end-to-end network slices that spans both the UPFs and the underlaying transport
+network with TE optimization objectives (i.e. low-latency).
+
+It must be noted that the SRH could contain multiple sets of SIDs each
+representing a TE path between a pair of UPFs. Alternatively, the SRH can
+contain a fully resolved end to end TE path that covers every intermediate node
+and UPF along the data plane.
+
+SR considers segments to be instructions. Therefore each SID can represent a
+function that enforces a specific nodal or global packet treatment. Attributes
+such as jitter and delay requirement, rate limiting factors, etc. can be easily
+encoded in to SIDs in order to apply the desired treatment as packets traverse
+the network from UPF to UPF. {{?I-D.ietf-dmm-srv6-mobile-uplane}} suggests a SID
+encoding mechanism for rate limiting purposes.
+
+Please refer to the followings for further details about SR traffic
+engineering capabilities, the network programming concept, and some of the
+main SRv6 functions.
+
+- {{?I-D.ietf-spring-segment-routing}}
+- {{?I-D.ietf-spring-segment-routing-policy}}
+- {{?I-D.filsfils-spring-srv6-network-programming}}
+- {{?I-D.ietf-6man-segment-routing-header}}
+
+### Service Programming with SRv6
+
+Service programming -or distributed NFVi- is another intrinsic feature of SR. 
+Leveraging this capability, operators can steer user traffic through a
+set of UPFs where each UPF performs a specific service on the traffic.
+
+Service programming is achieved through the use of SIDs in an identical manner 
+to what was described in the previous section: the SRH is populated with a set 
+of SIDs with each SID identifying a specific UPF in the network. Starting from 
+the ingress SRv6 node, packets are then forwarded through the network visiting
+the set of UPFs listed as SIDs in the SRH.
+
+Please refer to {{?I-D.xuclad-spring-sr-service-chaining}} for further detail.
+
+### SRv6 and Entropy
+
+Ability to provide a good level of entropy is an important aspect of data plane
+protocols. If included in network node's hashing, the TEID field in GTP tunnels 
+algorithms can result in good load balancing. Therefore, any new data plane
+proposal should be able to deal with entropy in an efficient manner.
+
+SRv6 natively supports entropy by using the IPv6 Flow Label. Additionally, 
+SRv6 SIDs can easily accommodate entropy at a hop by hop level by reserving a
+set of bits in the SID construct itself. In this way, the hashing algorithm at
+different nodes distribute traffic flows based on the SID which has been copied
+to IPv6 DA field.
+
+### SRv6 and 5G Slicing
+
+Slicing is one of the main features in 5G [3GPP 23501]. Several Slices with
+different requirements can coexist on top of the common network infrastructure.
+Diverse flows belonging to different 5G slices can be completely disjoint or can
+share different parts of the network infrastructure. SRv6 has native support for
+network slicing spanning the UPFs, underlay -transport network- and NFVi.
+Also, SRv6 creates network slices without per-flow state in the fabric, hence
+simplifying the slicing paradigm.
+
+Please refer to {{?I-D.ietf-spring-segment-routing-policy}} for further detail.
+
+### SRv6 and Alternative Approaches to Advanced Mobility Support
+
+SRv6 flexibility enables it to support different methods of providing mobility
+in the network. ID-LOC for mobility support is one such option.
+
+The previous sections discussed how SRv6 could be employed as a replacement for
+GTP tunnels while leaving the existing control plane intact. This section
+describes the use of SRv6 as a vehicle to implement Locator/ID Separation model
+for UPF data plane connectivity.
+
+#### UPF connectivity via SRv6 with Loc-ID separation (GTP integration)
+
+SRv6 can easily implement ID-LOC Separation model for UPF connectivity. The SIDs
+are once again the main vehicle here. In this model, UPFs are considered to be
+the IDs while the nodes where the UPFs attach to take on the role of the
+Locators. 
+
+In this approach, UPFs connect to SRv6 capable Locators. UPFs use IPv4/IPv6
+transport either in conjunction with GTP or without any GTP tunnel and send the
+packets to their associated Locator at the near end (Ingress SRv6 Locator).
+
+It must be noted that use of GTP at UPFs allows us to leave the 3GPP control
+plane intact and hence provides a smooth migration path toward SRv6 with
+ID-Locator model. 
+
+#### SRv6 Capable UPFs and RLOCs (GTP replacement)
+
+In this model, the head-end UPF (Ingress UPF) is the ingress node and the entity
+that constructs the SRH in the SRv6 domain. 
+
+The 3GPP control plane is responsible for distributing UPF's endpoint
+information. But it requires some modifications to be able to convey endpoint
+information to interested parties.
+
+The SMF can provide a fully resolved SID list by communicating
+with a centralised or distributed ID-LOC mapping system containing all the
+relevant data regarding the UPF-Locator relationship.
+
+#### Advanced Features in ID-Locator Architecture
+
+SRv6's native features such as Traffic Engineering, QoS support, UPF Chaining,
+network slicing, etc. can be easily added to ID-Locator support. As it was noted earlier,
+these features are not readily available by GTP.
+
+### Areas of Concerns
+
+Support for IPv6 is a precondition for SRv6. Although SRv6 can support hybrid
+IPv4/IPv6 mobile data plane through an interworking node, support of UPFs with
+IPv4 address is rather complex.
+
+Due to IPv6 128-bit address space, large SRH size can have a negative impact on
+MTU. Large SRH size can also exert undesirable header tax especially in the case
+of small payload size.
+
+ID-LOC architecture relies on high performance mapping systems. Distributed
+mapping systems using some form Distributed Hash Table(DHT) exhibit very
+promising results. But further investigation is required to ensure mobility
+requirements in mobile data plane.
 
 ## LISP {#sec-lisp}
 
@@ -1466,7 +1681,15 @@ What are the main differences
 
 # Integration of new data planes into the 5G framework
 
-## ID/Loc split
+## Integration with existing mobility management
+
+### SRv6
+
+As discussed in Section 5.3.1, SRv6 can be used as GTP replacement with
+minor modifications to the existing control plane. In this mode, SRv6 
+conveys the TEID and other relevant information into the SRv6 SIDs.
+
+## ID/Loc split-based
 
 ~~~~
                                  +----+----+
@@ -1503,7 +1726,6 @@ What are the main differences
 {: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
 
 
-
 An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.
 
 ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses. SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.
@@ -1516,12 +1738,7 @@ Second, the Mapping System needs to contain the appropriate ID-LOC mappings in c
 
 See also section [REF] for discussion on an approach for incremental deployment of ID-LOC solutions in the 5G framework.
 
-## Control planes for ID/Loc split
-
-    TODO
-    - fix some redundancies
-    - shorten
-    - add missing references
+The following control planes leverage the ID/Loc split:
 
 ### LISP Control-Plane
 
@@ -1529,7 +1746,7 @@ The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833b
 
 It should be noted that the LISP-CP can run over TCP or UDP. The same signaling and logic applies independently of the transport. Additionally, when running over TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}} can be applied.
 
-#### LISP-CP for ILA
+### LISP-CP for ILA
 
 The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the operation of an ILA data-plane. The required ILA control-plane operations of "request/response" and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered as response to data-plane events.
 
@@ -1537,12 +1754,11 @@ Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it i
 
 The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
 
-#### LISP-CP for SRv6
+### LISP-CP for SRv6
 
-The LISP-CP can be used by an ingress SRv6 node to obtain the egress SRv6 node associated with a given endpoint. Alternatively, an ingress SRv6 node can use the LISP-CP to obtain not only the egress SRv6 node for a particular endpoint but also the SRv6 path to steer the traffic to that egress SRv6 node.
+The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
 
-The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane can be found in [I-D.rodrigueznatal-lisp-srv6].
-
+The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane can be found in [I-D.TBD].
 
 ### ILA control plane
 
@@ -1571,7 +1787,9 @@ RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
 are popular in SDN.
 
 
-## hICN
+## ID-based
+
+### hICN
 
 By operating directly on routers’ FIBs for mobility updates, dynamic hop-by-hop
 forwarding strategies etc., hICN inherits the simplicity of IP forwarding and
@@ -1588,6 +1806,16 @@ described for MAP-Me. However, the absence of SMF interaction might be
 beneficial in case of dense deployments or failure of the central control
 entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
+
+### hICN with SRv6
+
+As described in section 5.6.4, another alternative to deploy hICN is to leverage
+the SRv6 dataplane, hence reducing the modifications in the hardware infraestructure
+and leveraging the SR benefits for underlay (TE, FRR) and service programming -NFV-.
+In this variant hICN acts as full control-plane for SRv6 specifying the SIDs to
+insert in the SRH.
+
+It's worth noting that this variant is on an early development phase.
 
 ## Coexistence of multiple protocols in network slices
 
@@ -1763,7 +1991,12 @@ Potential gains can result for an early handling of traffic right from the RAN
 and thus possibly closer to the UE. The result is a simpler and lighter
 architecture, allowing convergence with other non-3GPP accesses.
 
-### Any technology specific comment here ?
+### SRv6
+
+The mobile network would benefit of the application of SRv6 to both, N3 and 
+N9 interfaces. The intrinsic ability of SRv6 to integrate, in a single protocol,
+the control of the overlay, underlay and NFV implies that if applied to the N3
+interface the end-to-end SRv6-based network slice can start on the NodeB itself.
 
 ### hICN
 
@@ -1786,6 +2019,17 @@ load balancing of traffic across them.
 
 An alternative vision, although not recommended, would be to preserve the
 current architecture as is, and deploy alternative data planes on top.
+
+### SRv6
+As explained in section 5.3.1, SRv6 can co-exist with the current GTP-based
+control plane. Additionally, the current control plane can be extended to suport
+TE as defined in 5.3.2.
+
+From a dataplane perspective, SRv6 can coexist on the N9 interface together
+with GTP-U traffic.
+
+This is important towards a slow migration from a GTP-based architecture 
+into different architectures.
 
 ### ID/Loc split
 
@@ -1831,11 +2075,11 @@ shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Net
           . +------+               +-----+  .
            . . . . . . . . . . . . . . . . .
                     ID-LOC Domain
-		    
-		       dUPF/cUPF: Distributed/Central UPF
+        
+           dUPF/cUPF: Distributed/Central UPF
                         dDN/cDN : Distributed/Central DN
-			     MS : Mapping System 
-		   ID-LOC UP/CP : ID-LOC User Plane/Control Plane
+           MS : Mapping System 
+       ID-LOC UP/CP : ID-LOC User Plane/Control Plane
 ~~~~
 {: #fig_5GS-IDLOC-Coexist-Arch title="Architecture of 5GS and ID-LOC Coexistence"}
 
@@ -2032,389 +2276,4 @@ Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne, and Luca
 Muscariello for reviewing various iterations of the document and for providing
 content into various sections.
 
-
 --- back
-
-# SRv6 Based Solution
-
-## Overview
-
-Segment Routing (SR), defined in [I-D.ietf-spring-segment-routing] generalises
-the source routing paradigm with an ordered list of global and/or nodal
-instructions (segments) prepended in an SR header in order to either steer
-traffic flows through the network while confining flow states to the ingress
-nodes in the SR domains and/or to indicate functions that are performed at
-specific network locations.
-
-The IPV6 realisation of SR (SRV6) defines a SR Header (SRH), see
-{{?I-D.ietf-6man-segment-routing-header}}. SRV6 encodes segments as IPV6
-addresses in the Segment List (SL) of its header. The packet destination address
-in SRV6 specifies the active segment while an index field in the SRH points to
-the next active segment in the list. The index field in SRH is decremented as
-SRV6 progressively forces packet flows through different segments over the IPV6
-data plane.
-
-The versatility and adaptability of SR combined with IPV6's ample and flexible
-address space positions SRV6 as a viable data path technology for the next
-generation of mobile user plane, in particular the 3GPP N9 (UPF to UPF).
-
-This section starts by summarising the use of SRV6 as a drop-in alternative for
-GTP-U over the N9 interface connecting different User Plane Functions (UPF). It
-then shows how SRV6 as a GTP-U replacement can then provide additional features
-such as TE, sparing, rate limiting, and service chaining that are not natively
-available by GTP.
-
-The discussion then focuses on advanced routing with the Identifier/Locator
-paradigm and shows how SRV6 can be used to realise this model in the mobile
-back-haul in either an anchored or anchorless mode of operation.
-
-SRV6 appears well placed as a mechanism to replace GTP-U with initially no
-control plane changes, but to then offer a progressive path towards many
-innovations in routing.
-
-## SRV6 as Drop-In Alternative for GTP-U
-
-Existing mobile back-haul employs GTP tunnels to carry user traffic flows in the
-network. These tunnels are unidirectional, are established via the control plane
-for a particular QoS level, and run on links between access and the different
-anchor nodes all the way to DN gateways. 3GPP uses the term UPF to refer to the
-variety of functions performing different tasks on user traffic along the data
-path in 5G networks and suggests the use of GTP tunnels to carry user traffic
-between these UPFs (N9 interface).
-
-The Tunnel Id (TEID) field in the GTP tunnel plays a crucial role in stitching
-the data path between the above mentioned network nodes for a particular user
-flow. In other words, TEIDs are used to coordinate traffic hand off between
-different UPFs.
-
-In its most basic form, SRV6 can be used as a simple drop-in alternative for GTP
-tunnels. The control plane in this approach remains the same, and still attempts
-to establish GTP-U tunnels and communicate TEIDs between the tunnel end points.
-However, at the user plane, SRV6 capable nodes use SIDs to direct user traffic
-between the UPFs.
-
-The simplest option is to encapsulate the entire GTP frame as a payload within
-SRV6. However, this scheme still carries the GTP header as the payload and as
-such doesn't offer significant advantage.
-
-A much more promising option however is to use SIDs to carry tunnel related
-information. Here, TEIDs and other relevant data can be encoded into SRV6 SIDs
-which can be mapped back to TEID's at the intermediate UPFs thus requiring no
-changes except at the encapsulation and de-encapsulation points in the UPF
-chains.
-
-{{?I-D.ietf-dmm-srv6-mobile-uplane}} discusses the details of leveraging the
-existing control plane for distributing GTP tunnel information between the end
-nodes and employing SRV6 in data plane for UPF connectivity. The document
-defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how
-hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves
-a migration path toward a full SRV6 data plane.
-
-Another alternative that can provide for a smooth migration toward SRV6 data
-plane between UPFs is via the use of "Tag", and optional TLV fields in SRH.
-Similar to the previously described method, this approach takes advantage of the
-existing control plane to deliver GTP tunnel information to the UPF endpoints.
-"Tag" and optional TLV fields in SRH are then used to encode tunnel information
-in the SRV6 data plane where the UPFs can determine the TEID etc. by inverting
-the mapping.
-
-In yet another option, GTP tunnel information can be encoded as a separate SID
-either within the same SRH after the SID that identifies the UPF itself
-(SRH-UPF)or inside a separate SRH (SRH-G). In this option, SID representing the
-GTP tunnel information acts as both start and end point of a segment within the
-UPF. This option resembles the MPLS label stacking mechanism which is widely
-used in different VPN scenarios.
-
-It must be noted that in any of the above mentioned approaches, the ingress UPF
-in SRV6 domain can insert a SRH containing the list of SIDs that corresponds to
-all UPFs along the path. Alternatively, UPFs can stack a new SRH on top of the
-one inserted by the previous one as packets traverse network paths between
-different pairs of UPFs in the network.
-
-~~~~
-                          +-------+
-                   +------+  SMF  +------+
-                   |      +-------+      |
-                   N4                    N4
-                   |                     |
-+-------+      +---+---+             +---+---+      +-------+
-|  RAN  |--N3--|  UPF  |             |  UPF  |--N6--|  DN   |
-+-------+      +---+---+             +---+---+      +-------+
-                   |       SRV6 N9       |
-                   |   carries GTP info. |
-                   +---------------------+
-~~~~
-{: #fig_SRV6-Drop-In-Replacement title="SRV6 as Drop-In replacement for GTP-U in 5G"}
-
-## SRV6 as Drop-In GTP Replacement with TE
-
-The previous section discussed using SRV6 as a drop-in replacement for GTP
-tunnels in existing mobile networks. No new capabilities were introduced by this
-simple 1 to 1 replacement. We now explore additional possible features once SRV6
-has been introduced.
-
-Traffic engineering is an integral feature of SR. The SRV6 variant of SR of
-course supports both strict and loose models of source routing. Here, the SID
-list in SRH can represent a loose or strict path to UPFs. Therefore, traffic
-engineering can easily be supported regardless of any of the aforementioned
-approaches.
-
-For loose paths to UPFs, a set of one or more SIDs in SRH's SID list identifies
-on or more, but not all the intermediate nodes to a particular UPF. Packets then
-follow the IGP shortest path through the network to each specified intermediate
-node till they reach the target UPF.
-
-In the case of strict path to UPFs, SRH contains a set of SIDs representing all
-the intermediate nodes and links that the packet must visit on its route to a
-particular UPF. The last SID in the set represents the target UPF itself or the
-last link to this UPF. Here, SRV6 packet processing at each node invokes the
-function(s) that is associated with SID[SL], the packet then receives the
-required treatment and gets forwarded over the SRH's specified path toward the
-target UPF.
-
-It must be noted that the SRH could contain multiple sets of SIDs each
-representing a TE path between a pair of UPFs. Alternatively, the SRH can
-contain a fully resolved end to end TE path that covers every intermediate node
-and UPF along the data plane.
-
-SR considers segments to be instructions. Therefore each SID can represent a
-function that enforces a specific nodal or global packet treatment. Attributes
-such as jitter and delay requirement, rate limiting factors, etc. can be easily
-encoded in to SIDs in order to apply the desired treatment as packets traverse
-the network from UPF to UPF. {{?I-D.ietf-dmm-srv6-mobile-uplane}} suggests a SID
-encoding mechanism for rate limiting purposes.
-
-Please refer to the followings for further details about SR and SRV6 traffic
-engineering capabilities, network programming concept, and a list of some of the
-main SR functions.
-
-- {{?I-D.ietf-spring-segment-routing}}
-- {{?I-D.ietf-6man-segment-routing-header}}
-- {{?I-D.filsfils-spring-srv6-network-programming}}
-- {{?I-D.gundavelli-dmm-mfa}}
-
-## UPF Chaining with SRV6
-
-Service or function chaining is another intrinsic feature of SR and its SRV6
-derivative. Using this capability, operators can direct user traffic through a
-set of UPFs where each UPF performs a specific task or executes certain
-functions on the traffic.
-
-UPF chaining is achieved through the use of SIDs in SRV6 in the manner identical
-to what was described in the previous section regarding SRV6 support for traffic
-engineering.
-
-Generally speaking, the SRH is populated with a set of SIDs with each SID
-identifying a specific UPF in the network. Starting from the ingress SRV6 node,
-packets are then forwarded through the network in either loose or explicit mode
-toward each UPF.
-
-Please refer to {{?I-D.xuclad-spring-sr-service-chaining}} for further detail.
-
-## SRV6 and Entropy
-
-Ability to provide a good level of entropy is an important aspect of data plane
-protocols. The TEID field in GTP tunnels if included in network node's hashing
-algorithms can result in good load balancing. Therefore, any new data plane
-proposal should be able to deal with entropy in an efficient manner.
-
-SRV6 SIDs can easily accommodate entropy at either hop by hop or global level
-via reserving a set of bits in the SID construct itself; and hence, eliminate
-the need for a special entropy Segment ID in SRH. Here, the hashing algorithm at
-different nodes distribute traffic flows based on the SID which has been copied
-to IPV6 DA field.
-
-Alternatively, entropy related information can be encoded as optional TLV field in SRV6's SRH.
-
-## SRV6 and 5G Slicing
-
-Slicing is one of the main features in 5G [3GPP 23501]. Several Slices with
-different requirements can coexist on top of the common network infrastructure.
-Diverse flows belonging to different 5G slices can be completely disjoint or can
-share different parts of the network infrastructure. SRV6's native features such
-as TE, Chaining, one-plus-one protection, etc. either in stand-alone or in
-conjunction with other alternatives for mobility support such as ID-LOC model
-lend themselves well to 5G slicing paradigm.
-
-~~~~
-                          +--+       +--+
-           +--------------+N1| . . . |Nn+----------------+
-           |              ++-+       +-++                |
-           |               |           |                 |
-       +---+---+           |           |             +---+---+
-       | UPF-1 |    +------+           +------+      | UPF-2 |
-       +---+---+    |                         |      +---+---+
-                    |                         |
-Slice-A             |                         |
---------------------|-------------------------|--------------------
-Slice-B             |                         |
-           +--------+                         +----------+
-           |                                             |
-       +---+---+                                     +---+---+
-       | UPF-1'|                                     | UPF-2'|
-       +---+---+                                     +---+---+
-           |              +--+       +--+                |
-           +--------------+M1| . . . |Mn+----------------+
-                          +--+       +--+
-~~~~
-{: #fig_SRV6-Slicing title="SRV6 TE, Service Chaining, Sparing, and Protection for 5G Slices"}
-
-## SRV6 and Alternative Approaches to Advanced Mobility Support
-
-SRV6 flexibility enables it to support different methods of providing mobility
-in the network. ID-LOC for mobility support is one such option.
-
-### SRV6 and Locator/ID Separation Paradigm for N9 Interface
-
-The previous sections discussed how SRV6 could be employed as a replacement for
-GTP tunnels while leaving the existing control plane intact. This section
-describes the use of SRV6 as a vehicle to implement Locator/ID Separation model
-for UPF data plane connectivity.
-
-### Brief Overview of Locator-ID Separation
-
-Traditional routing architecture uses IP addresses as both device identity and
-its location in the network. Locator-ID Separation model establishes a paradigm
-in which a device identity and its network location are split into two separate
-namespaces: End-point Identifiers (EID), and Route Locators (RLOC) that are
-correlated via a control plane, or a dynamic (centralised or distributed)
-mapping system.
-
-RLOCs are tied to network topology. They represent network devices that are
-reachable via traditional routing. EIDs, on the other hand, represent mobile or
-stationary devices, functions, etc. that are reachable via different RLOCs based
-on the network location where they get instantiated, activated or moved.
-
-Using this model, as long as EID-RLOC relationship remains up to date, EIDs can
-easily move between the RLOCs. That is the EID namespace can freely move without
-any impact to the routing paths and connectivity between the Route Locators.
-
-This type of multi encapsulation and routing has been employed in fixed networks
-(IP, VPN, MPLS, etc.). The use of this paradigm in mobile data plane, therefore,
-offers an approach that takes advantage of a mature and proven technology to
-implement the N9 interface for UPF connectivity.
-
-### Locator-ID Separation via SRV6 for UPF connectivity
-
-SRV6 can easily implement ID-LOC Separation model for UPF connectivity. The SIDs
-are once again the main vehicle here. In this model, UPFs are considered to be
-the IDs while the nodes where the UPFs attach to take on the role of the
-Locators. Multiple UPFs are allowed to attach to the same Locator. It is also
-possible for a UPF to connect to multiple Locators. There are several
-implementation options. The followings highlights a few possibilities.
-
-#### Overlay model with SRV6 Locators
-
-In this approach, UPFs connect to SRV6 capable Locators. UPFs use IPV4/IPV6
-transport either in conjunction with GTP or without any GTP tunnel and send the
-packets to their associated Locator at the near end (Ingress SRV6 Locator).
-
-In either case, the ingress SRV6 Locator uses the DA field in arriving packets
-to identify the far end Locator (Egress SRV6 Locator) where the target UPF is
-attached and obtains its associated SID.
-
-For GTP encapsulated traffic from UPFs, the ingress SRV6 Locator must also
-deliver GTP information to the far end Locator. Please see section 5.2. for more
-information on different methods of conveying GTP information in SRV6 domains.
-
-The ingress SRV6 Locator then constructs the SRH and sends the traffic through
-the SRV6 network toward the egress RV6 Locator. Egress Locator marks the end of
-the segment and ships the traffic to the target UPF.
-
-It must be noted that use of GTP at UPFs allows us to leave the 3GPP control
-plane intact and hence provides a smooth migration path toward SRV6 with
-ID-Locator model. For inter UPF traffic that doesn't use GTP, the control plane
-requires some modifications in order to be able to convey endpoint information
-to interested parties.
-
-~~~~
-                                 +----+----+
-         +-------------N4--------+   SMF   +--------N4-----------+
-         |                       +----+----+                     |
-         |                                                       |
-         |                                                       |
-         |                       +----+----+                     |
-         |                       |  ID-Loc |                     |
-         |               +----| Mapping |<----+               |
-         |               |       +----+----+     |               |
-         |               V                       V               |
-     +---+---+      +----+----+             +----+----+      +---+---+
---N3-+ UPF-A +------+  RLOC-A +<----SRV6-+  RLOC-B +------+ UPF-B +-N6--
-     +---+---+      +----+----+             +----+----+      +---+---+
-         <------------------------N9-GTP-----------------------
-~~~~
-{: #fig_SRV6-Locator-Overlay-Model title="Overlay Model with SRV6 Locator in 5G"}
-
-#### SRV6 Capable UPFs and RLOCs
-
-In this model, the head end UPF (Ingress UPF) is the ingress node and the entity
-that constructs the SRH in the SRV6 domain. Here, both UPFs (IDs) and Locators
-are represented by SIDs in the SRH. The SID list establishes either a partial or
-the full path to a target or a set of UPFs that traffic is required to traverse.
-
-The 3GPP control plane is responsible for distributing UPF's endpoint
-information. But it requires some modifications to be able to convey endpoint
-information to interested parties.
-
-In its simplest form, the SMF using policy information prepares a set of one or
-more UPFs along the traffic path and distributes this set in the form a SID list
-to the ingress UPF. This SID list of UPFs is then gets augmented with a set of
-SIDs identifying the Locators representing the current point of attachment for
-each UPF along the data path.
-
-Alternatively, the SMF can provide a fully resolved SID list by communicating
-with a centralised or distributed ID-LOC mapping system containing all the
-relevant data regarding the UPF-Locator relationship.
-
-In yet another approach, the SMF can provide a partial SID list representing the
-segment between each pair of UPFs to individual UPFs along the path.
-
-Regardless of the approach, any changes to UPF's point of attachment must be
-reflected in the mapping system and communicated to the SMF for distribution to
-the appropriate set of UPFs. Keeping the mapping system current is essential to
-proper operation. As long as the mapping database is up-to-date, UPFs can be
-easily moved in the network. Design of ID-Locator mapping system is beyond the
-scope of this document. However, experiment with distributed mapping systems
-offered by today's public clouds has shown very promising results which can be
-further improved and tailored to mobile network requirements.
-
-The following figure shows the use of SRV6 UPFs and RLOCs in 5G.
-
-~~~~
-                                                          +----+----+
-                                                          |  ID-Loc |
-                                                   +---+ Mapping |
-                                 +----+----+       |      |         |
-                                 +         +<------+      +----+----+
-                                 |   SMF   |
-         +-------------N4--------+         +--------N4-----------+
-         |                       +----+----+                     |
-  SID-UA |            SID-RA                   SID-RB            | SID-UB
-     +---+---+      +----+----+             +----+----+      +---+---+
---N3-+ UPF-A +------+  RLOC-A +-------------+  RLOC-B +------+ UPF-B +-N6--
-     +---+---+      +----+----+             +----+----+      +---+---+
-         <------------------------N9-SRV6----------------------
-~~~~
-{: #fig_SRV6-UPF-Locatorl title="SRV6 Capable UPFs and Locators in 5G"}
-
-### Advanced Features in ID-Locator Architecture
-
-SRV6's native features such as Traffic Engineering, QoS support, UPF Chaining,
-etc. can be easily added to ID-Locator support. As it was noted earlier,
-these features are not readily available by GTP.
-
-## Areas of Concerns
-
-Support for IPV6 is a precondition for SRV6. Although SRV6 can support hybrid
-IPV4/IPV6 mobile data plane through an interworking node, support of UPFs with
-IPV4 address is rather complex.
-
-Due to IPV6 128-bit address space, large SRH size can have a negative impact on
-MTU. Large SRH size can also exert undesirable header tax especially in the case
-of small payload size. Furthermore, compound SID processing at each node might
-affect line rate.
-
-ID-LOC architecture relies on high performance mapping systems. Distributed
-mapping systems using some form Distributed Hash Table(DHT) exhibit very
-promising results. But further investigation is required to ensure mobility
-requirements in mobile data plane.
