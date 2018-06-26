@@ -1691,6 +1691,16 @@ conveys the TEID and other relevant information into the SRv6 SIDs.
 
 ## ID/Loc split-based
 
+### ID/Loc split overview
+
+An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.
+
+ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses. SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.
+
+The ID-LOC mapping system is a database that provides mappings of Identity to Location for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC control-plane protocol to make available at the data-plane nodes the ID-LOC mappings that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP and ILAMP, which are discussed later in this section.
+
+When integrating ID-LOC architecture into the 5G framework there are several aspects to take into account. One is that the ID-LOC data-plane function needs to be performed in the data-plane path as the packets enter and leave the ID-LOC domain. On option for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC operation on the traffic as it leaves or enters the UPFs (as shown in Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part of the N9 interface along with current GTP. 
+
 ~~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+                 
@@ -1707,6 +1717,8 @@ conveys the TEID and other relevant information into the SRv6 SIDs.
      +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+  
 ~~~~
 {: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
+
+Another option is to implement the ID-LOC data-plane function directly in the UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled UPFs will directly generate packets encapsulated or transformed and will be able to directly process packets encapsulated or transformed. In this case the ID-LOC protocol will completely replace GTP in the N9 interface.
 
 ~~~~
                                  +----+----+
@@ -1725,24 +1737,11 @@ conveys the TEID and other relevant information into the SRv6 SIDs.
 ~~~~
 {: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
 
-
-An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.
-
-ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses. SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.
-
-The ID-LOC mapping system is a database that provides mappings of Identity to Location for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC control-plane protocol to make available at the data-plane nodes the ID-LOC mappings that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP and ILAMP.
-
-When integrating ID-LOC architecture into the 5G framework there are several aspects to take into account. First the ID-LOC data-plane function needs to be performed in the data-plane path as the packets enter and leave the ID-LOC domain. On option for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC operation on the traffic as it leaves or enters the UPFs (as shown in Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part of the N9 interface along with current GTP. Another option is to implement the ID-LOC data-plane function directly in the UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled UPFs will directly generate packets encapsulated or transformed and will be able to directly process packets encapsulated or transformed. In this case the ID-LOC protocol will completely replace GTP in the N9 interface.
-
-Second, the Mapping System needs to contain the appropriate ID-LOC mappings in coordination with the SMF. In order to do so, the mappings in the Mapping System are populated either by the SMF directly or by the ID-LOC nodes that should be in synch with the SMF. In the former case, an interface from the SMF to the Mapping System is needed (as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
-
-See also section [REF] for discussion on an approach for incremental deployment of ID-LOC solutions in the 5G framework.
-
-The following control planes leverage the ID/Loc split:
+Finally, another aspect to consider when integrating the ID-LOC architecture into the 5G framework is that the Mapping System needs to contain the appropriate ID-LOC mappings in coordination with the SMF. In order to do so, the mappings in the Mapping System are populated either by the SMF directly or by the ID-LOC nodes that should be in synch with the SMF. In the former case, an interface from the SMF to the Mapping System is needed (as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
 
 ### LISP Control-Plane
 
-The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}} is data-plane agnostic and can serve as control-plane for different data-plane protocols (beyond the LISP data-plane). In this section we describe how LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
+The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}} is data-plane agnostic and can serve as control-plane for different data-plane protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to register, request, notify and update ID-Loc mappings between ID-LOC data-plane elements and the ID-LOC Mapping System. In the sections below we describe how LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
 
 It should be noted that the LISP-CP can run over TCP or UDP. The same signaling and logic applies independently of the transport. Additionally, when running over TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}} can be applied.
 
