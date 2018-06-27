@@ -1765,24 +1765,36 @@ appropriate mobility management, and dedicated hICN nodes with appropriate
 caching/forwarding strategies at places aggregating considerable number of user
 requests.
 
-__Coupling between hICN and SRv6__
+### Compliance with architectural requirements
 
-The association of hICN with other data planes technologies, such as SRv6, is
-investigated as a possibility to overcome the above-mentioned tradeoff yielding
-to a selective, yet fully beneficial insertion of hICN in IP networks. This
-would inherit all SRv6 advantages presented in SR-dedicated section of this
-document -- namely "underlay" management (fast reroute, etc.), service chaining or
-fine-grained TE for instance -- but also extend the reach of hICN on regular IP
-routers with SRv6 functionality.
+ARCH-Req-1: hICN is fully built-in and compatible with IPv4 and IPv6; support of
+Ethernet or unstructured PDU can be transported over hICN by leveraging naming
+to identify a given session.
 
-One realization being to create SRv6 domains in between hICN nodes. The hICN
-router (through forwarding strategies) would then act as a control plane for
-SRv6 by specifying the list of SIDs to insert in the packet.
+ARCH-Req-2: For the same reasons, IP connectivity over N3, N6, and N9 is supported.
 
+ARCH-Req-3: hICN flexible data plane natively support multihoming, multipath and
+multisource, as discussed previously. The properties of hICN transport allows
+for a simpler and more dynamic internetworking between involved UPFs, even in an
+anchorless fashion.
+
+ARCH-Req-4: Dynamic forwarding strategies allow for flexible UPF selection for a
+given PDU session, but can further be used within a session for dynamic load
+balancing, policy implementation, etc. up to packet granularity.
+
+ARCH-Req-5: hICN imposes no limit on the number of UPFs/sources and can leverage
+forwarding strategies through dynamic forwarding / packet steering through UPFs.
+Alternatively, underlying dataplanes such as SRv6 might offer similar
+capabilities.
+
+ARCH-Req-6: QFI might be encoded and applied through forwarding strategies
+applied to a given prefix, or complementary mechanisms such as SRv6 for
+instance. hICN exposes rich names at netwwork layer, so faciltating labelling,
+aggregation and more generally QoS management.
 
 ### Summary
 
-hICN proposes a general purpose architecture that combines the benefits of a
+hICN proposes a general purpose network architecture that combines the benefits of a
 pure-ID architecture with those of ICN. While a full deployment is recommended
 to make efficient use of available network resources, it is still possible to
 opt for a partial or phased deployment, with the associated tradeoffs that we
@@ -1795,26 +1807,6 @@ change in the 5G architecture nor in its control plane. The architecture will
 further leverage the incremental insertion of information centric
 functionalities through proxies or direct insertion in user devices as the
 technology gets adopted and deployed.
-
-
-<!--
-# Comparative analysis
-
-This section provides a succint overview of the different solutions,
-discussing the potential benefits coming from GTP replacement on the N9
-infrastructure, and well as related changes and requirements over the reference
-architecture.
-
-Common integration discussion as well as alternative deployment options and
-their tradeoff will be further discussed in the rest of this document.
-
-How the different approaches do things
-
-What they have in common
-What are the main differences
-    between categories
-    within each category
--->
 
 
 # Integration of new data planes into the 5G framework
@@ -2076,13 +2068,16 @@ control of local mobility within an area.
 
 ### hICN with SRv6
 
-As described in section 5.6.4, another alternative to deploy hICN is to leverage
-the SRv6 dataplane, hence reducing the modifications in the hardware infraestructure
-and leveraging the SR benefits for underlay (TE, FRR) and service programming -NFV-.
-In this variant hICN acts as full control-plane for SRv6 specifying the SIDs to
-insert in the SRH.
+The association of hICN with other data planes technologies, such as SRv6, is
+investigated as a possibility to overcome the above-mentioned tradeoff yielding
+to a selective, yet fully beneficial insertion of hICN in IP networks. This
+would inherit all SRv6 advantages for underlay (TE, FRR) and service
+programming (NFV), but also extend the reach of hICN on regular IP routers with
+SRv6 functionality.
 
-It's worth noting that this variant is on an early development phase.
+One realization consists in creating SRv6 domains in between hICN nodes. The
+hICN router (through forwarding strategies) would then act as a control plane
+for SRv6 by specifying the list of SIDs to insert in the packet.
 
 ## Coexistence of multiple protocols in network slices
 
@@ -2216,32 +2211,6 @@ interconnection.
 ~~~~
 {: #fig-multiple-exchange title="Connectivity between operators using an Exchange that supports multiple mobility protocols"}
 
-
-## Summary on architectural requirements {#sec-req-summary}
-
-    - Tentative table:
-    - We might want to add some comments with examples of complementary
-    mechanisms
-
-~~~~
-                  +--------+--------+------+------+-----+------+
-                  | SRv6-T | SRv6-E | LISP | ILSR | ILA | hICN |
-+-----------------+--------+--------+------+------+-----+------+
-| R1-PDU-TYPES    |        |        |      |      |     |  V   |
-| R2-UNSTRUCTURED |        |        |      |      |     |  V   |
-| R3-MULTIHOMING  |        |        |      |      |     |  V   |
-| R4-UPF-SELECT   |        |        |      |      |     |  V   |
-| R5-UPF-LIMIT    |        |        |      |      |     |  V   |
-| R6-QFI          |        |        |      |      |     |  -   |
-| R7-UUID         |        |        |      |      |     |  -   |
-| R8-UPP-REQ      |        |        |      |      |     |  -   |
-| R9-UPP-DETECT   |        |        |      |      |     |  -   |
-+-----------------+--------+--------+------+------+-----+------+
-LEGEND:
-(V) natively supported  (-) through other mechanisms  (X) incompatible
-~~~~
-{: #fig-req-summary title="Summary of architectural requirement support"}
-
 # Alternative deployment options {#sec-alt}
 
 ## Extensions to N3/F1-U/Xn-U interface
@@ -2298,9 +2267,6 @@ with GTP-U traffic.
 This is important towards a slow migration from a GTP-based architecture
 into different architectures.
 
-### ID/Loc split
-
-
 ### hICN
 
 This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G
@@ -2310,53 +2276,20 @@ approaches. However, a transparent integration of hICN-AMM limits to the minimum
 deployment costs and already brings advantages over the baseline architecture
 presented earlier.
 
-#### Local breakout in Mobile Edge Computing (MEC)
-
 The first option shares some similarities with the previous situation and
-proposes to deploy hICN-AMM within Mobile Edge Computing (MEC) platforms, as
-illustrated in {{fig-hicn-sba-mec}}.
-
-~~~~
-  +------------------+          +------------------+
-  |        AMF       |          |        SMF       |
-  +-+--------------+-+          +++--------------+-+
-    |              |             .|              |
-    | N1           | N2       N4 .| N4           | N4
-    |              |             .|              |
-+---+---+      +---+---+  N3  +---+---+  N9  +---+---+  N6  +-------+
-|  UE   +------+  gNB  +------+ UL/CL +------+  UPF  +------+  DN   |
-+-------+      +-------+      +---+---+      +-------+      +-------+
-                                 .|
-                                 .| N9
-                                 .|                            _
-                              +--++---+  N9  +-------+  MEC  _( )___
-                              |  UPF  +------+   DN  +------(  hICN )_
-                              +-------+      +-------+      (_________)
-                                 ^               ^              ^
-                                 |_______________|              |
-                                   local breakout        hICN insertion
-~~~~
-{: #fig-hicn-sba-mec title="hICN insertion in MEC" }
-
-It relies on the local breakout capability introduced in
-5G, i.e. a specific UPF denoted UL/CL (uplink classifier) that locally diverts
-specific flows to an alternative DN, filtering packets based for instance on
-information carried in packet headers. In the hICN-AMM case, this function is
-used to realize the hICN punting function described in
+proposes to deploy hICN-AMM within Mobile Edge Computing (MEC) platforms. It
+relies on the local breakout capability introduced in 5G through the UL/CL. This
+function is used to realize the hICN punting function described in
 {{?I-D.muscariello-intarea-hicn}}, i.e. to identify hICN traffic (Interest and
-Data packets) and forward it to the local MEC hICN instance.
+Data packets) and forward it to the local MEC hICN instance. Although it
+preserves tunnels and anchor points, this option permits an early termination of
+tunnels and the distribution of hICN capabilities close to the edge like in path
+caching and rate/loss/congestion control which may be leveraged for efficient
+low-latency content distribution especially in presence of consumer mobility.
 
-Although it preserves tunnels and anchor points, this option permits an early
-termination of tunnels and the distribution of hICN capabilities close to the
-edge like in path caching and rate/loss/congestion control which may be
-leveraged for efficient low-latency content distribution especially in presence
-of consumer mobility.
-
-#### hICN as a UPF
-
-The second option consists in the deployment of hICN-AMM as User Plane
-Function (UPF) inside mobile user plane. It has the advantage of preserving the
-advantage of hICN in terms of consumer mobility and flexible transport.
+The second option consists in the deployment of hICN-AMM as User Plane Function
+(UPF) inside mobile user plane. It has the advantage of preserving hICN benefits
+in terms of consumer mobility and flexible transport.
 
 A more in depth presentation of those alternative deployments can be found in
 {{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
