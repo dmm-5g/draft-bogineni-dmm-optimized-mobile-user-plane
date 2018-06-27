@@ -1289,8 +1289,8 @@ summarizes the support for each one of these:
                  |                       SRv6                      |
 +----------------+-------------------------------------------------+
 | R1-PDU-TYPES   | Supported (all of them)                         |
-| R2-IP-N3-N6-N9 | Supported                                       |
-| R3-MULTIHOMING | Supported + Tight-integration with SR-transport |
+| R2-IP-N3-N6-N9 | Supported + Tight-integration with SR-transport |
+| R3-MULTIHOMING | Supported                                       |
 | R4-UPF-SELECT  | Supported                                       |
 | R5-UPF-LIMIT   | Supported                                       |
 | R6-QFI         | Supported                                       |
