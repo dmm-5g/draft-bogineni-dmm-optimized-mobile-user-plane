@@ -952,7 +952,8 @@ In addition, {{I-D.hmm-dmm-5g-uplane-analysis}} provides evaluation aspects for
 user plane protocol that are mainly derived from the architectural requirements,
 and they are described below:
 
-- Supporting PDU Session Type Variations
+- Supporting PDU Session Type Variations: 
+
    Given that UP protocol is required to support all PDU session types:
    IPv4, IPv6, Ethernet, and Unstructured. However, it is expected that
    some deployment cases allow candidate protocol to adopt only one or
@@ -961,13 +962,15 @@ and they are described below:
    IPv6-only PDU session that enabled by bunch of IPv6 transition
    solutions already available in the field.
 
-- Nature of Data Path
+- Nature of Data Path: 
+
    The single PDU session multi-homing case requires multipoint-to-point (MP2P) data
    path. It should be much scalable than multi-homing with multiple PDU
    sessions because number of required path states in the UPFs are
    reduced as closed to egress endpoint.
  
-- Supporting Transport Variations
+- Supporting Transport Variations:
+
    5G system will be expected that the new radio spectrums in high frequency 
    bands require operators to deploy their base stations much dense for much
    wider areas compare to previous generation footprints. To make sure that
@@ -982,7 +985,8 @@ and they are described below:
    and dynamic MTU size adjustment mechanisms, while GTP-U does not 
    support those mechanisms.
 
-- Data Path Management
+- Data Path Management:
+
     In the 5G network, UPFs may be deployed distributedly, and UPFs which a data path traverses may vary 
     for UPF's load balancing or depending on service scenarios. In other words, UPF may be required to 
     connect a tunnel to another UPF dynamically, and the number of tunnels among UPFs would be large.
@@ -991,7 +995,8 @@ and they are described below:
     a single tunnel for reducing the number of tunnels. Tunnel aggregation may require UP protocol to support 
     multipoint-to-point tunneling. 
 
-- QoS Control
+- QoS Control:
+
    The 5G QoS model is based on QoS Flows, and a QFI is used to identify a QoS Flow. The 5G system has 
    an assumption that QFI is carried in an encapsulation header on N3 and N9. Moreover, UPFs optionally 
    support QoS marking on transport headers (e.g., DSCP of IP header or CoS of Ethernet header) depending 
@@ -1010,7 +1015,8 @@ and they are described below:
    For avoiding such redundant traffic detection, it may be better that UP protocol supports to convey optional 
    information such as policy rules in the pre-defined place and share with multiple UPFs.
 
--  Supporting Network Slicing Diversity
+-  Supporting Network Slicing Diversity:
+
      a network slice is composed of UPFs belonging to the slice while a slice would share 
      the physical resources with others. underlay transport network of UP and UPFs are 
      shared with other network slices on the same networks.
