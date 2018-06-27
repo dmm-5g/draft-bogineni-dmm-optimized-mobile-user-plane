@@ -216,7 +216,7 @@ protocol for N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and
 of the existing user plane solution and potential benefits of alternative user
 plane solutions.
 
-The expected work in CT4 (CP-173160) will include:
+The expected work in CT4 {{CP-173160-1}} will include:
 
 - Identify the possible candidate protocols for user-plane including existing
 protocol;
@@ -898,10 +898,13 @@ UPFs are connected via N9 interfaces over transport network.
 ## Service and Session Continuity Modes
 
 The 5G System supports different session and service continuity (SSC) modes.
-SSC mode 1: the network preserves the connectivity service provided to the UE.
-SSC mode 2: the network may release the connectivity service delivered to the UE and
+
+_SSC mode 1_: the network preserves the connectivity service provided to the UE.
+
+_SSC mode 2_: the network may release the connectivity service delivered to the UE and
 release the corresponding PDU Session.
-SSC mode 3: changes to the user plane can be visible to the UE, while the network
+
+_SSC mode 3_: changes to the user plane can be visible to the UE, while the network
 ensures that the UE suffers no loss of connectivity. A connection through new PDU
 Session Anchor point is established before the previous connection is terminated in
 order to allow for better service continuity.
