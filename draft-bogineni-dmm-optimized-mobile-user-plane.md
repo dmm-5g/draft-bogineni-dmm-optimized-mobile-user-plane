@@ -825,54 +825,56 @@ within a single PDU Session.
 ~~~~
 {: #fig_3GPP-5GS-Access2DN title="Non-roaming 5G System Architecture for Current Access to Two (e.g. local and central) Data Networks (single PDU Session option"}
 
+{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Network Model with Distributed UPFs"}
+depicts overview of a network model where multiple UPFs are distributed geographically. Such networks have two types of UPFs:
+central UPF deployed for covering wide area, and local/distributed UPF deployed close to UEs' access points.　
+UPFs are connected via N9 interfaces over transport network.
 
 ~~~~
-                      .--.
-                     (    )-.
-                   .'  cDN/  '
-                  (  Internet )
-                   (         -'
-                    '-(     )
-                       '---'
-                         |N6         ,---------.
-                   +-----+-----+     | Mapping |
-                   |   cUPF    |     | System  |
-                   +-----+-----+     `---------'
-                         |N9              .
- ,-----------------------+----------------.---------.
-/ Transport Network   . . . . . . . . . . . . . . .  \
-|                     .                           .  |
-\                  #===========================#===  /
- `----+------------#--.-----------+------------#--.-'
-      |N9          #  .           |N9          #  .
-+-----+-----+   +-------+   +-----+-----+   +-------+
-|   dUPF#1  |N6 | LOC-  |   |   dUPF#2  |N6 | LOC-  |
-|       [UL]+---+ Node#1|   |       [UL]+---| Node#2|..
-|       [CL]|   |       |   |       [CL]|   |       |
-+-----+-----+   +---+---+   +-----+-----+   +---+---+
-      |N3           |             |N3           |
-                 ,-----.                     ,-----.
-   (( o ))      /       \      (( o ))      /       \
-      A         | dDN#A |         A         | dDN#B |
-     /-\  RAN   \       /        /-\  RAN   \       /
-    /-|-\        `-----'        /-|-\        `-----'
 
-      |                           |
+                             .--.
+                            (    )-.
+                          .'  cDN/  '
+                         (  Internet )
+                          (         -'
+                           '-(     )
+                              '---'
+                                |N6
+                          +-----+-----+
+                          |   cUPF    |                         
+                          +-----+-----+                         
+                                |N9                             
+        ,-----------------------+-----------------------.       
+       /                                                 \      
+       |              Transport Network                  |      
+       \                                                 /      
+        `----+---------------------------+--------------'
+             |N9                         |N9                   
+       +-----+-----+    ,-----.    +-----+-----+    ,-----.     
+       |   dUPF#1  |N6 /       \   |   dUPF#2  |N6 /       \    
+       |       [UL]+---| dDN#A |   |       [UL]+---| dDN#B | ...
+       |       [CL]|   \       /   |       [CL]|   \       /      
+       +-----+-----+    `-----'    +-----+-----+    `-----'       
+             |N3                         |N3                      
+                                                                  
+          (( o ))                     (( o ))                     
+             A                           A                        
+            /-\  RAN                    /-\  RAN                  
+           /-|-\                       /-|-\
 
-   [ UE ] ..                   [ UE ] ..
+             |                           |
+
+          [ UE ] ..                   [ UE ] ..
 
 
-                  dUPF/cUPF: Distributed/Central UPF
-                   dDN/cDN : Distributed/Central DN
-                     ===== : Connection between/among LOC nodes
-                     . . . : IF to Mapping System
+                                            dUPF: Distributed UPF
+                                            cUPF: Central UPF
+                                             dDN: Distributed DN
+                                             cDN: Central DN
+
 ~~~~
-{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Assumed Network"}
+{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Network Model with Distributed UPFs"}
 
-LOC-node is a node which has a locator and forwards packets to appropriate
-destination based on looking up of destination ID. It is defined as xTR in LISP,
-and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
-NF in dDN) and their bineded Locators which each ID is connected.
 
 ## Service and Session Continuity Modes
 
