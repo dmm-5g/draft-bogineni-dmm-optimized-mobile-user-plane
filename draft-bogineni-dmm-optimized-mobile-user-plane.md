@@ -1893,7 +1893,7 @@ UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, 
 diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
 (e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
 
-The architecture is shown in {{fig_5GS-IDLOC-Coexist-Arch}}.
+The architecture is shown in {{fig_ID-Loc-5G-3}}.
 
 <!-- was: {{fig_Overview-ID-LOC-with-Low-Impact}} -->
 
@@ -1923,7 +1923,7 @@ The architecture is shown in {{fig_5GS-IDLOC-Coexist-Arch}}.
                              MS : Mapping System 
                    ID-LOC UP/CP : ID-LOC User Plane/Control Plane
 ~~~~
-{: #ffig_ID-Loc-5G-3 title="Architecture of 5GS and ID-LOC Coexistence"}
+{: #fig_ID-Loc-5G-3 title="Architecture of 5GS and ID-LOC Coexistence"}
 
 
 Coexistence approach allows to use GTP-U or any other forwarding protocol described in this document as user
