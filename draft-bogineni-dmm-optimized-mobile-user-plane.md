@@ -949,8 +949,81 @@ In the 5G system, a single tunnel/data-path includes multiple QFIs contrast to j
 
 User plane protocol needs to support fundamentally these requirements.
 In addition, {{I-D.hmm-dmm-5g-uplane-analysis}} provides evaluation aspects for 
-user plane protocol that are mainly derived from the architectural requirements.
-They would be help for comparison of candidate protocols.
+user plane protocol that are mainly derived from the architectural requirements,
+and they are described below:
+
+- Supporting PDU Session Type Variations: 
+
+   Given that UP protocol is required to support all PDU session types:
+   IPv4, IPv6, Ethernet, and Unstructured. However, it is expected that
+   some deployment cases allow candidate protocol to adopt only one or
+   few PDU session type(s) for simplicity of operations. As we can
+   expect that IPv4 connectivity services will be available through
+   IPv6-only PDU session that enabled by bunch of IPv6 transition
+   solutions already available in the field.
+
+- Nature of Data Path: 
+
+   The single PDU session multi-homing case requires multipoint-to-point (MP2P) data
+   path. It should be much scalable than multi-homing with multiple PDU
+   sessions because number of required path states in the UPFs are
+   reduced as closed to egress endpoint.
+ 
+- Supporting Transport Variations:
+
+   5G system will be expected that the new radio spectrums in high frequency 
+   bands require operators to deploy their base stations much dense for much
+   wider areas compare to previous generation footprints. To make sure that
+   density and coverage, all available types of transport in the field
+   must be employed between RAN to UPF, or UPF to UPF.
+   
+   It is also expected that MTU size of each transport could be varied.
+   Because one could be own fiber which the operator configure the MTU
+   size as they like while others are third-party provided L2/L3 VPN
+   lines which MTU size can't be controlled by the operators. So it is 
+   recommended MTU size discovery for each data path 
+   and dynamic MTU size adjustment mechanisms, while GTP-U does not 
+   support those mechanisms.
+
+- Data Path Management:
+
+    In the 5G network, UPFs may be deployed distributedly, and UPFs which a data path traverses may vary 
+    for UPF's load balancing or depending on service scenarios. In other words, UPF may be required to 
+    connect a tunnel to another UPF dynamically, and the number of tunnels among UPFs would be large.
+
+    From these reasons, UP protocol would be required to be session-less or allow to aggregate several PDU sessions to 
+    a single tunnel for reducing the number of tunnels. Tunnel aggregation may require UP protocol to support 
+    multipoint-to-point tunneling. 
+
+- QoS Control:
+
+   The 5G QoS model is based on QoS Flows, and a QFI is used to identify a QoS Flow. The 5G system has 
+   an assumption that QFI is carried in an encapsulation header on N3 and N9. Moreover, UPFs optionally 
+   support QoS marking on transport headers (e.g., DSCP of IP header or CoS of Ethernet header) depending 
+   on QFI.
+   
+   Given that UP protocol is required to convey QFI on N3 and N9 interfaces. In terms of performance on hardware processes, 
+   it is better to fix the place where QFI is contained. Moreover, for improving hardware processes 
+   it may be better to content QFI value in a field of outer transporting header, such as a part of 
+   destination IP address field.
+   
+- Traffic Detection and Flow Handling
+   In the 5G network, there are cases that a PDU session traverses multiple UPFs. A UPF detects PDU session 
+   based on Traffic Detect Information, and enforce some processes to the PDU based on the pre-configured 
+   policy rule.
+   
+   For avoiding such redundant traffic detection, it may be better that UP protocol supports to convey optional 
+   information such as policy rules in the pre-defined place and share with multiple UPFs.
+
+-  Supporting Network Slicing Diversity:
+
+     a network slice is composed of UPFs belonging to the slice while a slice would share 
+     the physical resources with others. underlay transport network of UP and UPFs are 
+     shared with other network slices on the same networks.
+     
+     UP protocol might be required to supports to convey some optional information 
+     including forwarding policy and slice identifier as the appropriate format for 
+     under transport network or other functions.    
 
 For each protocol, we will attempt in the next section to discuss to what extent
 those architectural requirements are addressed.  However, it is worth noticing
