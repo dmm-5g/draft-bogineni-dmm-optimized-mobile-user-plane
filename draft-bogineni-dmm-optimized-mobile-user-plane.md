@@ -844,7 +844,7 @@ within a single PDU Session.
 ~~~~
 {: #fig_3GPP-5GS-Access2DN title="Non-roaming 5G System Architecture for Current Access to Two (e.g. local and central) Data Networks (single PDU Session option"}
 
-{{fig_Overview-5GS-IDLOC-Coexist-Network}}
+{{fig_Overview-Network-with-dUPF}}
 depicts overview of a network model where multiple UPFs are distributed geographically. Such networks have two types of UPFs:
 central UPF deployed for covering wide area, and local/distributed UPF deployed close to UEs' access points.　
 UPFs are connected via N9 interfaces over transport network.
@@ -892,7 +892,7 @@ UPFs are connected via N9 interfaces over transport network.
                                              cDN: Central DN
 
 ~~~~
-{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Network Model with Distributed UPFs"}
+{: #fig_Overview-Network-with-dUPF title="Overview of Network Model with Distributed UPFs"}
 
 
 ## Service and Session Continuity Modes
@@ -949,8 +949,9 @@ In the 5G system, a single tunnel/data-path includes multiple QFIs contrast to j
 
 User plane protocol needs to support fundamentally these requirements.
 In addition, {{I-D.hmm-dmm-5g-uplane-analysis}} provides evaluation aspects for 
-user plane protocol that are mainly derived from the architectural requirements.
-They would be help for comparison of candidate protocols.
+user plane protocol that are mainly derived from the architectural requirements,
+such as Supporting PDU Session Type Variations, Nature of Data Path, Data Path Management, 
+etc. The details are described in {{I-D.hmm-dmm-5g-uplane-analysis}}.
 
 For each protocol, we will attempt in the next section to discuss to what extent
 those architectural requirements are addressed.  However, it is worth noticing
@@ -1277,6 +1278,25 @@ ID-LOC architecture relies on high performance mapping systems. Distributed
 mapping systems using some form Distributed Hash Table(DHT) exhibit very
 promising results. But further investigation is required to ensure mobility
 requirements in mobile data plane.
+
+### Architecture requirements compliance
+
+Section 4 identifies some architectural requirements. The following table
+summarizes the support for each one of these:
+
+~~~~
+                  +-----------------------------------------------------+
+                  |                       SRv6                          |
++-----------------+-----------------------------------------------------+
+| R1-PDU-TYPES    | Supported (all of them)                             |
+| R2-IP-N3-N6-N9  | Supported                                           |
+| R3-MULTIHOMING  | Supported + Tight-integration with SR-transport     |
+| R4-UPF-SELECT   | Supported                                           |
+| R5-UPF-LIMIT    | Supported                                           |
+| R6-QFI          | Supported                                           |
++-----------------+-----------------------------------------------------+
+~~~~
+{: #fig-req-srv6 title="Summary of architectural requirement support for SRv6"}
 
 ## LISP {#sec-lisp}
 
@@ -1890,31 +1910,38 @@ ID-LOC protocol will completely replace GTP in the N9 interface.
 ~~~~
 {: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
 
-#### Overview of the Low Impact Approach
+Finally, another aspect to consider when integrating the ID-LOC architecture 
+into the 5G framework is that the Mapping System needs to contain the 
+appropriate ID-LOC mappings in coordination with the SMF. In order to do 
+so, the mappings in the Mapping System are populated either by the SMF 
+directly or by the LOC-nodes that should be in synch with the SMF. In 
+the former case, an interface from the SMF to the Mapping System is needed 
+(as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
+
+
+#### Overview of 5GS and ID-LOC Coexistence Approach
 
 ID-Locator separation architecture can be implemented by control plane of a
 dedicated protocol such as LISP, ILA, etc., however, it may cause major
-impact to the specifications of 3GPP 5GS. This approach, described in
+impact to the specifications of 3GPP 5GS. The approach, described in
 {{?I-D.homma-dmm-5gs-id-loc-coexistence}}, enables to introduce such ID-Locator
 separation protocols into 5GS with no or low impacts. It would also support a
 migration path toward a network which an ID-Locator separation protocol is
 completely incorporated.
 
 This approach establishes an individual domain/slice in which an ID-Locator
-separation protocol works as packet forwarding mechanism, and divert appropriate
-packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed
-UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it
+
+separation protocol works as packet forwarding mechanism, and divert the appropriate
+packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed 
+UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it 
 diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
 (e.g., packets for Internet access) are forwarded with GTP-U via N9 interface.
 
-The architecture and an overview of assumed network model are
-shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Network}}.
-
-<!-- was: {{fig_Overview-ID-LOC-with-Low-Impact}} -->
+The architecture is shown in {{fig_ID-Loc-5G-3}}.
 
 ~~~~
             +-----------------------------+
-            |              SMF            +--------------+
+            |              SMF            +<-------------+
             +--+----------------------+---+              |
                N4                     N4                 |
                |                      |                  |
@@ -1922,36 +1949,33 @@ shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Net
  ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
             |[ULCL]|               |      |    |     |   |
             +--+---+               +------+    +-----+   |
-               |                                         |
+               |                                       Synch
                N6                                        |
            . . | . . . . . . . . . . . . . .             |
  +-----+  . +--+---+                        .            |
  | dDN +-N6-+ LOC- +--ID-LOC UP--           .            |
  |     |  . | Node |               +-----+  .            |
- +-----+  . |      +--ID-LOC CP----+ MS  +---------------+
+ +-----+  . |      +--ID-LOC CP----+ MS  +<--------------+
           . +------+               +-----+  .
            . . . . . . . . . . . . . . . . .
                     ID-LOC Domain
-
-           dUPF/cUPF: Distributed/Central UPF
+        
+                       dUPF/cUPF: Distributed/Central UPF
                         dDN/cDN : Distributed/Central DN
-           MS : Mapping System
-       ID-LOC UP/CP : ID-LOC User Plane/Control Plane
+                             MS : Mapping System 
+                   ID-LOC UP/CP : ID-LOC User Plane/Control Plane
+
 ~~~~
-{: #fig_5GS-IDLOC-Coexist-Arch title="Architecture of 5GS and ID-LOC Coexistence"}
+{: #fig_ID-Loc-5G-3 title="Architecture of 5GS and ID-LOC Coexistence"}
 
 
-#### User Plane
-
-GTP-U or any forwarding protocol described in this document can be used as user
-plane mechanism of this approach. However, each LOC-Node must be connected to
-the all other LOC-Nodes and thus it may cause complexity of path management if
+Coexistence approach allows to use GTP-U or any other forwarding protocol described in this document as user
+plane mechanism. However, each LOC-Node must be connected to
+the all other LOC-Nodes, and thus it may cause complexity of path management if
 you use a protocol which needs session establishment.
 
-#### Control Plane
-
-A control plane of every dedicated ID-Locator separation protocol described in
-this document can be used for this approach. For management of mobility of UEs
+Regarding to control plane of this approach, every dedicated ID-Locator separation protocol described in
+this document can be used. For management of mobility of UEs
 in ID-Locator separation domain, some cooperation between SMF and mapping system
 is needed. In this approach, a UE is attached to a LOC-Node only when it
 communicates to another UE or an NF in a dDN. In 5GS, SMF manages sessions, and
@@ -1960,23 +1984,14 @@ another UPF or an NF is moved to another dDN. The impact caused by such
 cooperation can be reduced by using Naf interface which is defined in 5GS
 specifications.
 
-#### Features
-
 This approach provides a mechanism for introducing ID-Locator separation
 architecture into 5GS with no or nominal impact, and achieves optimization of
 forwarding path and session continuity. Moreover, this can keep scalability on
 forwarding on down link from cDN/Internet because it can use the current
 GTP-based mechanism.
 
-On the other hand, this approach causes an extra hop when diverting packets to
+Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
-Finally, another aspect to consider when integrating the ID-LOC architecture
-into the 5G framework is that the Mapping System needs to contain the
-appropriate ID-LOC mappings in coordination with the SMF. In order to do
-so, the mappings in the Mapping System are populated either by the SMF
-directly or by the ID-LOC nodes that should be in synch with the SMF. In
-the former case, an interface from the SMF to the Mapping System is needed
-(as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
 
 ### LISP Control-Plane
 
