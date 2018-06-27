@@ -1351,6 +1351,25 @@ mapping systems using some form Distributed Hash Table(DHT) exhibit very
 promising results. But further investigation is required to ensure mobility
 requirements in mobile data plane.
 
+### Architecture requirements compliance
+
+Section 4 identifies some architectural requirements. The following table
+summarizes the support for each one of these:
+
+~~~~
+                  +-----------------------------------------------------+
+                  |                       SRv6                          |
++-----------------+-----------------------------------------------------+
+| R1-PDU-TYPES    | Supported (all of them)                             |
+| R2-IP-N3-N6-N9  | Supported                                           |
+| R3-MULTIHOMING  | Supported + Tight-integration with SR-transport     |
+| R4-UPF-SELECT   | Supported                                           |
+| R5-UPF-LIMIT    | Supported                                           |
+| R6-QFI          | Supported                                           |
++-----------------+-----------------------------------------------------+
+~~~~
+{: #fig-req-srv6 title="Summary of architectural requirement support for SRv6"}
+
 ## LISP {#sec-lisp}
 
 ### Overview
