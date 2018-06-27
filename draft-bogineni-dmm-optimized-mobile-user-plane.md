@@ -143,8 +143,7 @@ informative:
   CICN:
     title: CICN project
     author:
-    -
-      ins: Linux Foundation fd.io
+      - org: Linux Foundation fd.io
     date: 2018
   ILAKERNEL:
     title: TODO
