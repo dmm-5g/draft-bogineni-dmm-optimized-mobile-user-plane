@@ -169,15 +169,31 @@ several combinations of control plane and user plane protocols.
 --- middle
 
 # Introduction
-
-The 15th release of the 3GPP specifications has delivered the first set of 5G
-standards as {{TS.23.501-3GPP}} and {{TS.23.502-3GPP}}. They come with
+ 
+Release 15 of the 3GPP specifications provide the 5G System Architecture
+in [TS.23.501-3GPP], [TS.23.502-3GPP], and [TS.23.503-3GPP].They come with
 significant changes to the radio and core architectures with respect to previous
 generations, with the objective of enabling new use case requirements expected
 from 5G networks. The data plane is however still based on GTP-U, and tunnelling
 user-traffic to anchor points in the core network.
 
-## Problem statement
+3GPP CT4 is in charge of specifying the user plane interface named N9, and 
+has approved a study item {{CP-173160-1}} to study possible candidates for user 
+plane protocol for the 5GC.
+
+This document comprehensively describes the various user plane protocols and 
+how they can be used in the 3GPP 5G architecture. Specifically Segment Routing 
+v6 (SRv6), Locator Identifier Separation Protocol (LISP), Identifier Locator 
+Addressing (ILA) and Hybrid Information-Centric Networking (hICN) are introduced 
+and their use as replacement of GTP for N9 is further described.
+
+Meanwhile, analysis work for clarifying the specifications of GTP-U as the 
+current mobile user plane protocol and the architectural requirements of the
+5G system is proceeded in {{I-D.hmm-dmm-5g-uplane-analysis}}. That provides 
+observations of GTP-U, the architectural requirements for UP protocol, and 
+some evaluation criteria based on the requirements.
+
+## Scope of 3GPP Study Items
 
 3GPP CT4 WG has approved a Release 16 study item {{CT4SID}} to study user-plane
 protocol for N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and
@@ -206,7 +222,7 @@ The work in SA2 Study item (3GPP SP-180231) will:
 - Study the feasibility of extending the service concept from 5GC control plane to the user plane function(s)
 NOTE: Impact to User plane traffic processing is not expected in this study.
 
-## Scope of control plane and user plane considerations
+## Relevance to IETF
 
 IETF has some protocols for potential consideration as candidates. These
 protocols have the potential to simplify the architecture through
@@ -226,15 +242,6 @@ transport; support for different mobility protocols on different slices of the
 5G system, etc.
 
 Each protocol provides a self evaluation as compared to GTP.
-
-## Objective
-
-The objective of this draft is to propose a set of candidate protocols for
-possible replacement of GTP-U at N9 interface.  This section first reviews a
-list of architectural requirements that candidate solution should address,
-before reviewing the main motivations for replacement that emerge from the
-different proposals. We conclude on an overview on GTP-U usage in the 5G
-architecture beyond N9; such aspects will be discussed in Section 7.
 
 ## Rationale for GTP replacement
 
@@ -278,16 +285,36 @@ proposals.
 
 ## Usage of GTP
 
-The main objective of the present document is to provide an overview of
-candidate approaches for GTP replacement.  Following 3GPP study item, the main
-focus of the study is on the N9 interfaces, that interconnect UPFs and spans
-over the mobile backhaul.  However, GTP is used at multiple interfaces beyond
+Following 3GPP study item, the main
+focus of the study is on the N9 interfaces, that interconnect UPFs and could
+span over the mobile backhaul.  However, GTP is used at multiple interfaces beyond
 N9.
 
 N3 and N9 interfaces are tightly coupled and we will discuss in
 {{sec-alt}} the possibility to extend the deployment of new data planes
-to N3. The impact on other interfaces is still TBD.
+to N3. The impact on N3, F1-U, and XN-U interfaces is still TBD.
 
+## Document Structure
+
+This draft provides a high level overview of the 5G system architecture
+and the relevant scenarios like roaming, support fo multiple PDU sessions, etc.
+A list of architectural requirements that candidate solutions should address 
+are provided. An overview of the various protocols and how they can be used 
+in the 3GPP 5G architecture is provided.  Details of the
+protocols are provided as references in the respective sections.
+Specifically Segment Routing v6 (SRv6), Locator Identifier Separation
+Protocol (LISP) and Identifier Locator Addressing (ILA) are described
+in the context of the 3GPP 5G architecture.  ILNP is an end-to-end
+protocol and is not included in this document.  The scenario of
+replacing GTP on N9 as the focus of CT4 study is discussed for each
+protocol.  Additional scenarios are related to N3/F1-U; integration
+of mobility with transport; support for different mobility protocols
+on different slices of the 5G system, etc.
+
+Each protocol provides a self evaluation as compared to GTP.
+
+Extending user plane protocols to other interfaces in 5G architecture
+are discussed in Section 7.
 
 # Conventions and terminology
 
@@ -307,7 +334,22 @@ a statement using the key words listed above. This convention aids reviewers in
 quickly identifying or finding the portions of this RFC covered by these
 keywords.
 
-Placeholder acronyms/terminology.
+Acronyms
+AUSF: Authentication Server Function
+AMF: Access and Mobility Management Function
+DN: Data Network, e.g. operator services, Internet access or 3rd party services
+NEF: Network Exposure Function
+NRF: Network Repository Function
+NSSF: Network Slice Selection Function
+PCF: Policy Control Function
+SMF: Session Management Function
+UDM: Unified Data Management
+UDR: Unified Data Repository
+UPF: User Plane Function
+AF: Application Function
+UE: User Equipment
+RAN: (Radio) Access Network
+
 
 # Overview of 3GPP Release 15 5G Architecture 
 
@@ -351,9 +393,34 @@ TS 23.501, and represented in {{fig_3GPP-5GS-in-Reference-Point}} and {{fig_3GPP
 ~~~~
 {: #fig_3GPP-5GS-in-Reference-Point title="5G System Architecture in Reference Point Representation"}
 
+A short description of the network functions is provided below.
 
+Access and Mobility Management Function (AMF) interfaces with the Radio access network and provides
+management of registration/connection/reachability/mobility, access authentication and authorization, 
+etc.
 
-**Some description of the functions needed **
+Session Management function (SMF) handles session management, UE IP address allocation & management, 
+DHCP, ARP proxying, selection and control of UP function, traffic steering, interface to PCF,charging
+data collection, roaming, etc.
+
+User Plane Function (UPF) is the anchor point mobility, packet routing/forwarding/marking, 
+packet inspection, policy rule enforcement, lawful intercept, QoS handling,etc.
+
+Policy Control Function (PCF) provides policy rules to Control Plane function(s) to enforce them.
+
+Network Exposure Function (NEF) supports exposure of capabilities and events between network functions, 
+to 3rd party, Application Functions, Edge Computing, etc. 
+
+Network Repository Function (NRF) supports service discovery function.
+
+Unified Data Management (UDM) supports access authorization, subscription management, etc.
+
+Authentication Server Function (AUSF) supports authentication for 3GPP access and untrusted non-3GPP access.
+
+Network Slice Selection Function (NSSF) selects the set of Network Slice instances serving the UE,
+determines the allowed slices, etc.
+
+Application Function (AF)
 
 ~~~~
                         Service Based Interfaces
@@ -378,6 +445,54 @@ TS 23.501, and represented in {{fig_3GPP-5GS-in-Reference-Point}} and {{fig_3GPP
 ~~~~
 {: #fig_3GPP-5GS-SBA title="5G Service Based Architecture"}
 
+## End-to-end Protocol Stack
+
+The protocol stack for the User Plane transport for a PDU session is depicted
+below in {{fig_Protocol-Stack}}.
+
+~~~~
+   +-----+                     |                       |          |
+   | App +---------------------|-----------------------|----------|
+   +-----+                     |                       | +------+ |
+   | PDU +---------------------|-----------------------|-+ PDU  | |
+   +-----+  +---------------+  |  +-----------------+  | +------+ |
+   |     |  |\             /|  |  |\               /|  | |      | |
+   |     |  |  \  Relay  /  |  |  |  \    Relay  /  |  | |      | |
+   |     |  |    \     /    |  |  |    \       /    |  | |5G UP | |
+   | AN  |  |     --+--     |  |  |     ---+---     |  | | Enc  | |
+   | Pro |  |AN Pro | GTP-U +--|--+ GTP-U  |5GUP Enc+--|-+      | |
+   | Lyrs|  | Lyrs  +-------+  |  +--------+--------+  | +------+ |
+   |     +--+       |UDP/IP +--|--+ UDP/IP | UDP/IP +--|-+UDP/IP| |
+   |     |  |       +-------+  |  +--------+--------+  | +------+ |
+   |     |  |       |  L2   +--|--+  L2    |   L2   +--|-+  L2  | |
+   |     |  |       +-------+  |  +--------+--------+  | +------+ |
+   |     |  |       |  L1   +--|--+  L1    |   L1   +--|-+  L1  | |
+   +-----+  +-------+-------+  |  +--------+--------+  | +------+ |
+     UE            AN          N3         UPF        N9          N6
+                                                             UPF
+                                                    (PDU Session Anchor)
+
+
+   Legend:
+   o PDU layer: This layer corresponds to the PDU carried between the UE
+       and the DN over the PDU session. When the PDU session Type is
+       IPV6, it corresponds to IPv6 packets; When the PDU session Type
+       is Ethernet, it corresponds to Ethernet frames; etc.
+   o GPRS Tunnelling Protocol for the user plane (GTP U): This protocol
+       supports multiplexing traffic of different PDU sessions (possibly
+       corresponding to different PDU session Types) by tunnelling user
+       data over N3 (i.e. between the AN node and the UPF) in the
+       backbone network. GTP shall encapsulate all end user PDUs. It
+       provides encapsulation on a per PDU session level. This layer
+       carries also the marking associated with a QoS Flow.
+   o 5G Encapsulation: This layer supports multiplexing traffic of
+       different PDU sessions (possibly corresponding to different PDU
+       session Types) over N9 (i.e. between different UPF of the 5GC).
+       It provides encapsulation on a per PDU session level. This layer
+       carries also the marking associated with a QoS Flow.
+~~~~
+{: #fig_Protocol-Stack title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface}
+
 This document focuses on the N9 interface which represents the user data plane
 between UPFs in 5G architecture. {{fig_3GPP-5GS-N9}} shows the relevant
 functions and interfaces.
@@ -394,193 +509,6 @@ functions and interfaces.
       +-----------+        +--------+         +--------+        +----+
 ~~~~
 {: #fig_3GPP-5GS-N9 title="N3, N4, N9, and N6 interfaces in 5G Service Based Architecture"}
-
-## Roaming Architectures
-
-3GPP specifies two roaming models, namely the Local Break Out (LBO) and the Home
-Routed (HR) model.
-
-- __Local Break Out Model__ :
-
-- __Home Routed Model__ : A given UE can have multiple simultaneous PDU sessions
-with different roaming model. In these scenarios, the HPLMN uses subscription
-data per Data Netwrok Name(DNN) and per Single Network Slice Selection
-Assistance Information(S-NSSAI) to determine PDU sessions's roaming model.
-
-They are represented in {{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}}.
-
-~~~~
-                                   VPLMN      |     HPLMN
-         +-----+         +-------+            |        +-------+
-         | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
-         +-----+         +-------+            |        +-------+
-                             |                |
-                            N7                |
-                             |                |
-                          +--+--+             |
-                          | SMF |             |
-                          +--+--+             |
-                             |                |
-   +-------+                N4                |
-   | 5G UE +                 |                |
-   +---+---+           +-----+--+             |
-       |               |        |             |
-       |   +---+-+   +-+-+    +-+-+  +----+   |
-       +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
-           +-----+   +-+-+    +---+  +----+   |
-~~~~
-{: #fig_3GPP-5GS-Local-Breakout title="Roaming 5G System Architecture - Local Breakout Scenario"}
-
-~~~~
-                              VPLMN   |      HPLMN
-                        +-------+     |     +-------+        +-----+
-                        | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
-                        +-------+     |     +-------+        +-----+
-                                      |         |
-                                      |        N7
-                                      |         |
-                         +--+--+      |      +--+--+
-                         |V-SMF|      |      |H-SMF|
-                         +--+--+      |      +--+--+
-                            |         |         |
-   +-------+                |         |         |
-   | 5G UE |                |         |         |
-   +---+---+               N4         |         N4
-       |                    |         |         |
-       |     +-+---+     +--+--+      |      +--+--+      +----+
-       +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
-             +-----+     +--+--+      |      +-----+      +----+
-~~~~
-{: #fig_3GPP-5GS-Home-Routed title="Roaming 5G System Architecture- Home Routed Scenario"}
-
-## Roaming and policy management
-
-In general, the Policy Control Functions (PCF)s in Home PLMN (HPLMN) and Visited
-PLMN (VPLMN) interact with their respective SMFs as well as one another to
-support roaming.
-
-The interface between the PCF and SMF allows the PCF to have dynamic control
-over policy and charging desicions at SMF.  More specifically, the interface
-
-- Enables the SMF to establish PDU session,
-- Allows policy and charging control decisions to be requested from the SMF to
-  the PCF direction or to be provisioned from the opposite direction.
-- Provides a mean for SMF to deliver network events and PDU session
-  parameters to PCF.
-- Provides for PDU session termination at either PCF or SMF end.
-
-The N24 interface betweeen V-PCF and H-PCF provides a communication path between
-these two entities. The interface enables H-PCF to provision access and
-mobility management related policies to V-PCF, and allows V-PCF to send Policy
-Association Establishmenent and Termination requests to H-PCF during UE
-registration and deregistration procedures.
-
-__LBO model__
-
-In the LBO model, visited operator routes user traffic locally through UPFs that
-are local to the visted operator. In this model, the SMF and all UPF(s)
-involved by the PDU Session are located and are under the control of the VPLMN.
-
-In this model, the V-PCF generates Policy and Charging Control (PCC) rules from
-the local configuration data that are based on the roaming agreement with the
-HPLMN.  THe V-PCF might also use information from Application Function(AF) to
-generate PCC rules for VPLMN delivered services.  Here, the H-PCF uses the N24
-interface to deliver UE access selection, and PDU session selection policies to
-the V-PCF. The V-PCF can either provide access and mobility policy information
-on its own, or alternatively obtain the required information from the H-PCF via
-the N24 interface.
-
-__HR model__
-
-In the HR model, user traffic is routed to the UPF in HPLMN via the UPF in the
-visited network. In this scenario, the SMF in HPLMN (H-SMF) selects the UPF(s)
-in the HPLMN and the SMF in VPLMN(V-SMF) selects the UPF(s) in the VPLMN.  In
-this model, the UE obtains services from its home network.  Here, the UPF acting
-as PGW resides in home network, and can directly communicate with policy and
-billing system.
-
-In the HR roaming model:
-
-- The NAS SM terminates at the V-SMF.
-- The V-SMF forwards SM related informaton to the SMF in the HPLMN.
-- The V-SMF sends UE's Subscription Permanent Identifier(SUPI) to the H-SMF
-  during the PDU session establishment procedure.
-- The V-SMF sends the PDU Session Establishment Request message to the H-SMF
-  along with the S-NSSAI with the value from the HPLMN.
-- The H-SMF obtains subscription data directly from the Unified Data
-  Management(UDM) and is responsible for checking the UE request with regard to
-  the user subscription, and may reject the request in case of mismatch.
-- The H-SMF may send QoS requirements associated with a PDU Session to the
-  V-SMF. This may happen at PDU Session establishment and after the PDU Session
-  is established. The interface between H-SMF and V-SMF is also able to carry
-  (N9) User Plane forwarding information exchanged between H-SMF and V-SMF.  The
-  V-SMF may check QoS requests from the H-SMF with respect to roaming
-  agreements.At the data plane, the ecapsulation header carries QoS flow ID
-  (QFI) over N3, and N9 without any changes to the end to end packet header.
-- The AMF selects a V-SMF and a H-SMF, and provides the identifier of the
-  selected H-SMF to the selected V-SMF.
-- The H-SMF performs IP address management procedure based on the selected PDU
-  session type.
-
-## Support for Multiple PDU Sessions
-
-{{fig_3GPP-5GS-Multi-PDU-Sessions-SBI}} depicts the non-roaming architecture for
-UEs concurrently accessing two (e.g. local and central) data networks using
-multiple PDU Sessions, using the reference point representation. This figure
-shows the architecture for multiple PDU Sessions where two SMFs are selected for
-the two different PDU Sessions. However, each SMF may also have the capability
-to control both a local and a central UPF within a PDU Session.
-
-~~~~
-                        Service Based Interfaces
-    ---------+------------+------------------+----------------------
-                          |                  |
-                       +--+--+            +--+--+
-                       | SMF |            | SMF |
-                       +--+--+            +--+--+
-                          |                  |
-   +-------+             N4                 N4
-   | 5G UE |              |                  |
-   +---+---+           +--+--+    +----+     +-----------+
-       |           +---| UPF |----| DN |     |           |
-       |           |   +-----+    +----+     |           |
-       |     +-+---+-+                    +--+--+     +--+--+  +----+
-       +-----|  gNB  |--------------------| UPF |--N9-| UPF |--| DN |
-             +-------+                    +-----+     +-----+  +----+
-~~~~
-{: #fig_3GPP-5GS-Multi-PDU-Sessions-SBI title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface"}
-
-{{fig_3GPP-5GS-Access2DN}} depicts the non-roaming architecture in case
-concurrent access to two (e.g. local and central) data networks is provided
-within a single PDU Session.
-
-~~~~
-                        Service Based Interfaces
-    ---------+-----------------------+-----------------------
-                                     |
-                                  +--+--+
-                                  | SMF |
-                                  +--+--+
-                                     |
-   +-------+                  +------+-------+
-   | 5G UE |                  |              |
-   +---+---+                  N4             N4
-       |     +-+---+       +--+--+        +--+--+    +----+
-       +-----| gNB |-------| UPF |----N9--| UPF |----| DN |
-             +-----+       +--+--+        +-----+    +----+
-                              |
-                           +--+--+
-                           |  DN |
-                           +-----+
-~~~~
-{: #fig_3GPP-5GS-Access2DN title="Non-roaming 5G System Architecture for Current Access to Two (e.g. local and central) Data Networks (single PDU Session option"}
-
-
-## Service and Session Continuity Modes
-
-- SSC Mode 1
-- SSC Mode 2
-- SSC Mode 3
 
 ## User Plane Function (UPF) Functionalities
 
@@ -713,56 +641,251 @@ subclause 7.3.2.  This would allow to not impact the RNL if in a future release
 a new transport network layer (TNL) other than GTP-U/UDP/IP (e.g. GRE/IP) was
 decided to be supported.
 
-## End-to-end Protocol Stack
+## Roaming Architectures
 
-The protocol stack for the User Plane transport for a PDU session is depicted
-below in {{fig_Protocol-Stack}}.
+3GPP specifies two roaming models, namely the Local Break Out (LBO) and the Home
+Routed (HR) model.
+
+- Local Break Out Model: This model enables traffic to be offloaded locally in the visited network.
+
+- Home Routed Model: In this model, the traffic is always routed to the home network.
+
+A given UE can have multiple simultaneous PDU sessions
+with different roaming model. In these scenarios, the HPLMN uses subscription
+data per Data Network Name(DNN) and per Single Network Slice Selection
+Assistance Information(S-NSSAI) to determine PDU sessions's roaming model.
+
+They are represented in {{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}}.
 
 ~~~~
-   +-----+                     |                       |          |
-   | App +---------------------|-----------------------|----------|
-   +-----+                     |                       | +------+ |
-   | PDU +---------------------|-----------------------|-+ PDU  | |
-   +-----+  +---------------+  |  +-----------------+  | +------+ |
-   |     |  |\             /|  |  |\               /|  | |      | |
-   |     |  |  \  Relay  /  |  |  |  \    Relay  /  |  | |      | |
-   |     |  |    \     /    |  |  |    \       /    |  | |5G UP | |
-   | AN  |  |     --+--     |  |  |     ---+---     |  | | Enc  | |
-   | Pro |  |AN Pro | GTP-U +--|--+ GTP-U  |5GUP Enc+--|-+      | |
-   | Lyrs|  | Lyrs  +-------+  |  +--------+--------+  | +------+ |
-   |     +--+       |UDP/IP +--|--+ UDP/IP | UDP/IP +--|-+UDP/IP| |
-   |     |  |       +-------+  |  +--------+--------+  | +------+ |
-   |     |  |       |  L2   +--|--+  L2    |   L2   +--|-+  L2  | |
-   |     |  |       +-------+  |  +--------+--------+  | +------+ |
-   |     |  |       |  L1   +--|--+  L1    |   L1   +--|-+  L1  | |
-   +-----+  +-------+-------+  |  +--------+--------+  | +------+ |
-     UE            AN          N3         UPF        N9          N6
-                                                             UPF
-                                                    (PDU Session Anchor)
-
-
-   Legend:
-   o PDU layer: This layer corresponds to the PDU carried between the UE
-       and the DN over the PDU session. When the PDU session Type is
-       IPV6, it corresponds to IPv6 packets; When the PDU session Type
-       is Ethernet, it corresponds to Ethernet frames; etc.
-   o GPRS Tunnelling Protocol for the user plane (GTP U): This protocol
-       supports multiplexing traffic of different PDU sessions (possibly
-       corresponding to different PDU session Types) by tunnelling user
-       data over N3 (i.e. between the AN node and the UPF) in the
-       backbone network. GTP shall encapsulate all end user PDUs. It
-       provides encapsulation on a per PDU session level. This layer
-       carries also the marking associated with a QoS Flow.
-   o 5G Encapsulation: This layer supports multiplexing traffic of
-       different PDU sessions (possibly corresponding to different PDU
-       session Types) over N9 (i.e. between different UPF of the 5GC).
-       It provides encapsulation on a per PDU session level. This layer
-       carries also the marking associated with a QoS Flow.
+                                   VPLMN      |     HPLMN
+         +-----+         +-------+            |        +-------+
+         | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
+         +-----+         +-------+            |        +-------+
+                             |                |
+                            N7                |
+                             |                |
+                          +--+--+             |
+                          | SMF |             |
+                          +--+--+             |
+                             |                |
+   +-------+                N4                |
+   | 5G UE +                 |                |
+   +---+---+           +-----+--+             |
+       |               |        |             |
+       |   +---+-+   +-+-+    +-+-+  +----+   |
+       +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
+           +-----+   +-+-+    +---+  +----+   |
 ~~~~
-{: #fig_Protocol-Stack title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface}
+{: #fig_3GPP-5GS-Local-Breakout title="Roaming 5G System Architecture - Local Breakout Scenario"}
 
-                                 Figure 8
+~~~~
+           
+                              VPLMN   |      HPLMN
+               --------------------  N32 ----------------------------          
+                  |                   |               |
+                  |     +-------+     |     +-------+ |      +-----+
+                  |     | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
+                  |     +-------+     |     +-------+ |      +-----+
+                  |                   |         |     |
+                  |                   |        N7     |
+                  |                   |         |     |
+                  |      +--+--+      |      +--+--+  |
+                  +------|V-SMF|      |      |H-SMF|--+
+                         +--+--+      |      +--+--+
+                            |         |         |
+   +-------+                |         |         |
+   | 5G UE |                |         |         |
+   +---+---+               N4         |         N4
+       |                    |         |         |
+       |     +-+---+     +--+--+      |      +--+--+      +----+
+       +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
+             +-----+     +--+--+      |      +-----+      +----+
+~~~~
+{: #fig_3GPP-5GS-Home-Routed title="Roaming 5G System Architecture- Home Routed Scenario"}
 
+## Roaming and policy management
+
+In general, the Policy Control Functions (PCF)s in Home PLMN (HPLMN) and Visited
+PLMN (VPLMN) interact with their respective SMFs as well as one another to
+support roaming.
+
+The interface between the PCF and SMF allows the PCF to have dynamic control
+over policy and charging desicions at SMF.  More specifically, the interface
+
+- Enables the SMF to establish PDU session,
+- Allows policy and charging control decisions to be requested from the SMF to
+  the PCF direction or to be provisioned from the opposite direction.
+- Provides a mean for SMF to deliver network events and PDU session
+  parameters to PCF.
+- Provides for PDU session termination at either PCF or SMF end.
+
+The N24 interface betweeen V-PCF and H-PCF provides a communication path between
+these two entities. The interface enables H-PCF to provision access and
+mobility management related policies to V-PCF, and allows V-PCF to send Policy
+Association Establishmenent and Termination requests to H-PCF during UE
+registration and deregistration procedures.
+
+__LBO model__
+
+In the LBO model, visited operator routes user traffic locally through UPFs that
+are local to the visited operator. In this model, the SMF and all UPF(s)
+involved by the PDU Session are located and are under the control of the VPLMN.
+
+In this model, the V-PCF generates Policy and Charging Control (PCC) rules from
+the local configuration data that are based on the roaming agreement with the
+HPLMN.  The V-PCF might also use information from Application Function(AF) to
+generate PCC rules for VPLMN delivered services.  Here, the H-PCF uses the N24
+interface to deliver UE access selection, and PDU session selection policies to
+the V-PCF. The V-PCF can either provide access and mobility policy information
+on its own, or alternatively obtain the required information from the H-PCF via
+the N24 interface.
+
+__HR model__
+
+In the HR model, user traffic is routed to the UPF in HPLMN via the UPF in the
+visited network. In this scenario, the SMF in HPLMN (H-SMF) selects the UPF(s)
+in the HPLMN and the SMF in VPLMN(V-SMF) selects the UPF(s) in the VPLMN.  In
+this model, the UE obtains services from its home network.  Here, the UPF acting
+as PGW resides in home network, and can directly communicate with policy and
+billing system.
+
+In the HR roaming model:
+
+- The NAS SM terminates at the V-SMF.
+- The V-SMF forwards SM related informaton to the SMF in the HPLMN.
+- The V-SMF sends UE's Subscription Permanent Identifier(SUPI) to the H-SMF
+  during the PDU session establishment procedure.
+- The V-SMF sends the PDU Session Establishment Request message to the H-SMF
+  along with the S-NSSAI with the value from the HPLMN.
+- The H-SMF obtains subscription data directly from the Unified Data
+  Management(UDM) and is responsible for checking the UE request with regard to
+  the user subscription, and may reject the request in case of mismatch.
+- The H-SMF may send QoS requirements associated with a PDU Session to the
+  V-SMF. This may happen at PDU Session establishment and after the PDU Session
+  is established. The interface between H-SMF and V-SMF is also able to carry
+  (N9) User Plane forwarding information exchanged between H-SMF and V-SMF.  The
+  V-SMF may check QoS requests from the H-SMF with respect to roaming
+  agreements.At the data plane, the ecapsulation header carries QoS flow ID
+  (QFI) over N3, and N9 without any changes to the end to end packet header.
+- The AMF selects a V-SMF and a H-SMF, and provides the identifier of the
+  selected H-SMF to the selected V-SMF.
+- The H-SMF performs IP address management procedure based on the selected PDU
+  session type.
+
+## Support for Multiple PDU Sessions
+
+{{fig_3GPP-5GS-Multi-PDU-Sessions-SBI}} depicts the non-roaming architecture for
+UEs concurrently accessing two (e.g. local and central) data networks using
+multiple PDU Sessions, using the reference point representation. This figure
+shows the architecture for multiple PDU Sessions where two SMFs are selected for
+the two different PDU Sessions. However, each SMF may also have the capability
+to control both a local and a central UPF within a PDU Session.
+
+~~~~
+                        Service Based Interfaces
+    ---------+------------+------------------+----------------------
+                          |                  |
+                       +--+--+            +--+--+
+                       | SMF |            | SMF |
+                       +--+--+            +--+--+
+                          |                  |
+   +-------+             N4                 N4
+   | 5G UE |              |                  |
+   +---+---+           +--+--+    +----+     +-----------+
+       |           +---| UPF |----| DN |     |           |
+       |           |   +-----+    +----+     |           |
+       |     +-+---+-+                    +--+--+     +--+--+  +----+
+       +-----|  gNB  |--------------------| UPF |--N9-| UPF |--| DN |
+             +-------+                    +-----+     +-----+  +----+
+~~~~
+{: #fig_3GPP-5GS-Multi-PDU-Sessions-SBI title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface"}
+
+{{fig_3GPP-5GS-Access2DN}} depicts the non-roaming architecture in case
+concurrent access to two (e.g. local and central) data networks is provided
+within a single PDU Session.
+
+~~~~
+                        Service Based Interfaces
+    ---------+-----------------------+-----------------------
+                                     |
+                                  +--+--+
+                                  | SMF |
+                                  +--+--+
+                                     |
+   +-------+                  +------+-------+
+   | 5G UE |                  |              |
+   +---+---+                  N4             N4
+       |     +-+---+       +--+--+        +--+--+    +----+
+       +-----| gNB |-------| UPF |----N9--| UPF |----| DN |
+             +-----+       +--+--+        +-----+    +----+
+                              |
+                           +--+--+
+                           |  DN |
+                           +-----+
+~~~~
+{: #fig_3GPP-5GS-Access2DN title="Non-roaming 5G System Architecture for Current Access to Two (e.g. local and central) Data Networks (single PDU Session option"}
+
+
+~~~~
+                      .--.
+                     (    )-.
+                   .'  cDN/  '
+                  (  Internet )
+                   (         -'
+                    '-(     )
+                       '---'
+                         |N6         ,---------.
+                   +-----+-----+     | Mapping |
+                   |   cUPF    |     | System  |
+                   +-----+-----+     `---------'
+                         |N9              .
+ ,-----------------------+----------------.---------.
+/ Transport Network   . . . . . . . . . . . . . . .  \
+|                     .                           .  |
+\                  #===========================#===  /
+ `----+------------#--.-----------+------------#--.-'
+      |N9          #  .           |N9          #  .
++-----+-----+   +-------+   +-----+-----+   +-------+
+|   dUPF#1  |N6 | LOC-  |   |   dUPF#2  |N6 | LOC-  |
+|       [UL]+---+ Node#1|   |       [UL]+---| Node#2|..
+|       [CL]|   |       |   |       [CL]|   |       |
++-----+-----+   +---+---+   +-----+-----+   +---+---+
+      |N3           |             |N3           |
+                 ,-----.                     ,-----.
+   (( o ))      /       \      (( o ))      /       \
+      A         | dDN#A |         A         | dDN#B |
+     /-\  RAN   \       /        /-\  RAN   \       /
+    /-|-\        `-----'        /-|-\        `-----'
+
+      |                           |
+
+   [ UE ] ..                   [ UE ] ..
+
+
+                  dUPF/cUPF: Distributed/Central UPF
+                   dDN/cDN : Distributed/Central DN
+                     ===== : Connection between/among LOC nodes
+                     . . . : IF to Mapping System
+~~~~
+{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Assumed Network"}
+
+LOC-node is a node which has a locator and forwards packets to appropriate
+destination based on looking up of destination ID. It is defined as xTR in LISP,
+and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
+NF in dDN) and their bineded Locators which each ID is connected.
+
+## Service and Session Continuity Modes
+
+The 5G System supports different session and service continuity (SSC) modes.
+SSC mode 1: the network preserves the connectivity service provided to the UE. 
+SSC mode 2: the network may release the connectivity service delivered to the UE and 
+release the corresponding PDU Session. 
+SSC mode 3: changes to the user plane can be visible to the UE, while the network 
+ensures that the UE suffers no loss of connectivity. A connection through new PDU 
+Session Anchor point is established before the previous connection is terminated in 
+order to allow for better service continuity. 
+    
 ## Sections on GTP-U, PFCP for Release 15 and SBI for Release 16
 
 Is there a need for deployment scenarios (to address regarding IPv4/ IPv6
@@ -825,7 +948,6 @@ mechanisms Section 6.6.
 
 The data plane architectures considered for UPF connectivity in mobile packet
 core fall into two categories:
-
 
 1. Interworking model:
     - This model uses GWs.
@@ -1693,13 +1815,32 @@ conveys the TEID and other relevant information into the SRv6 SIDs.
 
 ### ID/Loc split overview
 
-An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.
+An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from 
+their location in the network (LOC). Common ID-LOC architectures are based on two main 
+components, ID-LOC data-plane nodes and an ID-LOC mapping system.
 
-ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses. SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.
+ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane 
+operation. The specific operation that these ID-LOC data-plane nodes perform is based 
+on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane 
+protocols are usually divided in two categories, (1) those that encapsulate ID-based 
+data-plane packets into LOC-based data-plane packets and (2) those that transform the 
+addresses on the data-plane packets from ID-based addresses to LOC-based addresses. 
+SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an 
+example of the latter.
 
-The ID-LOC mapping system is a database that provides mappings of Identity to Location for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC control-plane protocol to make available at the data-plane nodes the ID-LOC mappings that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP and ILAMP, which are discussed later in this section.
+The ID-LOC mapping system is a database that provides mappings of Identity to Location
+for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC 
+control-plane protocol to make available at the data-plane nodes the ID-LOC mappings 
+that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP 
+and ILAMP, which are discussed later in this section.
 
-When integrating ID-LOC architecture into the 5G framework there are several aspects to take into account. One is that the ID-LOC data-plane function needs to be performed in the data-plane path as the packets enter and leave the ID-LOC domain. On option for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC operation on the traffic as it leaves or enters the UPFs (as shown in Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part of the N9 interface along with current GTP. 
+When integrating ID-LOC architecture into the 5G framework there are several aspects 
+to take into account. One is that the ID-LOC data-plane function needs to be performed 
+in the data-plane path as the packets enter and leave the ID-LOC domain. On option 
+for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC 
+operation on the traffic as it leaves or enters the UPFs (as shown in 
+Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part 
+of the N9 interface along with current GTP. 
 
 ~~~~
                                  +----+----+
@@ -1718,7 +1859,11 @@ When integrating ID-LOC architecture into the 5G framework there are several asp
 ~~~~
 {: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
 
-Another option is to implement the ID-LOC data-plane function directly in the UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled UPFs will directly generate packets encapsulated or transformed and will be able to directly process packets encapsulated or transformed. In this case the ID-LOC protocol will completely replace GTP in the N9 interface.
+Another option is to implement the ID-LOC data-plane function directly in the 
+UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled 
+UPFs will directly generate packets encapsulated or transformed and will be 
+able to directly process packets encapsulated or transformed. In this case the 
+ID-LOC protocol will completely replace GTP in the N9 interface.
 
 ~~~~
                                  +----+----+
@@ -1737,27 +1882,134 @@ Another option is to implement the ID-LOC data-plane function directly in the UP
 ~~~~
 {: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
 
-Finally, another aspect to consider when integrating the ID-LOC architecture into the 5G framework is that the Mapping System needs to contain the appropriate ID-LOC mappings in coordination with the SMF. In order to do so, the mappings in the Mapping System are populated either by the SMF directly or by the ID-LOC nodes that should be in synch with the SMF. In the former case, an interface from the SMF to the Mapping System is needed (as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
+#### Overview of the Low Impact Approach
+
+ID-Locator separation architecture can be implemented by control plane of a
+dedicated protocol such as LISP, ILA, etc., however, it may cause major
+impact to the specifications of 3GPP 5GS. This approach, described in
+{{?I-D.homma-dmm-5gs-id-loc-coexistence}}, enables to introduce such ID-Locator
+separation protocols into 5GS with no or low impacts. It would also support a
+migration path toward a network which an ID-Locator separation protocol is
+completely incorporated.
+
+This approach establishes an individual domain/slice in which an ID-Locator
+separation protocol works as packet forwarding mechanism, and divert appropriate
+packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed 
+UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it 
+diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
+(e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
+
+The architecture and an overview of assumed network model are 
+shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Network}}.
+
+<!-- was: {{fig_Overview-ID-LOC-with-Low-Impact}} -->
+
+~~~~
+            +-----------------------------+
+            |              SMF            +--------------+
+            +--+----------------------+---+              |
+               N4                     N4                 |
+               |                      |                  |
+            +--+---+               +--+---+    +-----+   |
+ ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
+            |[ULCL]|               |      |    |     |   |
+            +--+---+               +------+    +-----+   |
+               |                                         |
+               N6                                        |
+           . . | . . . . . . . . . . . . . .             |
+ +-----+  . +--+---+                        .            |
+ | dDN +-N6-+ LOC- +--ID-LOC UP--           .            |
+ |     |  . | Node |               +-----+  .            |
+ +-----+  . |      +--ID-LOC CP----+ MS  +---------------+
+          . +------+               +-----+  .
+           . . . . . . . . . . . . . . . . .
+                    ID-LOC Domain
+        
+           dUPF/cUPF: Distributed/Central UPF
+                        dDN/cDN : Distributed/Central DN
+           MS : Mapping System 
+       ID-LOC UP/CP : ID-LOC User Plane/Control Plane
+~~~~
+{: #fig_5GS-IDLOC-Coexist-Arch title="Architecture of 5GS and ID-LOC Coexistence"}
+
+
+#### User Plane
+
+GTP-U or any forwarding protocol described in this document can be used as user
+plane mechanism of this approach. However, each LOC-Node must be connected to
+the all other LOC-Nodes and thus it may cause complexity of path management if
+you use a protocol which needs session establishment.
+
+#### Control Plane
+
+A control plane of every dedicated ID-Locator separation protocol described in
+this document can be used for this approach. For management of mobility of UEs
+in ID-Locator separation domain, some cooperation between SMF and mapping system
+is needed. In this approach, a UE is attached to a LOC-Node only when it
+communicates to another UE or an NF in a dDN. In 5GS, SMF manages sessions, and
+thus SMF may be required to update mapping database when an UE moves to under
+another UPF or an NF is moved to another dDN. The impact caused by such
+cooperation can be reduced by using Naf interface which is defined in 5GS
+specifications.
+
+#### Features
+
+This approach provides a mechanism for introducing ID-Locator separation
+architecture into 5GS with no or nominal impact, and achieves optimization of
+forwarding path and session continuity. Moreover, this can keep scalability on
+forwarding on down link from cDN/Internet because it can use the current
+GTP-based mechanism.
+
+On the other hand, this approach causes an extra hop when diverting packets to
+ID-Locator separation domain, and it may leads to increase of latency.
+Finally, another aspect to consider when integrating the ID-LOC architecture 
+into the 5G framework is that the Mapping System needs to contain the 
+appropriate ID-LOC mappings in coordination with the SMF. In order to do 
+so, the mappings in the Mapping System are populated either by the SMF 
+directly or by the ID-LOC nodes that should be in synch with the SMF. In 
+the former case, an interface from the SMF to the Mapping System is needed 
+(as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
 
 ### LISP Control-Plane
 
-The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}} is data-plane agnostic and can serve as control-plane for different data-plane protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to register, request, notify and update ID-Loc mappings between ID-LOC data-plane elements and the ID-LOC Mapping System. In the sections below we describe how LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
+The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}} 
+is data-plane agnostic and can serve as control-plane for different data-plane 
+protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to 
+register, request, notify and update ID-Loc mappings between ID-LOC data-plane 
+elements and the ID-LOC Mapping System. In the sections below we describe how 
+LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
 
-It should be noted that the LISP-CP can run over TCP or UDP. The same signaling and logic applies independently of the transport. Additionally, when running over TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}} can be applied.
+It should be noted that the LISP-CP can run over TCP or UDP. The same signaling 
+and logic applies independently of the transport. Additionally, when running over 
+TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}}
+can be applied.
 
 ### LISP-CP for ILA
 
-The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the operation of an ILA data-plane. The required ILA control-plane operations of "request/response" and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered as response to data-plane events.
+The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the 
+operation of an ILA data-plane. The required ILA control-plane operations of "request/response" 
+and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} 
+and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is 
+implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered 
+as response to data-plane events.
 
-Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible to locally derivate it from the endpoint address. These two mapping operations, Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation to obtain the ILA Identifier and associated Locators in a single round of signaling.
+Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible 
+to locally derivate it from the endpoint address. These two mapping operations, 
+Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation 
+to obtain the ILA Identifier and associated Locators in a single round of signaling.
 
-The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
+The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane 
+can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
 
 ### LISP-CP for SRv6
 
-The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
+The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and 
+its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node 
+can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular 
+endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
 
-The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane can be found in [I-D.TBD].
+The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane 
+can be found in [I-D.TBD].
 
 ### ILA control plane
 
@@ -1976,7 +2228,7 @@ LEGEND:
 
 # Alternative deployment options {#sec-alt}
 
-## Extensions to N3 interface
+## Extensions to N3/F1-U/Xn-U interface
 
 Although not strictly the object of study by 3GPP, previous solutions can (and
 would gain to) be extended beyond N9 to cover N3 interface too.
@@ -2032,135 +2284,6 @@ into different architectures.
 
 ### ID/Loc split
 
-#### Overview of the Low Impact Approach
-
-ID-Locator separation architecture can be implemented by control plane of a
-dedicated protocol such as LISP, ILA, etc., however, it may cause major
-impact to the specifications of 3GPP 5GS. This approach, described in
-{{?I-D.homma-dmm-5gs-id-loc-coexistence}}, enables to introduce such ID-Locator
-separation protocols into 5GS with no or low impacts. It would also support a
-migration path toward a network which an ID-Locator separation protocol is
-completely incorporated.
-
-This approach establishes an individual domain/slice in which an ID-Locator
-separation protocol works as packet forwarding mechanism, and divert appropriate
-packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed 
-UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it 
-diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
-(e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
-
-The architecture and an overview of assumed network model are 
-shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Network}}.
-
-<!-- was: {{fig_Overview-ID-LOC-with-Low-Impact}} -->
-
-~~~~
-            +-----------------------------+
-            |              SMF            +--------------+
-            +--+----------------------+---+              |
-               N4                     N4                 |
-               |                      |                  |
-            +--+---+               +--+---+    +-----+   |
- ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
-            |[ULCL]|               |      |    |     |   |
-            +--+---+               +------+    +-----+   |
-               |                                         |
-               N6                                        |
-           . . | . . . . . . . . . . . . . .             |
- +-----+  . +--+---+                        .            |
- | dDN +-N6-+ LOC- +--ID-LOC UP--           .            |
- |     |  . | Node |               +-----+  .            |
- +-----+  . |      +--ID-LOC CP----+ MS  +---------------+
-          . +------+               +-----+  .
-           . . . . . . . . . . . . . . . . .
-                    ID-LOC Domain
-        
-           dUPF/cUPF: Distributed/Central UPF
-                        dDN/cDN : Distributed/Central DN
-           MS : Mapping System 
-       ID-LOC UP/CP : ID-LOC User Plane/Control Plane
-~~~~
-{: #fig_5GS-IDLOC-Coexist-Arch title="Architecture of 5GS and ID-LOC Coexistence"}
-
-
-
-~~~~
-                      .--.
-                     (    )-.
-                   .'  cDN/  '
-                  (  Internet )
-                   (         -'
-                    '-(     )
-                       '---'
-                         |N6         ,---------.
-                   +-----+-----+     | Mapping |
-                   |   cUPF    |     | System  |
-                   +-----+-----+     `---------'
-                         |N9              .
- ,-----------------------+----------------.---------.
-/ Transport Network   . . . . . . . . . . . . . . .  \
-|                     .                           .  |
-\                  #===========================#===  /
- `----+------------#--.-----------+------------#--.-'
-      |N9          #  .           |N9          #  .
-+-----+-----+   +-------+   +-----+-----+   +-------+
-|   dUPF#1  |N6 | LOC-  |   |   dUPF#2  |N6 | LOC-  |
-|       [UL]+---+ Node#1|   |       [UL]+---| Node#2|..
-|       [CL]|   |       |   |       [CL]|   |       |
-+-----+-----+   +---+---+   +-----+-----+   +---+---+
-      |N3           |             |N3           |
-                 ,-----.                     ,-----.
-   (( o ))      /       \      (( o ))      /       \
-      A         | dDN#A |         A         | dDN#B |
-     /-\  RAN   \       /        /-\  RAN   \       /
-    /-|-\        `-----'        /-|-\        `-----'
-
-      |                           |
-
-   [ UE ] ..                   [ UE ] ..
-
-
-                  dUPF/cUPF: Distributed/Central UPF
-                   dDN/cDN : Distributed/Central DN
-                     ===== : Connection between/among LOC nodes
-                     . . . : IF to Mapping System
-~~~~
-{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Assumed Network"}
-
-LOC-node is a node which has a locator and forwards packets to appropriate
-destination based on looking up of destination ID. It is defined as xTR in LISP,
-and defined ILA-Node in ILA. Mapping System manages IDs of end points (e.g., UE,
-NF in dDN) and their bineded Locators which each ID is connected.
-
-#### User Plane
-
-GTP-U or any forwarding protocol described in this document can be used as user
-plane mechanism of this approach. However, each LOC-Node must be connected to
-the all other LOC-Nodes and thus it may cause complexity of path management if
-you use a protocol which needs session establishment.
-
-#### Control Plane
-
-A control plane of every dedicated ID-Locator separation protocol described in
-this document can be used for this approach. For management of mobility of UEs
-in ID-Locator separation domain, some cooperation between SMF and mapping system
-is needed. In this approach, a UE is attached to a LOC-Node only when it
-communicates to another UE or an NF in a dDN. In 5GS, SMF manages sessions, and
-thus SMF may be required to update mapping database when an UE moves to under
-another UPF or an NF is moved to another dDN. The impact caused by such
-cooperation can be reduced by using Naf interface which is defined in 5GS
-specifications.
-
-#### Features
-
-This approach provides a mechanism for introducing ID-Locator separation
-architecture into 5GS with no or nominal impact, and achieves optimization of
-forwarding path and session continuity. Moreover, this can keep scalability on
-forwarding on down link from cDN/Internet because it can use the current
-GTP-based mechanism.
-
-On the other hand, this approach causes an extra hop when diverting packets to
-ID-Locator separation domain, and it may leads to increase of latency.
 
 ### hICN
 
