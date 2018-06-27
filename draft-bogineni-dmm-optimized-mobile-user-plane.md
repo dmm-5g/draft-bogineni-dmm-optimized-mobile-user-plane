@@ -1876,6 +1876,15 @@ ID-LOC protocol will completely replace GTP in the N9 interface.
 ~~~~
 {: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
 
+Finally, another aspect to consider when integrating the ID-LOC architecture 
+into the 5G framework is that the Mapping System needs to contain the 
+appropriate ID-LOC mappings in coordination with the SMF. In order to do 
+so, the mappings in the Mapping System are populated either by the SMF 
+directly or by the LOC-nodes that should be in synch with the SMF. In 
+the former case, an interface from the SMF to the Mapping System is needed 
+(as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
+
+
 #### Overview of 5GS and ID-LOC Coexistence Approach
 
 ID-Locator separation architecture can be implemented by control plane of a
@@ -1950,13 +1959,7 @@ GTP-based mechanism.
 Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-Finally, another aspect to consider when integrating the ID-LOC architecture 
-into the 5G framework is that the Mapping System needs to contain the 
-appropriate ID-LOC mappings in coordination with the SMF. In order to do 
-so, the mappings in the Mapping System are populated either by the SMF 
-directly or by the LOC-nodes that should be in synch with the SMF. In 
-the former case, an interface from the SMF to the Mapping System is needed 
-(as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
+
 
 ### LISP Control-Plane
 
