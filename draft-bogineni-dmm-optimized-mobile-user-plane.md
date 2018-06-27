@@ -123,9 +123,8 @@ informative:
     author:
       - org: 3rd Generation Partnership Project (3GPP)
     date: December 2017
-
-  CT4SID:
-    title: "Study on User Plane Protocol in 5GC, 3GPP TR 29.892 (study item)"
+  CP-173160-1:
+    title: "New Study Item on User Plane Protocol in 5GC"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
     date: 2017
@@ -155,7 +154,7 @@ protocols for potential replacement of GTP tunnels between UPFs (N9 Interface)
 in the 3GPP 5G system architecture.
 
 This document provides an overview of 5G system architecture in the context of
-N9 Interface which is the scope of the 3GPP CT4 study item {{TS.23.501-3GPP}},
+N9 Interface which is the scope of the 3GPP CT4 study item {{CP-173160-1}},
 {{TS.23.502-3GPP}}, {{TS.23.503-3GPP}}, {{TS.23.203-3GPP}}, {{TS.29.244-3GPP}},
 {{TS.29.281-3GPP}}, {{TS.38.300-3GPP}}, and {{TS.38.401-3GPP}}. The requirements
 for the network functions and the relevant interfaces are provided.
@@ -171,7 +170,7 @@ several combinations of control plane and user plane protocols.
 # Introduction
  
 Release 15 of the 3GPP specifications provide the 5G System Architecture
-in [TS.23.501-3GPP], [TS.23.502-3GPP], and [TS.23.503-3GPP].They come with
+in [TS.23.501-3GPP], [TS.23.502-3GPP], and [TS.23.503-3GPP]. They come with
 significant changes to the radio and core architectures with respect to previous
 generations, with the objective of enabling new use case requirements expected
 from 5G networks. The data plane is however still based on GTP-U, and tunnelling
@@ -195,7 +194,7 @@ some evaluation criteria based on the requirements.
 
 ## Scope of 3GPP Study Items
 
-3GPP CT4 WG has approved a Release 16 study item {{CT4SID}} to study user-plane
+3GPP CT4 WG has approved a Release 16 study item {{CP-173160-1}} to study user-plane
 protocol for N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and
 {{TS.23.502-3GPP}}. This provides an opportunity to investigate potential limits
 of the existing user plane solution and potential benefits of alternative user
