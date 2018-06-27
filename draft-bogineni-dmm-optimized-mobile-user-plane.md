@@ -79,57 +79,60 @@ informative:
       - org: 3rd Generation Partnership Project (3GPP)
     date: December 2017
   TS.29.244-3GPP:
-    title: "Interface between the Control Plane and the User Plane Nodes; Stage 3, 3GPP TS 29.244 v15.0.0"
+    title: "Interface between the Control Plane and the User Plane Nodes; Stage 3, 3GPP TS 29.244 v15.2.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.29.281-3GPP:
-    title: "GPRS Tunneling Protocol User Plane (GTPv1-U), 3GPP TS 29.281 v15.1.0"
+    title: "GPRS Tunneling Protocol User Plane (GTPv1-U), 3GPP TS 29.281 v15.3.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.23.203-3GPP:
     title: "Policy and Charging Control Architecture, 3GPP TS 23.203 v2.0.1"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
     date: December 2017
   TS.23.501-3GPP:
-    title: "System Architecture for 5G System; Stage 2, 3GPP TS 23.501 v2.0.1"
+    title: "System ARchitecture for the 5G System; Stage 2, 3GPP TS 23.501, v15.2.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.23.502-3GPP:
-    title: "Procedures for 5G System; Stage 2, 3GPP TS 23.502, v2.0.0"
+    title: "Procedures for 5G System; Stage 2, 3GPP TS 23.502, v15.2.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.23.503-3GPP:
-    title: "Policy and Charging Control System for 5G Framework; Stage 2, 3GPP TS 23.503 v1.0.0"
+    title: "Policy and Charging Control System for 5G Framework; Stage 2, 3GPP TS 23.503 v15.2.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.38.300-3GPP:
-    title: "NR and NG-RAN Overall Description: Stage 2, 3GPP TS 38.300 v2.0.0"
+    title: "NR and NG-RAN Overall Description: Stage 2, 3GPP TS 38.300 v15.2.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.38.401-3GPP:
-    title: "NG-RAN: Architecture Description, 3GPP TS 38.401 v1.0.0"
+    title: "NG-RAN: Architecture Description, 3GPP TS 38.401 v15.2.0"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: June 2018
   TS.38.801-3GPP:
     title: "Study on new radio access technology: Radio access architecture and interfaces"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: December 2017
+    date: March 2017
   CP-173160-1:
     title: "New Study Item on User Plane Protocol in 5GC"
     author:
       - org: 3rd Generation Partnership Project (3GPP)
-    date: 2017
+    date: December 2017
   SP-180231-1:
-      title: "TODO"
+      title: "New Study on Enhancements to the Service-Based 5G System Architecture"
+          author:
+      - org: 3rd Generation Partnership Project (3GPP)
+    date: March 2018
   I-D.hmm-dmm-5g-uplane-analysis:
     title: "User Plane Protocol and Architectural Analysis on 3GPP 5G System"
     author:
