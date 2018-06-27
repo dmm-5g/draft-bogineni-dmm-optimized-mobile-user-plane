@@ -914,47 +914,40 @@ end-to-end, backhaul and underlay for Mobile core) ?
 # Architectural requirements
 
 {{I-D.hmm-dmm-5g-uplane-analysis}} provides a comprehensive summary of GTP
-architecture, and related architectural requirements collected from 3GPP
-specifications that we summarize here (labels are introduced for easier
-referencing in the rest of this document):
+architecture, and architectural requirements related to user plane collected from 3GPP
+specifications that we summarize here:
 
-ARCH-Req-1 (R1-PDU-TYPES)
-: IPv4, IPv6, Ethernet and Unstructured Packet Data Unit (PDU) are supported in
-    the 5G system.
+ARCH-Req-1: Supporting IPv4, IPv6, Ethernet and Unstructured PDU
 
-ARCH-Req-2 (R2-UNSTRUCTURED)
-: The 5G system provides IP connectivity over N3, N6, and N9 interfaces.  On N6
-    interface, point-to-point tunneling based on UDP/IPv6 may be used to deliver
-    unstructured PDU type data.  Then, the content information of the PDU may be
-    mapped into UDP port number, and the UDP port numbers is pre- configured in
-    the UPF and DN.
+The 5G system defines four types of PDU session as IPv4, IPv6, Ethernet, and Unstractured,
+and UP protocol would be required to support to convey all of these PDUs session type.
 
-ARCH-Req-3 (R3-MULTIHOMING)
-: The 5G system allows to deploy multiple UPFs as anchors for a single PDU
-    session, and a single PDU session supports multi-homing for such anchor
-    UPFs.
+ARCH-Req-2: Supporting IP Connectivity over N3, N6, and N9
 
-ARCH-Req-4 (R4-UPF-SELECT)
-: The 5G system potentially supports flexible UPF selection for PDU compared to
-    persistent S/P-GW in 4G.
+The 5G system provides IP connectivity over N3, N6, and N9 interfaces.  
 
-ARCH-Req-5 (R5-UPF-LIMIT)
-: There's no limitation for number of UPFs in a data plane path.
+ARCH-Req-3: Supporting deployment of multiple UPFs as anchors for a single PDU session
 
-ARCH-Req-6 (R6-QFI)
-: A PDU session is able to aggregate multiple QoS Flow indicated with QFI.
+The 5G system allows to deploy multiple UPFs as anchors for a single PDU session,
+and suupports multihoming of a single PDU session for such anchor UPFs.
 
-ARCH-Req-7 (R7-UUID)
-: A unique identifier in a 5G network is allocated to each UE, and its PDU
-    sessions are handled based on the identifiable information such as
-    subscription information.
+ARCH-Req-4: Supporting flexible UPF selection for PDU
 
-ARCH-Req-8 (R8-UPP-REQ)
-: UPF supports several functionalities for handling PDU sessions, and some of
-    them potentially have requirements for UPP.
+The appropriate UPFs are selected for a PDU session based on parameters and information
+such as UPF's dynamic load or UE location information.
 
-ARCH-Req-9 (R9-UPP-DETECT)
-: UPF shall detect user plane depending on information indicated by SMF.
+ARCH-Req-5: No limitation for number of UPFs in a data plane path
+
+The number of UPF in the data path is not constrained by 3GPP specifications.
+
+ARCH-Req-6: Supporting aggregation of multiple QoS Flow indicated with QFI into a PDU Session
+
+In the 5G system, a single tunnel/data-path includes multiple QFIs contrast to just one QoS Flow (a bearer) to one tunnel/data-path
+
+User plane protocol needs to support fundamentally these requirements.
+In addition, {{I-D.hmm-dmm-5g-uplane-analysis}} provides evaluation aspects for 
+user plane protocol that are mainly derived from the architectural requirements.
+They would be help for comparison of candidate protocols.
 
 For each protocol, we will attempt in the next section to discuss to what extent
 those architectural requirements are addressed.  However, it is worth noticing
