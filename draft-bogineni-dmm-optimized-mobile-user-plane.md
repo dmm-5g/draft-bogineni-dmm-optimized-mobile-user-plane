@@ -129,8 +129,8 @@ informative:
       - org: 3rd Generation Partnership Project (3GPP)
     date: December 2017
   SP-180231-1:
-      title: "New Study on Enhancements to the Service-Based 5G System Architecture"
-          author:
+    title: "New Study on Enhancements to the Service-Based 5G System Architecture"
+    author:
       - org: 3rd Generation Partnership Project (3GPP)
     date: March 2018
   I-D.hmm-dmm-5g-uplane-analysis:
@@ -315,16 +315,17 @@ to N3. The impact on N3, F1-U, and XN-U interfaces is still TBD.
 
 ## Document Structure
 
-Section 3 provides a high level overview of the 5G system architecture
+{{sec-arch}} provides a high level overview of the 5G system architecture
 and the relevant scenarios like roaming, support fo multiple PDU sessions, etc.
-Section 4 provides a list of architectural requirements that candidate solutions should address
-are provided. Section 5 provides an overview of the various protocols and how they can be used
+{{sec-req}} provides a list of architectural requirements that candidate solutions should address
+are provided. {{sec-models}} provides an overview of the various protocols and how they can be used
 in the 3GPP 5G architecture is provided.  Details of the
 protocols are provided as references in the respective sections.
-Section 6 discusses how ID-LOC can be integrated into the 5G framework. 
+{{sec-integration}} discusses how ID-LOC can be integrated into the 5G framework. 
 Section 7 provides additional scenarios are related to N3/F1-U; integration
 of mobility with transport; support for different mobility protocols
-on different slices of the 5G system, etc. A summary is provided in Section 8. 
+on different slices of the 5G system, etc. A summary is provided in
+{{sec-summary}}.
 
 # Conventions and terminology
 
@@ -360,7 +361,7 @@ Acronyms
 *UE*: User Equipment
 *UPF*: User Plane Function
 
-# Overview of 3GPP Release 15 5G Architecture
+# Overview of 3GPP Release 15 5G Architecture {#sec-arch}
 
 This section briefly describes the 5G system architecture as specified in
 {{TS.23.501-3GPP}}. The key relevant features for session management and
@@ -895,7 +896,7 @@ ensures that the UE suffers no loss of connectivity. A connection through new PD
 Session Anchor point is established before the previous connection is terminated in
 order to allow for better service continuity.
 
-# Architectural requirements
+# Architectural requirements {#sec-req}
 
 {{I-D.hmm-dmm-5g-uplane-analysis}} provides a comprehensive summary of GTP
 architecture, and architectural requirements related to user plane collected from 3GPP
@@ -940,7 +941,7 @@ that it is not mandatory that all those requirements are supported by the user
 plane protocol itself, as they might be realized through complementary
 mechanisms Section 6.6.
 
-# Data plane architecture models for N9
+# Data plane architecture models for N9 {#sec-models}
 
 ## Overview
 
@@ -1810,7 +1811,7 @@ functionalities through proxies or direct insertion in user devices as the
 technology gets adopted and deployed.
 
 
-# Integration of ID-LOC into the 5G framework
+# Integration of ID-LOC into the 5G framework {#sec-integration}
 
 ## ID/Loc split overview
 
@@ -2276,7 +2277,7 @@ A more in depth presentation of those alternative deployments can be found in
 {{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
 
 
-# Summary
+# Summary {#sec-summary}
 
 This document summarized the various IETF protocol options for GTP replacement
 on N9 interface of 3GPP 5G architecture.
