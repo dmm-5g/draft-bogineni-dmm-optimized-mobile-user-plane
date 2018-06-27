@@ -146,6 +146,22 @@ informative:
     -
       ins: Linux Foundation fd.io
     date: 2018
+  ILAKERNEL:
+    title: TODO
+  ILACONTROL:
+    title: TODO
+  ILAMOTIVE:
+    title: TODO
+  ADDRPRIV:
+    title: TODO
+  I-D.TBD:
+    title: TODO
+  LISP-WG:
+    title: TODO
+  ILSR-WP:
+    title: TODO
+  IRTF-RRG:
+    title: TODO
 
 --- abstract
 
@@ -168,28 +184,28 @@ several combinations of control plane and user plane protocols.
 --- middle
 
 # Introduction
- 
-Release 15 of the 3GPP specifications provide the 5G System Architecture
-in [TS.23.501-3GPP], [TS.23.502-3GPP], and [TS.23.503-3GPP]. They come with
+
+Release 15 of the 3GPP specifications provide the 5G System Architecture in
+{{TS.23.501-3GPP}}, {{TS.23.502-3GPP}}, and {{TS.23.503-3GPP}}. They come with
 significant changes to the radio and core architectures with respect to previous
 generations, with the objective of enabling new use case requirements expected
 from 5G networks. The data plane is however still based on GTP-U, and tunnelling
 user-traffic to anchor points in the core network.
 
-3GPP CT4 is in charge of specifying the user plane interface named N9, and 
-has approved a study item {{CP-173160-1}} to study possible candidates for user 
+3GPP CT4 is in charge of specifying the user plane interface named N9, and
+has approved a study item {{CP-173160-1}} to study possible candidates for user
 plane protocol for the 5GC.
 
-This document comprehensively describes the various user plane protocols and 
-how they can be used in the 3GPP 5G architecture. Specifically Segment Routing 
-v6 (SRv6), Locator Identifier Separation Protocol (LISP), Identifier Locator 
-Addressing (ILA) and Hybrid Information-Centric Networking (hICN) are introduced 
+This document comprehensively describes the various user plane protocols and
+how they can be used in the 3GPP 5G architecture. Specifically Segment Routing
+v6 (SRv6), Locator Identifier Separation Protocol (LISP), Identifier Locator
+Addressing (ILA) and Hybrid Information-Centric Networking (hICN) are introduced
 and their use as replacement of GTP for N9 is further described.
 
-Meanwhile, analysis work for clarifying the specifications of GTP-U as the 
+Meanwhile, analysis work for clarifying the specifications of GTP-U as the
 current mobile user plane protocol and the architectural requirements of the
-5G system is proceeded in {{I-D.hmm-dmm-5g-uplane-analysis}}. That provides 
-observations of GTP-U, the architectural requirements for UP protocol, and 
+5G system is proceeded in {{I-D.hmm-dmm-5g-uplane-analysis}}. That provides
+observations of GTP-U, the architectural requirements for UP protocol, and
 some evaluation criteria based on the requirements.
 
 ## Scope of 3GPP Study Items
@@ -297,8 +313,8 @@ to N3. The impact on N3, F1-U, and XN-U interfaces is still TBD.
 
 This draft provides a high level overview of the 5G system architecture
 and the relevant scenarios like roaming, support fo multiple PDU sessions, etc.
-A list of architectural requirements that candidate solutions should address 
-are provided. An overview of the various protocols and how they can be used 
+A list of architectural requirements that candidate solutions should address
+are provided. An overview of the various protocols and how they can be used
 in the 3GPP 5G architecture is provided.  Details of the
 protocols are provided as references in the respective sections.
 Specifically Segment Routing v6 (SRv6), Locator Identifier Separation
@@ -350,7 +366,7 @@ UE: User Equipment
 RAN: (Radio) Access Network
 
 
-# Overview of 3GPP Release 15 5G Architecture 
+# Overview of 3GPP Release 15 5G Architecture
 
 This section briefly describes the 5G system architecture as specified in
 {{TS.23.501-3GPP}}. The key relevant features for session management and
@@ -368,7 +384,7 @@ mobility management are:
 ## Non-Roaming Reference Architecture
 
 This section briefly describes the 5G system architecture as specified in 3GPP
-TS 23.501, and represented in {{fig_3GPP-5GS-in-Reference-Point}} and {{fig_3GPP-5GS-SBA}}. 
+TS 23.501, and represented in {{fig_3GPP-5GS-in-Reference-Point}} and {{fig_3GPP-5GS-SBA}}.
 
 ~~~~
          +------+ +------+     +------+
@@ -395,20 +411,20 @@ TS 23.501, and represented in {{fig_3GPP-5GS-in-Reference-Point}} and {{fig_3GPP
 A short description of the network functions is provided below.
 
 Access and Mobility Management Function (AMF) interfaces with the Radio access network and provides
-management of registration/connection/reachability/mobility, access authentication and authorization, 
+management of registration/connection/reachability/mobility, access authentication and authorization,
 etc.
 
-Session Management function (SMF) handles session management, UE IP address allocation & management, 
+Session Management function (SMF) handles session management, UE IP address allocation & management,
 DHCP, ARP proxying, selection and control of UP function, traffic steering, interface to PCF,charging
 data collection, roaming, etc.
 
-User Plane Function (UPF) is the anchor point mobility, packet routing/forwarding/marking, 
+User Plane Function (UPF) is the anchor point mobility, packet routing/forwarding/marking,
 packet inspection, policy rule enforcement, lawful intercept, QoS handling,etc.
 
 Policy Control Function (PCF) provides policy rules to Control Plane function(s) to enforce them.
 
-Network Exposure Function (NEF) supports exposure of capabilities and events between network functions, 
-to 3rd party, Application Functions, Edge Computing, etc. 
+Network Exposure Function (NEF) supports exposure of capabilities and events between network functions,
+to 3rd party, Application Functions, Edge Computing, etc.
 
 Network Repository Function (NRF) supports service discovery function.
 
@@ -549,8 +565,10 @@ functionalities.
 - QoS handling for user plane including:
     - packet filtering, gating, UL/DL rate enforcement, UL/DL Session-AMBR
       enforcement (with the Session-AMBR computed by the UPF over the Averaging
-      window provisioned over N4, see subclause 5.7.3 of 3GPP TS 23.501), UL/DL
-      Guaranteed Flow Bit Rate (GFBR) enforcement, UL/DL Maximum Flow Bit Rate
+      window provisioned over N4, see subclause 5.7.3 of 3GPP
+      {{TS.23.501-3GPP}}), UL/DL Guaranteed Flow Bit Rate (GFBR) enforcement,
+      UL/DL Maximum Flow Bit Rate
+
       (MFBR) enforcement, etc
 
     - marking packets with the QoS Flow ID (QFI) in an encapsulation header on
@@ -576,14 +594,14 @@ functionalities.
     priority level that is entitled for priority use, the SMF sends an "N4
     Session Modification Request" to update the ARP for the Signalling QoS
     Flows, and sends an "N11 SM Request with PDU Session Modification Command"
-    message to the AMF, as specified in clause 4.3.3.2 of TS 23.502.
+    message to the AMF, as specified in clause 4.3.3.2 of {{TS.23.502-3GPP}}.
     - "If an IP packet arrives at the UPF for a UE that is CM-IDLE over a QoS
     Flow which has an ARP priority level value that is entitled for priority
     use, delivery of priority indication during the Paging procedure is provided
     by inclusion of the ARP in the N4 interface "Downlink Data Notification"
-    message, as specified in clause 4.2.3.4 of TS 23.502."
-- ARP proxying as specified in [RFC1027] and / or IPv6 Neighbour
-  Solicitation Proxying as specified in [RFC4861] functionality for
+    message, as specified in clause 4.2.3.4 of {{TS.23.502-3GPP}}."
+- ARP proxying as specified in {{!RFC1027}} and / or IPv6 Neighbour
+  Solicitation Proxying as specified in {{!RFC4861}} functionality for
   the Ethernet PDUs.  The UPF responds to the ARP and / or the IPv6
   Neighbour Solicitation Request by providing the MAC address
   corresponding to the IP address sent in the request.
@@ -614,18 +632,19 @@ functionalities.
 The following information is sent in an encapsulation header over the N3
 interface. N9 needs to support that.
 
-- QFI (QoS Flow Identifier), see subclause 5.7.1 of 3GPP TS 23.501.
+- QFI (QoS Flow Identifier), see subclause 5.7.1 of {{TS.23.501-3GPP}}.
 
-- RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of 3GPP TS 23.501.
+- RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of
+{{TS.23.501-3GPP}}.
 
 - Support of RAN initiated QoS Flow mobility, when using Dual connectivity, also
   requires the QFI to be sent within End Marker packets.  See subclause 5.11.1
-  of 3GPP TS 23.501 and subclause 4.14.1 of 3GPP TS 23.502 respectively.
+  of {{TS.23.501-3GPP}} and subclause 4.14.1 of {{TS.23.502-3GPP}} respectively.
 
-GTPv1-U as defined in 3GPP TS 29.281 is used over the N3 and N9 interfaces in
+GTPv1-U as defined in {{TS.29.281-3GPP}} is used over the N3 and N9 interfaces in
 Release 15. Release 15 is still work-in-progress and RAN3 will specify the
 contents of the 5GS Container. It is to be decided whether CT4 needs to specify
-new GTP-U extension header(s) in 3GPP TS 29.281 for the 5GS Container.
+new GTP-U extension header(s) in {{TS.29.281-3GPP}} for the 5GS Container.
 
 A GTP-U tunnel is used per PDU session to encapsulate T-PDUs and GTP-U signaling
 messages (e.g. End Marker, Echo Request, Error Indication) between GTP-U peers.
@@ -679,9 +698,9 @@ They are represented in {{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-
 {: #fig_3GPP-5GS-Local-Breakout title="Roaming 5G System Architecture - Local Breakout Scenario"}
 
 ~~~~
-           
+
                               VPLMN   |      HPLMN
-               --------------------  N32 ----------------------------          
+               --------------------  N32 ----------------------------
                   |                   |               |
                   |     +-------+     |     +-------+ |      +-----+
                   |     | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
@@ -841,25 +860,25 @@ UPFs are connected via N9 interfaces over transport network.
                               '---'
                                 |N6
                           +-----+-----+
-                          |   cUPF    |                         
-                          +-----+-----+                         
-                                |N9                             
-        ,-----------------------+-----------------------.       
-       /                                                 \      
-       |              Transport Network                  |      
-       \                                                 /      
+                          |   cUPF    |
+                          +-----+-----+
+                                |N9
+        ,-----------------------+-----------------------.
+       /                                                 \
+       |              Transport Network                  |
+       \                                                 /
         `----+---------------------------+--------------'
-             |N9                         |N9                   
-       +-----+-----+    ,-----.    +-----+-----+    ,-----.     
-       |   dUPF#1  |N6 /       \   |   dUPF#2  |N6 /       \    
+             |N9                         |N9
+       +-----+-----+    ,-----.    +-----+-----+    ,-----.
+       |   dUPF#1  |N6 /       \   |   dUPF#2  |N6 /       \
        |       [UL]+---| dDN#A |   |       [UL]+---| dDN#B | ...
-       |       [CL]|   \       /   |       [CL]|   \       /      
-       +-----+-----+    `-----'    +-----+-----+    `-----'       
-             |N3                         |N3                      
-                                                                  
-          (( o ))                     (( o ))                     
-             A                           A                        
-            /-\  RAN                    /-\  RAN                  
+       |       [CL]|   \       /   |       [CL]|   \       /
+       +-----+-----+    `-----'    +-----+-----+    `-----'
+             |N3                         |N3
+
+          (( o ))                     (( o ))
+             A                           A
+            /-\  RAN                    /-\  RAN
            /-|-\                       /-|-\
 
              |                           |
@@ -879,14 +898,14 @@ UPFs are connected via N9 interfaces over transport network.
 ## Service and Session Continuity Modes
 
 The 5G System supports different session and service continuity (SSC) modes.
-SSC mode 1: the network preserves the connectivity service provided to the UE. 
-SSC mode 2: the network may release the connectivity service delivered to the UE and 
-release the corresponding PDU Session. 
-SSC mode 3: changes to the user plane can be visible to the UE, while the network 
-ensures that the UE suffers no loss of connectivity. A connection through new PDU 
-Session Anchor point is established before the previous connection is terminated in 
-order to allow for better service continuity. 
-    
+SSC mode 1: the network preserves the connectivity service provided to the UE.
+SSC mode 2: the network may release the connectivity service delivered to the UE and
+release the corresponding PDU Session.
+SSC mode 3: changes to the user plane can be visible to the UE, while the network
+ensures that the UE suffers no loss of connectivity. A connection through new PDU
+Session Anchor point is established before the previous connection is terminated in
+order to allow for better service continuity.
+
 ## Sections on GTP-U, PFCP for Release 15 and SBI for Release 16
 
 Is there a need for deployment scenarios (to address regarding IPv4/ IPv6
@@ -1046,7 +1065,7 @@ __Reviewed approaches__
 SRv6 {{?I-D.filsfils-spring-srv6-network-programming}} is the IPv6 dataplane
 instantiation of Segment Routing {{?I-D.ietf-spring-segment-routing}}.
 Segment Routing is a network architecture based on source-routing (the headend
-inserts the nodes that a packet must traverse for TE, NFV and VPN 
+inserts the nodes that a packet must traverse for TE, NFV and VPN
 purposes). Thus confining flow states to the ingress nodes in the SR domain.
 
 The SRv6 dataplane consists on leveraging the IPv6 extension headers, defined
@@ -1055,16 +1074,16 @@ in RFC8200, to include in the IPv6 header a new "Segment Routing Header" {{?I-D.
 SRv6 encodes segments (SIDs) as IPv6 addresses in the Segment List of its header.
 The IPv6 Destination Address (DA) specifies the active segment in the Segment List,
 while the Segments Left (SL) field of the SRH points to the next active segment
-in the Segment List. SRv6 routes over the shortest ECMP-aware path in the 
-network up the the node instantiating the active segment. Once the packet has 
-reached this node, the segment is executed. This implies running its associated 
+in the Segment List. SRv6 routes over the shortest ECMP-aware path in the
+network up the the node instantiating the active segment. Once the packet has
+reached this node, the segment is executed. This implies running its associated
 function on the router, decrementing the SL value and updating the IPv6 DA to
 the next active segment. Notice that transit routers neither inspect the SRH
 nor process it. Thus they only need to be IPv6 capable.
 
 The main benefit of SRv6 overlays is the reduction of state in the network
 (there is no state in the forwarding fabric), with optimized MTU overhead,
-and its capability to integrate with the underlay (SLA;  Traffic Engineering) 
+and its capability to integrate with the underlay (SLA;  Traffic Engineering)
 and distributed NFVi. Hence there is no need NSH for NVF, RSVP for TE, or UDP
 for ECMP. SR also supports natively network slicing, which implies that SRv6
 can offer end-to-end network slices that spans all those elements
@@ -1078,7 +1097,7 @@ although SRv6 can be combined with other control-planes as described later
 in this document (LISP, hICN).
 
 The applicability of SRv6 to mobility is described in {{?I-D.ietf-dmm-srv6-mobile-uplane}}
-and its use-cases are described in [I-D.TBD].
+and its use-cases are described in {{I-D.TBD}}.
 
 SRv6 counts with three open-source implementations (Linux Kernel, FD.io VPP, P4)
 and several propietary implementations (4xCisco, 1xBarefoot Networks, 1xUTStarcom)
@@ -1099,7 +1118,7 @@ innovations in routing.
 Existing mobile backhaul employs GTP tunnels to carry user traffic flows in the
 network. These tunnels are unidirectional, are established via the control plane
 for a particular QoS level, and run on links between access and the different
-anchor nodes all the way to DN gateways. 
+anchor nodes all the way to DN gateways.
 
 The Tunnel Endpoint Id (TEID) field in the GTP tunnel plays a crucial role in stitching
 the data path between the above mentioned network nodes for a particular user
@@ -1114,7 +1133,7 @@ between the UPFs.
 
 A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
 and other relevant data can be encoded into SRv6 SIDs which can be mapped back
-to TEID's at the intermediate UPFs thus requiring no changes except at the 
+to TEID's at the intermediate UPFs thus requiring no changes except at the
 encapsulation and de-encapsulation points in the UPF chains.
 
 Note that this is a apple-to-apple replacement of GTP by SRv6. Its also worth
@@ -1167,13 +1186,13 @@ main SRv6 functions.
 
 ### Service Programming with SRv6
 
-Service programming -or distributed NFVi- is another intrinsic feature of SR. 
+Service programming -or distributed NFVi- is another intrinsic feature of SR.
 Leveraging this capability, operators can steer user traffic through a
 set of UPFs where each UPF performs a specific service on the traffic.
 
-Service programming is achieved through the use of SIDs in an identical manner 
-to what was described in the previous section: the SRH is populated with a set 
-of SIDs with each SID identifying a specific UPF in the network. Starting from 
+Service programming is achieved through the use of SIDs in an identical manner
+to what was described in the previous section: the SRH is populated with a set
+of SIDs with each SID identifying a specific UPF in the network. Starting from
 the ingress SRv6 node, packets are then forwarded through the network visiting
 the set of UPFs listed as SIDs in the SRH.
 
@@ -1182,11 +1201,11 @@ Please refer to {{?I-D.xuclad-spring-sr-service-chaining}} for further detail.
 ### SRv6 and Entropy
 
 Ability to provide a good level of entropy is an important aspect of data plane
-protocols. If included in network node's hashing, the TEID field in GTP tunnels 
+protocols. If included in network node's hashing, the TEID field in GTP tunnels
 algorithms can result in good load balancing. Therefore, any new data plane
 proposal should be able to deal with entropy in an efficient manner.
 
-SRv6 natively supports entropy by using the IPv6 Flow Label. Additionally, 
+SRv6 natively supports entropy by using the IPv6 Flow Label. Additionally,
 SRv6 SIDs can easily accommodate entropy at a hop by hop level by reserving a
 set of bits in the SID construct itself. In this way, the hashing algorithm at
 different nodes distribute traffic flows based on the SID which has been copied
@@ -1194,7 +1213,7 @@ to IPv6 DA field.
 
 ### SRv6 and 5G Slicing
 
-Slicing is one of the main features in 5G [3GPP 23501]. Several Slices with
+Slicing is one of the main features in 5G {{TS.23.501-3GPP}}. Several Slices with
 different requirements can coexist on top of the common network infrastructure.
 Diverse flows belonging to different 5G slices can be completely disjoint or can
 share different parts of the network infrastructure. SRv6 has native support for
@@ -1219,7 +1238,7 @@ for UPF data plane connectivity.
 SRv6 can easily implement ID-LOC Separation model for UPF connectivity. The SIDs
 are once again the main vehicle here. In this model, UPFs are considered to be
 the IDs while the nodes where the UPFs attach to take on the role of the
-Locators. 
+Locators.
 
 In this approach, UPFs connect to SRv6 capable Locators. UPFs use IPv4/IPv6
 transport either in conjunction with GTP or without any GTP tunnel and send the
@@ -1227,12 +1246,12 @@ packets to their associated Locator at the near end (Ingress SRv6 Locator).
 
 It must be noted that use of GTP at UPFs allows us to leave the 3GPP control
 plane intact and hence provides a smooth migration path toward SRv6 with
-ID-Locator model. 
+ID-Locator model.
 
 #### SRv6 Capable UPFs and RLOCs (GTP replacement)
 
 In this model, the head-end UPF (Ingress UPF) is the ingress node and the entity
-that constructs the SRH in the SRv6 domain. 
+that constructs the SRH in the SRv6 domain.
 
 The 3GPP control plane is responsible for distributing UPF's endpoint
 information. But it requires some modifications to be able to convey endpoint
@@ -1296,7 +1315,7 @@ are 16 bytes in length. Details can be found in {{!RFC6830}}.
 ### LISP Mapping Systems
 
 Many years of research dating back to 2007 have gone into LISP scalable mapping
-systems. They can be found at [LISP-WG] and [IRTF-RRG].  The two that show
+systems. They can be found at {{LISP-WG}} and {{IRTF-RRG}}.  The two that show
 promise and have deployment experience are LISP-DDT {{!RFC8111}} and LISP-ALT
 {{!RFC6836}}.
 
@@ -1328,7 +1347,7 @@ and is specified in the use-case document
 ### ILSR
 
 ILSR is a specific recommendation for using LISP in the 3GPP 5G mobile network
-architecture. A detailed whitepaper can be found at [ILSR-WP]. The
+architecture. A detailed whitepaper can be found at {{ILSR-WP}}. The
 recommendation is to use the mechanisms in
 {{?I-D.farinacci-lisp-mobile-network}}.
 
@@ -1375,16 +1394,16 @@ Benefits of ILA include:
 - Facilitates node mobility and virtualization
 - Multiple use cases (mobile, datacenter, cloud)
 - Super efficient and performant data plane
-- Allows strong privacy in addressing [ADDRPRIV]
+- Allows strong privacy in addressing {{ADDRPRIV}}
 - Promotes anchorless mobility
 - No typical tunneling issues (e.g. MTU) or management related to encapsulation
 - Flexible control plane that splits data and control
 - Modern "SDN" control protocols (e.g. RPC/TCP)
 - Scale number of nodes to billions for 5G, DC virtualization
-- Upstream Linux kernel data path [ILAKERNEL] and open source ctrl plane [ILACONTROL].
+- Upstream Linux kernel data path {{ILAKERNEL}} and open source ctrl plane {{ILACONTROL}}.
 
 The ILA data plane protocol is described in {{?I-D.herbert-intarea-ila}},
-motivation and problems areas are described in [ILAMOTIVE], ILA in the mobile
+motivation and problems areas are described in {{ILAMOTIVE}}, ILA in the mobile
 user-plane is described in detail in {{?I-D.herbert-ila-mobile}}.
 
 ### Protocol Layering
@@ -1462,7 +1481,7 @@ are popular in SDN.
 ### IP addressing
 
 ILA supports single address assignments as well as prefix assignments. ILA will
-also support strong privacy in addressing [ADDRPRIV].
+also support strong privacy in addressing {{ADDRPRIV}}.
 
 #### Singleton address assignment
 
@@ -1522,7 +1541,7 @@ reused after a hold-down period to allow stale mappings to be purged.
 #### Strong privacy addresses
 
 Note that when a /64 is assigned to UEs, the assigned prefix may become a
-persistent identifier for a device. This is a potential privacy issue. [ADDPRIV]
+persistent identifier for a device. This is a potential privacy issue. {{ADDRPRIV}}
 describes this problem and suggests some solutions that may be used with ILA.
 
 ### Traffic engineering
@@ -1559,7 +1578,7 @@ redirects, use TCP. TLS or other protocols can be applied for strong security.
 
 Privacy in addressing is a consideration. ILA endeavors to provide a mechanism
 of address assignment that prevents inference of user identity or location. This
-problem is described in [ADDRPRIV].
+problem is described in {{ADDRPRIV}}.
 
 ## Hybrid ICN (hICN) {#sec-hicn}
 
@@ -1809,43 +1828,43 @@ What are the main differences
 ### SRv6
 
 As discussed in Section 5.3.1, SRv6 can be used as GTP replacement with
-minor modifications to the existing control plane. In this mode, SRv6 
+minor modifications to the existing control plane. In this mode, SRv6
 conveys the TEID and other relevant information into the SRv6 SIDs.
 
 ## ID/Loc split-based
 
 ### ID/Loc split overview
 
-An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from 
-their location in the network (LOC). Common ID-LOC architectures are based on two main 
+An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from
+their location in the network (LOC). Common ID-LOC architectures are based on two main
 components, ID-LOC data-plane nodes and an ID-LOC mapping system.
 
-ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane 
-operation. The specific operation that these ID-LOC data-plane nodes perform is based 
-on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane 
-protocols are usually divided in two categories, (1) those that encapsulate ID-based 
-data-plane packets into LOC-based data-plane packets and (2) those that transform the 
-addresses on the data-plane packets from ID-based addresses to LOC-based addresses. 
-SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an 
+ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane
+operation. The specific operation that these ID-LOC data-plane nodes perform is based
+on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane
+protocols are usually divided in two categories, (1) those that encapsulate ID-based
+data-plane packets into LOC-based data-plane packets and (2) those that transform the
+addresses on the data-plane packets from ID-based addresses to LOC-based addresses.
+SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an
 example of the latter.
 
 The ID-LOC mapping system is a database that provides mappings of Identity to Location
-for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC 
-control-plane protocol to make available at the data-plane nodes the ID-LOC mappings 
-that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP 
+for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC
+control-plane protocol to make available at the data-plane nodes the ID-LOC mappings
+that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP
 and ILAMP, which are discussed later in this section.
 
-When integrating ID-LOC architecture into the 5G framework there are several aspects 
-to take into account. One is that the ID-LOC data-plane function needs to be performed 
-in the data-plane path as the packets enter and leave the ID-LOC domain. On option 
-for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC 
-operation on the traffic as it leaves or enters the UPFs (as shown in 
-Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part 
-of the N9 interface along with current GTP. 
+When integrating ID-LOC architecture into the 5G framework there are several aspects
+to take into account. One is that the ID-LOC data-plane function needs to be performed
+in the data-plane path as the packets enter and leave the ID-LOC domain. On option
+for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC
+operation on the traffic as it leaves or enters the UPFs (as shown in
+Fig. {{fig_ID-Loc-5G-1}}). In this case the ID-LOC data-plane protocol will be part
+of the N9 interface along with current GTP.
 
 ~~~~
                                  +----+----+
-         +-------------N4--------+   SMF   +--------N4-----------+                 
+         +-------------N4--------+   SMF   +--------N4-----------+
          |                       +----+----+                     |
          |                            |                          |
          |                       +----+----+                     |
@@ -1856,19 +1875,19 @@ of the N9 interface along with current GTP.
          |               V                       V               |
      +---+---+      +----+----+             +----+----+      +---+---+
 --N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
-     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+  
+     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
 ~~~~
 {: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
 
-Another option is to implement the ID-LOC data-plane function directly in the 
-UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled 
-UPFs will directly generate packets encapsulated or transformed and will be 
-able to directly process packets encapsulated or transformed. In this case the 
+Another option is to implement the ID-LOC data-plane function directly in the
+UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled
+UPFs will directly generate packets encapsulated or transformed and will be
+able to directly process packets encapsulated or transformed. In this case the
 ID-LOC protocol will completely replace GTP in the N9 interface.
 
 ~~~~
                                  +----+----+
-         +-------------N4--------+   SMF   +--------N4-----------+                 
+         +-------------N4--------+   SMF   +--------N4-----------+
          |                       +----+----+                     |
          |                            |                          |
          |                       +----+----+                     |
@@ -1879,7 +1898,7 @@ ID-LOC protocol will completely replace GTP in the N9 interface.
          |  V                                                 V  |
      +---+---+                                               +---+---+
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
-     +-------+                                               +-------+  
+     +-------+                                               +-------+
 ~~~~
 {: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
 
@@ -1895,12 +1914,12 @@ completely incorporated.
 
 This approach establishes an individual domain/slice in which an ID-Locator
 separation protocol works as packet forwarding mechanism, and divert appropriate
-packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed 
-UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it 
+packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed
+UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it
 diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF
-(e.g., packets for Internet access) are forwarded with GTP-U via N9 interface. 
+(e.g., packets for Internet access) are forwarded with GTP-U via N9 interface.
 
-The architecture and an overview of assumed network model are 
+The architecture and an overview of assumed network model are
 shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Network}}.
 
 <!-- was: {{fig_Overview-ID-LOC-with-Low-Impact}} -->
@@ -1925,10 +1944,10 @@ shown in {{fig_5GS-IDLOC-Coexist-Arch}} and {{fig_Overview-5GS-IDLOC-Coexist-Net
           . +------+               +-----+  .
            . . . . . . . . . . . . . . . . .
                     ID-LOC Domain
-        
+
            dUPF/cUPF: Distributed/Central UPF
                         dDN/cDN : Distributed/Central DN
-           MS : Mapping System 
+           MS : Mapping System
        ID-LOC UP/CP : ID-LOC User Plane/Control Plane
 ~~~~
 {: #fig_5GS-IDLOC-Coexist-Arch title="Architecture of 5GS and ID-LOC Coexistence"}
@@ -1963,54 +1982,54 @@ GTP-based mechanism.
 
 On the other hand, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
-Finally, another aspect to consider when integrating the ID-LOC architecture 
-into the 5G framework is that the Mapping System needs to contain the 
-appropriate ID-LOC mappings in coordination with the SMF. In order to do 
-so, the mappings in the Mapping System are populated either by the SMF 
-directly or by the ID-LOC nodes that should be in synch with the SMF. In 
-the former case, an interface from the SMF to the Mapping System is needed 
+Finally, another aspect to consider when integrating the ID-LOC architecture
+into the 5G framework is that the Mapping System needs to contain the
+appropriate ID-LOC mappings in coordination with the SMF. In order to do
+so, the mappings in the Mapping System are populated either by the SMF
+directly or by the ID-LOC nodes that should be in synch with the SMF. In
+the former case, an interface from the SMF to the Mapping System is needed
 (as shown in Figs. {{fig_ID-Loc-5G-1}} and {{fig_ID-Loc-5G-2}}).
 
 ### LISP Control-Plane
 
-The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}} 
-is data-plane agnostic and can serve as control-plane for different data-plane 
-protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to 
-register, request, notify and update ID-Loc mappings between ID-LOC data-plane 
-elements and the ID-LOC Mapping System. In the sections below we describe how 
+The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
+is data-plane agnostic and can serve as control-plane for different data-plane
+protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to
+register, request, notify and update ID-Loc mappings between ID-LOC data-plane
+elements and the ID-LOC Mapping System. In the sections below we describe how
 LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
 
-It should be noted that the LISP-CP can run over TCP or UDP. The same signaling 
-and logic applies independently of the transport. Additionally, when running over 
+It should be noted that the LISP-CP can run over TCP or UDP. The same signaling
+and logic applies independently of the transport. Additionally, when running over
 TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}}
 can be applied.
 
 ### LISP-CP for ILA
 
-The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the 
-operation of an ILA data-plane. The required ILA control-plane operations of "request/response" 
-and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}} 
-and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is 
-implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered 
+The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the
+operation of an ILA data-plane. The required ILA control-plane operations of "request/response"
+and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}}
+and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is
+implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered
 as response to data-plane events.
 
-Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible 
-to locally derivate it from the endpoint address. These two mapping operations, 
-Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation 
+Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible
+to locally derivate it from the endpoint address. These two mapping operations,
+Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation
 to obtain the ILA Identifier and associated Locators in a single round of signaling.
 
-The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane 
+The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane
 can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
 
 ### LISP-CP for SRv6
 
-The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and 
-its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node 
-can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular 
+The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and
+its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node
+can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular
 endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
 
-The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane 
-can be found in [I-D.TBD].
+The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
+can be found in {{I-D.TBD}}.
 
 ### ILA control plane
 
@@ -2245,7 +2264,7 @@ architecture, allowing convergence with other non-3GPP accesses.
 
 ### SRv6
 
-The mobile network would benefit of the application of SRv6 to both, N3 and 
+The mobile network would benefit of the application of SRv6 to both, N3 and
 N9 interfaces. The intrinsic ability of SRv6 to integrate, in a single protocol,
 the control of the overlay, underlay and NFV implies that if applied to the N3
 interface the end-to-end SRv6-based network slice can start on the NodeB itself.
@@ -2280,7 +2299,7 @@ TE as defined in 5.3.2.
 From a dataplane perspective, SRv6 can coexist on the N9 interface together
 with GTP-U traffic.
 
-This is important towards a slow migration from a GTP-based architecture 
+This is important towards a slow migration from a GTP-based architecture
 into different architectures.
 
 ### ID/Loc split
