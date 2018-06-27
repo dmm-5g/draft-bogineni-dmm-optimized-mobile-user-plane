@@ -170,15 +170,17 @@ in the 3GPP 5G system architecture.
 
 This document provides an overview of 5G system architecture in the context of
 N9 Interface which is the scope of the 3GPP CT4 study item {{CP-173160-1}},
-{{TS.23.502-3GPP}}, {{TS.23.503-3GPP}}, {{TS.23.203-3GPP}}, {{TS.29.244-3GPP}},
-{{TS.29.281-3GPP}}, {{TS.38.300-3GPP}}, and {{TS.38.401-3GPP}}. The requirements
-for the network functions and the relevant interfaces are provided.
+{{TS.23.501-3GPP}}, {{TS.23.502-3GPP}}, {{TS.23.503-3GPP}}, {{TS.29.244-3GPP}},
+{{TS.29.281-3GPP}}, {{TS.38.300-3GPP}}, and {{TS.38.401-3GPP}}. 
 
-Reference scenarios and criteria for evaluation of various IETF protocols are
-provided.
+Architecture requirements for evaluation of candidate protocols are provided.
+Optimization of the user plane can be in different ways - packet overhead,
+transport integration, etc. 
 
 Several IETF protocols are considered for comparison: SRv6, LISP, ILA and
-several combinations of control plane and user plane protocols.
+several combinations of control plane and user plane protocols. Each protocol
+identifies what is being optimised, and provides a self evaluation in 
+comparison to GTP.
 
 --- middle
 
@@ -193,7 +195,7 @@ user-traffic to anchor points in the core network.
 
 3GPP CT4 is in charge of specifying the user plane interface named N9, and
 has approved a study item {{CP-173160-1}} to study possible candidates for user
-plane protocol for the 5GC.
+plane protocol for the 5GC in Release 16.
 
 This document comprehensively describes the various user plane protocols and
 how they can be used in the 3GPP 5G architecture. Specifically Segment Routing
@@ -201,11 +203,20 @@ v6 (SRv6), Locator Identifier Separation Protocol (LISP), Identifier Locator
 Addressing (ILA) and Hybrid Information-Centric Networking (hICN) are introduced
 and their use as replacement of GTP for N9 is further described.
 
-Meanwhile, analysis work for clarifying the specifications of GTP-U as the
+Analysis work for clarifying the specifications of GTP-U as the
 current mobile user plane protocol and the architectural requirements of the
 5G system is proceeded in {{I-D.hmm-dmm-5g-uplane-analysis}}. That provides
 observations of GTP-U, the architectural requirements for UP protocol, and
 some evaluation criteria based on the requirements.
+
+Optimization of the user plane can be in one more more of the following:
+- reduction/elimination of encapsulation;
+- use of native routing mechanisms;
+- efficient forwarding during, and in between mobility events
+- support of anchor-less mobility management and offloading of local traffic;
+- reduction of session state and signaling associated with mobility management;
+- convergence towards a flatter architecture, consistent with other mobility
+proposals.
 
 ## Scope of 3GPP Study Items
 
@@ -232,9 +243,9 @@ specifications.
 Coordination will also be required with CT3 for potential impacts on N6, and
 with SA2 if the work has possible impacts on the stage 2 specifications.
 
-The work in SA2 Study item (3GPP SP-180231) will:
-- Study the feasibility of extending the service concept from 5GC control plane to the user plane function(s)
-NOTE: Impact to User plane traffic processing is not expected in this study.
+The work in SA2 Study item {{SP-180231-1}} will study the feasibility of 
+extending the service concept from 5GC control plane to the user plane function(s).
+Impact to User plane traffic processing is not expected in this study.
 
 ## Relevance to IETF
 
@@ -287,48 +298,28 @@ plane anchors, and interoperability with the SMF.
 *Transport* : Relieve transport and application layers from the
 impact of mobility and related management protocols.
 
-<!--
-- reduction/elimination of encapsulation;
-- use of native routing mechanisms;
-- efficient forwarding during, and in between mobility events
-- support of anchor-less mobility management and offloading of local traffic;
-- reduction of session state and signaling associated with mobility management;
-- convergence towards a flatter architecture, consistent with other mobility
-proposals.
--->
-
 ## Usage of GTP
 
-Following 3GPP study item, the main
-focus of the study is on the N9 interfaces, that interconnect UPFs and could
+The main focus of the study is on the N9 interfaces that interconnect UPFs and could
 span over the mobile backhaul.  However, GTP is used at multiple interfaces beyond
 N9.
 
-N3 and N9 interfaces are tightly coupled and we will discuss in
-{{sec-alt}} the possibility to extend the deployment of new data planes
+N3 and N9 interfaces are tightly coupled and
+{{sec-alt}} discusses the possibility to extend the deployment of new data planes
 to N3. The impact on N3, F1-U, and XN-U interfaces is still TBD.
 
 ## Document Structure
 
-This draft provides a high level overview of the 5G system architecture
+Section 3 provides a high level overview of the 5G system architecture
 and the relevant scenarios like roaming, support fo multiple PDU sessions, etc.
-A list of architectural requirements that candidate solutions should address
-are provided. An overview of the various protocols and how they can be used
+Section 4 provides a list of architectural requirements that candidate solutions should address
+are provided. Section 5 provides an overview of the various protocols and how they can be used
 in the 3GPP 5G architecture is provided.  Details of the
 protocols are provided as references in the respective sections.
-Specifically Segment Routing v6 (SRv6), Locator Identifier Separation
-Protocol (LISP) and Identifier Locator Addressing (ILA) are described
-in the context of the 3GPP 5G architecture.  ILNP is an end-to-end
-protocol and is not included in this document.  The scenario of
-replacing GTP on N9 as the focus of CT4 study is discussed for each
-protocol.  Additional scenarios are related to N3/F1-U; integration
+Section 6 discusses how ID-LOC can be integrated into the 5G framework. 
+Section 7 provides additional scenarios are related to N3/F1-U; integration
 of mobility with transport; support for different mobility protocols
-on different slices of the 5G system, etc.
-
-Each protocol provides a self evaluation as compared to GTP.
-
-Extending user plane protocols to other interfaces in 5G architecture
-are discussed in Section 7.
+on different slices of the 5G system, etc. A summary is provided in Section 8. 
 
 # Conventions and terminology
 
@@ -349,21 +340,20 @@ quickly identifying or finding the portions of this RFC covered by these
 keywords.
 
 Acronyms
-AUSF: Authentication Server Function
-AMF: Access and Mobility Management Function
-DN: Data Network, e.g. operator services, Internet access or 3rd party services
-NEF: Network Exposure Function
-NRF: Network Repository Function
-NSSF: Network Slice Selection Function
-PCF: Policy Control Function
-SMF: Session Management Function
-UDM: Unified Data Management
-UDR: Unified Data Repository
-UPF: User Plane Function
-AF: Application Function
-UE: User Equipment
-RAN: (Radio) Access Network
-
+*AF*: Application Function
+*AUSF*: Authentication Server Function
+*AMF*: Access and Mobility Management Function
+*DN*: Data Network, e.g. operator services, Internet access or 3rd party services
+*NEF*: Network Exposure Function
+*NRF*: Network Repository Function
+*NSSF*: Network Slice Selection Function
+*PCF*: Policy Control Function
+*RAN*: (Radio) Access Network
+*SMF*: Session Management Function
+*UDM*: Unified Data Management
+*UDR*: Unified Data Repository
+*UE*: User Equipment
+*UPF*: User Plane Function
 
 # Overview of 3GPP Release 15 5G Architecture
 
@@ -721,7 +711,7 @@ They are represented in {{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-
 ~~~~
 {: #fig_3GPP-5GS-Home-Routed title="Roaming 5G System Architecture- Home Routed Scenario"}
 
-## Roaming and policy management
+### Roaming and policy management
 
 In general, the Policy Control Functions (PCF)s in Home PLMN (HPLMN) and Visited
 PLMN (VPLMN) interact with their respective SMFs as well as one another to
@@ -743,7 +733,7 @@ mobility management related policies to V-PCF, and allows V-PCF to send Policy
 Association Establishmenent and Termination requests to H-PCF during UE
 registration and deregistration procedures.
 
-__LBO model__
+### Local Break Out Model
 
 In the LBO model, visited operator routes user traffic locally through UPFs that
 are local to the visited operator. In this model, the SMF and all UPF(s)
@@ -758,7 +748,7 @@ the V-PCF. The V-PCF can either provide access and mobility policy information
 on its own, or alternatively obtain the required information from the H-PCF via
 the N24 interface.
 
-__HR model__
+### Home Routed Model
 
 In the HR model, user traffic is routed to the UPF in HPLMN via the UPF in the
 visited network. In this scenario, the SMF in HPLMN (H-SMF) selects the UPF(s)
@@ -849,14 +839,10 @@ central UPF deployed for covering wide area, and local/distributed UPF deployed 
 UPFs are connected via N9 interfaces over transport network.
 
 ~~~~
-
-                             .--.
-                            (    )-.
-                          .'  cDN/  '
-                         (  Internet )
-                          (         -'
-                           '-(     )
-                              '---'
+                           +----------+
+                           |   cDN/   |
+                           | Internet |
+                           +----------+
                                 |N6
                           +-----+-----+
                           |   cUPF    |
@@ -868,22 +854,18 @@ UPFs are connected via N9 interfaces over transport network.
        \                                                 /
         `----+---------------------------+--------------'
              |N9                         |N9
-       +-----+-----+    ,-----.    +-----+-----+    ,-----.
-       |   dUPF#1  |N6 /       \   |   dUPF#2  |N6 /       \
-       |       [UL]+---| dDN#A |   |       [UL]+---| dDN#B | ...
-       |       [CL]|   \       /   |       [CL]|   \       /
-       +-----+-----+    `-----'    +-----+-----+    `-----'
+       +-----+-----+               +-----+-----+    
+       |   dUPF#1  |N6 +-------+   |   dUPF#2  |N6 +-------+
+       |  [UL/CL]  +---| dDN#A |   |   [UL/CL] +---| dDN#B |
+       +-----------+   +-------+   +-----------+  +-------+   
              |N3                         |N3
-
-          (( o ))                     (( o ))
-             A                           A
-            /-\  RAN                    /-\  RAN
-           /-|-\                       /-|-\
-
+          +-----+                     +-----+
+          | gNB |                     | gNB |
+          +-----+                     +-----+
              |                           |
-
-          [ UE ] ..                   [ UE ] ..
-
+           +----+                     +----+
+           | UE |                     | UE |
+           +----+                     +----+
 
                                             dUPF: Distributed UPF
                                             cUPF: Central UPF
@@ -907,11 +889,6 @@ _SSC mode 3_: changes to the user plane can be visible to the UE, while the netw
 ensures that the UE suffers no loss of connectivity. A connection through new PDU
 Session Anchor point is established before the previous connection is terminated in
 order to allow for better service continuity.
-
-## Sections on GTP-U, PFCP for Release 15 and SBI for Release 16
-
-Is there a need for deployment scenarios (to address regarding IPv4/ IPv6
-end-to-end, backhaul and underlay for Mobile core) ?
 
 # Architectural requirements
 
@@ -974,7 +951,7 @@ core fall into two categories:
 The details are provided in Section 6.1.
 
 2. Integrated model:
-    - In this model UPFs Tx/Rx packets in accordance with the new data plane format.
+    - In this model UPFs transmit/receive packets in accordance with the new data plane format.
     - UPFs and 3GPP control will be modified.
     - 3GPP and transport data plane are collapsed into one data plane.
 
@@ -1828,19 +1805,9 @@ functionalities through proxies or direct insertion in user devices as the
 technology gets adopted and deployed.
 
 
-# Integration of new data planes into the 5G framework
+# Integration of ID-LOC into the 5G framework
 
-## Integration with existing mobility management
-
-### SRv6
-
-As discussed in Section 5.3.1, SRv6 can be used as GTP replacement with
-minor modifications to the existing control plane. In this mode, SRv6
-conveys the TEID and other relevant information into the SRv6 SIDs.
-
-## ID/Loc split-based
-
-### ID/Loc split overview
+## ID/Loc split overview
 
 An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from
 their location in the network (LOC). Common ID-LOC architectures are based on two main
@@ -1918,7 +1885,7 @@ the former case, an interface from the SMF to the Mapping System is needed
 (as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
 
 
-#### Overview of 5GS and ID-LOC Coexistence Approach
+## Overview of 5GS and ID-LOC Coexistence Approach
 
 ID-Locator separation architecture can be implemented by control plane of a
 dedicated protocol such as LISP, ILA, etc., however, it may cause major
@@ -1992,7 +1959,7 @@ GTP-based mechanism.
 Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-### LISP Control-Plane
+## LISP Control-Plane
 
 The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
 is data-plane agnostic and can serve as control-plane for different data-plane
@@ -2033,7 +2000,7 @@ endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 nod
 The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
 can be found in {{I-D.TBD}}.
 
-### ILA control plane
+## ILA control plane
 
 The ILA control plane is composed of mapping protocols that manage and
 disseminate information about the mapping database. There are two levels of
@@ -2174,12 +2141,7 @@ __ID-based__
 Finally, in slice #4, a slice using hICN-AMM is shown, that does not require any
 mapping system nor changes in N4.
 
-## Interoperability considerations
-
-    TODO:
-
-    - This section require some text to introduce the two scenarios, and review
-    protocol specific interactions
+## Interoperability/Roaming considerations for different mobility protocols
 
 Different situations including roaming scenarios might require the coexistence
 of different mobility protocols for the same user plane. In
