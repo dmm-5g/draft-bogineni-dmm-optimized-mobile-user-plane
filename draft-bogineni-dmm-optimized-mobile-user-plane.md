@@ -844,7 +844,7 @@ within a single PDU Session.
 ~~~~
 {: #fig_3GPP-5GS-Access2DN title="Non-roaming 5G System Architecture for Current Access to Two (e.g. local and central) Data Networks (single PDU Session option"}
 
-{{fig_Overview-5GS-IDLOC-Coexist-Network}}
+{{fig_Overview-Network-with-dUPF}}
 depicts overview of a network model where multiple UPFs are distributed geographically. Such networks have two types of UPFs:
 central UPF deployed for covering wide area, and local/distributed UPF deployed close to UEs' access points.　
 UPFs are connected via N9 interfaces over transport network.
@@ -892,7 +892,7 @@ UPFs are connected via N9 interfaces over transport network.
                                              cDN: Central DN
 
 ~~~~
-{: #fig_Overview-5GS-IDLOC-Coexist-Network title="Overview of Network Model with Distributed UPFs"}
+{: #fig_Overview-Network-with-dUPF title="Overview of Network Model with Distributed UPFs"}
 
 
 ## Service and Session Continuity Modes
