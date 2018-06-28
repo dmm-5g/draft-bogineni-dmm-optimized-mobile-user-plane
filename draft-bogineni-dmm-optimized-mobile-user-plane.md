@@ -56,6 +56,12 @@ author:
     role:
     org: Cisco Systems, Inc.
     email: jordan.auge@cisco.com
+-    
+    ins: L. Muscariello
+    name: Luca Muscariello
+    role:
+    org: Cisco Systems, Inc.
+    email: lumuscar@cisco.com
 -
     ins: P. Camarillo
     name: Pablo Camarillo Garvia
@@ -170,7 +176,8 @@ informative:
   ADDRPRIV:
     title: TODO
   LISP-WG:
-    title: TODO
+    title: TODOgit diff
+    
   ILSR-WP:
     title: "Evolving 5G Routing"
     author:
@@ -183,6 +190,8 @@ informative:
     date: December 2017
   IRTF-RRG:
     title: TODO
+  I-D.TBD:
+    title: TODO - SRv6 and LISP-CP
 
 --- abstract
 
@@ -661,7 +670,7 @@ functionalities.
 
 ### N9 Interface
 
-The details of N9 interface are extracted from {{TS.29.891-3GPP}}.
+The details of N9 interface are extracted from {{TR.29.891-3GPP}}.
 
 The following information is sent in an encapsulation header over the N3
 interface. N9 needs to support that.
