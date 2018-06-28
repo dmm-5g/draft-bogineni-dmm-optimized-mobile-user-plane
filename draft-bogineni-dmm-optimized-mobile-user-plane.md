@@ -2377,20 +2377,6 @@ on N9 interface of 3GPP 5G architecture.
     out of 3GPP control plane as we do an early termination
     keep overhead and complexity of tunnel
 
-# No Protocol Option
-
-In this option, mobility is handled nomadically by the app.
-
-<!--
-# Comparison of Protocols
-
-This section will compare the different protocols with reference to how they
-will support the requirements for UPF and N9 interface; how the various
-scenarios identified in Sections 3 and 4 will be supported and impacts to other
-interfaces and functions of the architecture (e.g. N3, N4, SMF, AMF, etc).
-
-    # What is the criteria for comparison?
--->
 
 # Formal Syntax
 
@@ -2409,8 +2395,8 @@ TBD
 
 The authors would like to thank Farooq Bari, Devaki Chandramouli, Ravi
 Guntupalli, Sri Gundavelli, Peter Ashwood Smith, Satoru Matsushima, Michael
-Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne, and Luca
-Muscariello for reviewing various iterations of the document and for providing
+Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne for 
+reviewing various iterations of the document and for providing
 content into various sections.
 
 --- back
