@@ -1772,6 +1772,52 @@ technology gets adopted and deployed.
 
 # Integration into the 5G framework {#sec-integration}
 ## Locator based 
+
+### SRv6
+
+#### Insertion in N9 interface
+
+#### Control Plane considerations
+
+#### Extensions to N3/F1-U/Xn-U interface
+
+Although not strictly the object of study by 3GPP, previous solutions can (and
+would gain to) be extended beyond N9 to cover N3 interface too.
+
+The immediate benefit is the complete removal of all GTP tunnels, along with
+associated mangement complexity and traffic overhead. In particular, this
+removes the need for internetworking between N3 and N9 technologies, and offers
+a uniform user plane as recommended in the specification.
+
+Potential gains can result for an early handling of traffic right from the RAN
+and thus possibly closer to the UE. The result is a simpler and lighter
+architecture, allowing convergence with other non-3GPP accesses.
+
+
+The mobile network would benefit of the application of SRv6 to both, N3 and
+N9 interfaces. The intrinsic ability of SRv6 to integrate, in a single protocol,
+the control of the overlay, underlay and NFV implies that if applied to the N3
+interface the end-to-end SRv6-based network slice can start on the NodeB itself.
+
+
+#### Coexistance with GTP-based architecture
+
+An alternative vision, although not recommended, would be to preserve the
+current architecture as is, and deploy alternative data planes on top.
+
+As explained in section 5.3.1, SRv6 can co-exist with the current GTP-based
+control plane. Additionally, the current control plane can be extended to suport
+TE as defined in 5.3.2.
+
+From a dataplane perspective, SRv6 can coexist on the N9 interface together
+with GTP-U traffic.
+
+This is important towards a slow migration from a GTP-based architecture
+into different architectures.
+
+
+#### Compliance with architectural requirements
+
 ## ID/Loc split 
 
 An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from
@@ -1924,7 +1970,7 @@ GTP-based mechanism.
 Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-### LISP Control-Plane
+### LISP Control-Plane considerations
 
 The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
 is data-plane agnostic and can serve as control-plane for different data-plane
@@ -1965,7 +2011,7 @@ endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 nod
 The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
 can be found in {{I-D.TBD}}.
 
-### ILA control plane
+### ILA control plane considerations
 
 The ILA control plane is composed of mapping protocols that manage and
 disseminate information about the mapping database. There are two levels of
@@ -2013,7 +2059,7 @@ entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
 
 
-#### hICN insertion in N9 interface
+#### Insertion in N9 interface
 
 Insertion of hICN in 5G IP infrastructure is facilitated by its design allowing
 a selective insertion of hICN capabilities in a few network nodes at the edge
@@ -2069,7 +2115,8 @@ beneficial in case of dense deployments or failure of the central control
 entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
 
-#### Insertion in both N9 and N3 interfaces
+
+#### Extensions to N3/F1-U/Xn-U interface 
 
 This option ensures that forwarding beyond the radio access is directly managed
 through hICN. As a consequence, no additional state nor signaling is required
@@ -2084,6 +2131,7 @@ deployments scenarios where it becomes possible to isolate the core network from
 the locally-management mobility (a design objective of the mobile architecture),
 while allowing distributed selection of ingress UPFs, and dynamic per-packet
 load balancing of traffic across them.
+
 
 #### Coexistence with 3GPP architecture
 
@@ -2112,6 +2160,7 @@ in terms of consumer mobility and flexible transport.
 A more in depth presentation of those alternative deployments can be found in
 {{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
 
+
 #### Compliance with architectural requirements
 
 ARCH-Req-1: hICN is fully built-in and compatible with IPv4 and IPv6; support of
@@ -2138,6 +2187,7 @@ ARCH-Req-6: QFI might be encoded and applied through forwarding strategies
 applied to a given prefix, or complementary mechanisms such as SRv6 for
 instance. hICN exposes rich names at netwwork layer, so faciltating labelling,
 aggregation and more generally QoS management.
+
 
 ### hICN with SRv6
 
@@ -2278,89 +2328,6 @@ interconnection.
           +-----+     +-----+   +-----+    +-----+      +----+
 ~~~~
 {: #fig-multiple-exchange title="Connectivity between operators using an Exchange that supports multiple mobility protocols"}
-
-# Alternative deployment options {#sec-alt}
-
-## Extensions to N3/F1-U/Xn-U interface
-
-Although not strictly the object of study by 3GPP, previous solutions can (and
-would gain to) be extended beyond N9 to cover N3 interface too.
-
-The immediate benefit is the complete removal of all GTP tunnels, along with
-associated mangement complexity and traffic overhead. In particular, this
-removes the need for internetworking between N3 and N9 technologies, and offers
-a uniform user plane as recommended in the specification.
-
-Potential gains can result for an early handling of traffic right from the RAN
-and thus possibly closer to the UE. The result is a simpler and lighter
-architecture, allowing convergence with other non-3GPP accesses.
-
-### SRv6
-
-The mobile network would benefit of the application of SRv6 to both, N3 and
-N9 interfaces. The intrinsic ability of SRv6 to integrate, in a single protocol,
-the control of the overlay, underlay and NFV implies that if applied to the N3
-interface the end-to-end SRv6-based network slice can start on the NodeB itself.
-
-### hICN
-
-This option ensures that forwarding beyond the radio access is directly managed
-through hICN. As a consequence, no additional state nor signaling is required
-for static and mobile consumers, nor for static producers. The impact of
-producer mobility is low because of the small number of impacted routers.
-
-Dynamic forwarding capabilities are extended in this configuration to the
-selection of the first UPF, with the potential of additional performance
-improvement and higher traffic offload because of the deployment of hICN
-functionalities closer to the UE. A significant advantage arises in dense
-deployments scenarios where it becomes possible to isolate the core network from
-the locally-management mobility (a design objective of the mobile architecture),
-while allowing distributed selection of ingress UPFs, and dynamic per-packet
-load balancing of traffic across them.
-
-
-## Coexistence with GTP-based architecture
-
-An alternative vision, although not recommended, would be to preserve the
-current architecture as is, and deploy alternative data planes on top.
-
-### SRv6
-As explained in section 5.3.1, SRv6 can co-exist with the current GTP-based
-control plane. Additionally, the current control plane can be extended to suport
-TE as defined in 5.3.2.
-
-From a dataplane perspective, SRv6 can coexist on the N9 interface together
-with GTP-U traffic.
-
-This is important towards a slow migration from a GTP-based architecture
-into different architectures.
-
-### hICN
-
-This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G
-reference architecture, where GTP tunnels are preserved. As previously stated,
-maintaining GTP tunnels does not allow to overcome limitations of anchor-based
-approaches. However, a transparent integration of hICN-AMM limits to the minimum
-deployment costs and already brings advantages over the baseline architecture
-presented earlier.
-
-The first option shares some similarities with the previous situation and
-proposes to deploy hICN-AMM within Mobile Edge Computing (MEC) platforms. It
-relies on the local breakout capability introduced in 5G through the UL/CL. This
-function is used to realize the hICN punting function described in
-{{?I-D.muscariello-intarea-hicn}}, i.e. to identify hICN traffic (Interest and
-Data packets) and forward it to the local MEC hICN instance. Although it
-preserves tunnels and anchor points, this option permits an early termination of
-tunnels and the distribution of hICN capabilities close to the edge like in path
-caching and rate/loss/congestion control which may be leveraged for efficient
-low-latency content distribution especially in presence of consumer mobility.
-
-The second option consists in the deployment of hICN-AMM as User Plane Function
-(UPF) inside mobile user plane. It has the advantage of preserving hICN benefits
-in terms of consumer mobility and flexible transport.
-
-A more in depth presentation of those alternative deployments can be found in
-{{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
 
 
 # Summary {#sec-summary}
