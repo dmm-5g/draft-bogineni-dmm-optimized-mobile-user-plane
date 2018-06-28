@@ -1745,15 +1745,13 @@ technology gets adopted and deployed.
 
 # Integration into the 5G framework {#sec-integration}
 
-## Locator based 
+## Locator based - SRv6
 
-### SRv6
+### Insertion in N9 interface
 
-#### Insertion in N9 interface
+### Control Plane considerations
 
-#### Control Plane considerations
-
-#### Extensions to N3/F1-U/Xn-U interface
+### Extensions to N3/F1-U/Xn-U interface
 
 Although not strictly the object of study by 3GPP, previous solutions can (and
 would gain to) be extended beyond N9 to cover N3 interface too.
@@ -1774,7 +1772,7 @@ the control of the overlay, underlay and NFV implies that if applied to the N3
 interface the end-to-end SRv6-based network slice can start on the NodeB itself.
 
 
-#### Coexistance with GTP-based architecture
+### Coexistance with GTP-based architecture
 
 An alternative vision, although not recommended, would be to preserve the
 current architecture as is, and deploy alternative data planes on top.
@@ -1790,7 +1788,7 @@ This is important towards a slow migration from a GTP-based architecture
 into different architectures.
 
 
-#### Compliance with architectural requirements
+### Compliance with architectural requirements
 
 ## ID/Loc split 
 
@@ -2016,9 +2014,7 @@ ID-Locator separation domain, and it may leads to increase of latency.
 
 ### Compliance with architectural requirements
 
-## ID-based
-
-### hICN
+## ID-based - hICN
 
 By operating directly on routers’ FIBs for mobility updates, dynamic hop-by-hop
 forwarding strategies etc., hICN inherits the simplicity of IP forwarding and
@@ -2037,7 +2033,7 @@ entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
 
 
-#### Insertion in N9 interface
+### Insertion in N9 interface
 
 Insertion of hICN in 5G IP infrastructure is facilitated by its design allowing
 a selective insertion of hICN capabilities in a few network nodes at the edge
@@ -2075,7 +2071,7 @@ directly over L2.
 ~~~~
 {: #fig-hicn-prot-n9 title="Replacement of N9 interface - Protocol layers" }
 
-#### Control plane considerations
+### Control plane considerations
 
 By operating directly on routersâ FIBs for mobility updates, dynamic hop-by-hop
 forwarding strategies etc., hICN inherits the simplicity of IP forwarding and
@@ -2094,7 +2090,7 @@ entities (infrastructure-less communication scenarios) to empower distributed
 control of local mobility within an area.
 
 
-#### Extensions to N3/F1-U/Xn-U interface 
+### Extensions to N3/F1-U/Xn-U interface 
 
 This option ensures that forwarding beyond the radio access is directly managed
 through hICN. As a consequence, no additional state nor signaling is required
@@ -2111,7 +2107,7 @@ while allowing distributed selection of ingress UPFs, and dynamic per-packet
 load balancing of traffic across them.
 
 
-#### Coexistence with 3GPP architecture
+### Coexistence with 3GPP architecture
 
 This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G
 reference architecture, where GTP tunnels are preserved. As previously stated,
@@ -2139,7 +2135,7 @@ A more in depth presentation of those alternative deployments can be found in
 {{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
 
 
-#### Compliance with architectural requirements
+### Compliance with architectural requirements
 
 ARCH-Req-1: hICN is fully built-in and compatible with IPv4 and IPv6; support of
 Ethernet or unstructured PDU can be transported over hICN by leveraging naming
