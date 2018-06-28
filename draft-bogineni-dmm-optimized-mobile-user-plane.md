@@ -1356,7 +1356,7 @@ and encourage use of IPv6, provide strong privacy, are interoperable with
 existing infrastructure, applicable to a variety of use cases, and have
 simplified control and management.
 
-### Overview of ILA
+### Overview
 
 ILA is a form of identifier/locator split where IPv6 addresses are transformed
 from application-visible, non-topological "identifier" addresses to topological
@@ -1426,7 +1426,7 @@ where GTP-U is used over N3 and ILA is used on N9.
 ~~~~
 {: #fig_ILA-Protocol-Layering title="ILA and protocol layer in 5G"}
 
-### Control Plane
+### Control plane
 
 ILA-M provides the interface between the 5G services architecture and the common
 ILA control plane.
@@ -1726,6 +1726,20 @@ appropriate mobility management, and dedicated hICN nodes with appropriate
 caching/forwarding strategies at places aggregating considerable number of user
 requests.
 
+
+### hICN with SRv6
+
+The association of hICN with other data planes technologies, such as SRv6, is
+investigated as a possibility to overcome the above-mentioned tradeoff yielding
+to a selective, yet fully beneficial insertion of hICN in IP networks. This
+would inherit all SRv6 advantages for underlay (TE, FRR) and service
+programming (NFV), but also extend the reach of hICN on regular IP routers with
+SRv6 functionality.
+
+One realization consists in creating SRv6 domains in between hICN nodes. The
+hICN router (through forwarding strategies) would then act as a control plane
+for SRv6 by specifying the list of SIDs to insert in the packet.
+
 ### Summary
 
 hICN proposes a general purpose network architecture that combines the benefits of a
@@ -1772,7 +1786,7 @@ the control of the overlay, underlay and NFV implies that if applied to the N3
 interface the end-to-end SRv6-based network slice can start on the NodeB itself.
 
 
-### Coexistance with GTP-based architecture
+### Coexistence with GTP-based architecture
 
 An alternative vision, although not recommended, would be to preserve the
 current architecture as is, and deploy alternative data planes on top.
@@ -1808,8 +1822,8 @@ example of the latter.
 
 The ID-LOC mapping system is a database that provides mappings of Identity to Location
 for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC
-control-plane protocol to make available at the data-plane nodes the ID-LOC mappings
-that they need to operate. Examples of such ID-LOC control-plane protocols are LISP-CP
+control plane protocol to make available at the data-plane nodes the ID-LOC mappings
+that they need to operate. Examples of such ID-LOC control plane protocols are LISP-CP
 and ILAMP, which are discussed later in this section.
 
 When integrating ID-LOC architecture into the 5G framework there are several aspects
@@ -1871,10 +1885,10 @@ the former case, an interface from the SMF to the Mapping System is needed
 
 
 
-### LISP Control-Plane considerations
+### LISP control plane considerations
 
 The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
-is data-plane agnostic and can serve as control-plane for different data-plane
+is data-plane agnostic and can serve as control plane for different data-plane
 protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to
 register, request, notify and update ID-Loc mappings between ID-LOC data-plane
 elements and the ID-LOC Mapping System. In the sections below we describe how
@@ -1888,7 +1902,7 @@ can be applied.
 #### LISP-CP for ILA
 
 The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the
-operation of an ILA data-plane. The required ILA control-plane operations of "request/response"
+operation of an ILA data-plane. The required ILA control plane operations of "request/response"
 and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}}
 and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is
 implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered
@@ -1938,7 +1952,7 @@ security in the form of TLS. Secure redirects are facilitated by the use of TCP.
 RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
 are popular in SDN.
 
-### Coexistance with GTP-based architecture
+### Coexistence with GTP-based architecture
 
 ID-Locator separation architecture can be implemented by control plane of a
 dedicated protocol such as LISP, ILA, etc., however, it may cause major
@@ -2163,18 +2177,6 @@ instance. hICN exposes rich names at netwwork layer, so faciltating labelling,
 aggregation and more generally QoS management.
 
 
-### hICN with SRv6
-
-The association of hICN with other data planes technologies, such as SRv6, is
-investigated as a possibility to overcome the above-mentioned tradeoff yielding
-to a selective, yet fully beneficial insertion of hICN in IP networks. This
-would inherit all SRv6 advantages for underlay (TE, FRR) and service
-programming (NFV), but also extend the reach of hICN on regular IP routers with
-SRv6 functionality.
-
-One realization consists in creating SRv6 domains in between hICN nodes. The
-hICN router (through forwarding strategies) would then act as a control plane
-for SRv6 by specifying the list of SIDs to insert in the packet.
 
 ## Coexistence of multiple protocols in network slices
 
