@@ -1122,8 +1122,7 @@ Notice that SRv6 applicability does not require a new mobility control-plane,
 although SRv6 can be combined with other control-planes as described later
 in this document (LISP, hICN).
 
-The applicability of SRv6 to mobility is described in {{?I-D.ietf-dmm-srv6-mobile-uplane}}
-and its use-cases are described in {{I-D.TBD}}.
+The applicability of SRv6 to mobility is described in {{?I-D.ietf-dmm-srv6-mobile-uplane}}.
 
 SRv6 counts with three open-source implementations (Linux Kernel, FD.io VPP, P4)
 and several propietary implementations (4xCisco, 1xBarefoot Networks, 1xUTStarcom)
@@ -1139,7 +1138,7 @@ SRv6 appears well placed as a mechanism to replace GTP-U with initially no
 control plane changes, but to then offer a progressive path towards many
 innovations in routing.
 
-### SRv6 with NFV and TE
+### SRv6 with Traffic Engineering
 
 SRv6 can be appleid as a drop-in replacement for GTP without changes in the control-plane.
 This is a simple 1 to 1 replacement. However, SRv6 offers much richer possibilities.
@@ -1202,7 +1201,7 @@ set of bits in the SID construct itself. In this way, the hashing algorithm at
 different nodes distribute traffic flows based on the SID which has been copied
 to IPv6 DA field.
 
-### SRv6 and 5G Slicing
+### SRv6 and transport slicing
 
 Slicing is one of the main features in 5G {{TS.23.501-3GPP}}. Several Slices with
 different requirements can coexist on top of the common network infrastructure.
@@ -1771,7 +1770,7 @@ flow. In other words, TEIDs are used to coordinate traffic hand off between
 different UPFs.
 
 In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP
-tunnels. 
+tunnels. This is commonly known as Traditional Mode.
 
 A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
 and other relevant data can be encoded into SRv6 SIDs which can be mapped back
