@@ -71,8 +71,11 @@ author:
 
 informative:
   ILAGRPS:
-    title: "Identifier Group in ILA (To be published)"
+    title: "Identifier Groups draft-herbert-idgroups-00"
     author:
+    -
+        ins: T. Herbert
+    date: February 2018
   TR.29.891-3GPP:
     title: "5G System ? Phase 1, CT WG4 Aspects, 3GPP TR 29.891 v15.0.0"
     author:
@@ -153,17 +156,31 @@ informative:
   ILAKERNEL:
     title: TODO
   ILACONTROL:
-    title: TODO
+    title: "Identifier Locator Addressing Mapping Protocol draft-herbert-ila-ilamp-00"
+    author:
+    -
+        ins: T. Herbert
+    date: December 2017
   ILAMOTIVE:
-    title: TODO
+    title: "Identifier Locator Addressing: Problem Areas, Motivation, and Use Cases draft-herbert-ila-motivation-00"
+    author:
+    -
+        ins: T. Herbert
+    date: January 2018
   ADDRPRIV:
-    title: TODO
-  I-D.TBD:
     title: TODO
   LISP-WG:
     title: TODO
   ILSR-WP:
-    title: TODO
+    title: "Evolving 5G Routing"
+    author:
+    -
+        ins: R. Kurebayashi
+    -
+        ins: P. Ashwood-Smith
+    -
+        ins: D. Farinacci
+    date: December 2017
   IRTF-RRG:
     title: TODO
 
@@ -210,16 +227,22 @@ and their use as replacement of GTP for N9 is further described.
 
 Analysis work for clarifying the specifications of GTP-U as the
 current mobile user plane protocol and the architectural requirements of the
-5G system is proceeded in {{I-D.hmm-dmm-5g-uplane-analysis}}. That provides
+5G system is provided in {{I-D.hmm-dmm-5g-uplane-analysis}}. That provides
 observations of GTP-U, the architectural requirements for UP protocol, and
 some evaluation criteria based on the requirements.
 
 Optimization of the user plane can be in one more more of the following:
+
 - reduction/elimination of encapsulation;
+
 - use of native routing mechanisms;
-- efficient forwarding during, and in between mobility events
+
+- efficient forwarding during, and in between mobility events;
+
 - support of anchor-less mobility management and offloading of local traffic;
+
 - reduction of session state and signaling associated with mobility management;
+
 - convergence towards a flatter architecture, consistent with other mobility
 proposals.
 
@@ -231,7 +254,9 @@ protocol for N9 in 5GC architecture as specified in {{TS.23.501-3GPP}} and
 of the existing user plane solution and potential benefits of alternative user
 plane solutions.
 
-The expected work in CT4 {{CP-173160-1}} will include:
+The following is extracted from the CT4 study item {{CP-173160-1}}.
+
+The expected work in CT4 will include:
 
 - Identify the possible candidate protocols for user-plane including existing
 protocol;
@@ -248,7 +273,7 @@ specifications.
 Coordination will also be required with CT3 for potential impacts on N6, and
 with SA2 if the work has possible impacts on the stage 2 specifications.
 
-The work in SA2 Study item {{SP-180231-1}} will study the feasibility of 
+Extracted from {{SP-180231-1}}, the work in SA2 Study item will study the feasibility of 
 extending the service concept from 5GC control plane to the user plane function(s).
 Impact to User plane traffic processing is not expected in this study.
 
@@ -309,16 +334,14 @@ N9.
 
 N3 and N9 interfaces are tightly coupled and
 Section 6 discusses the possibility to extend the deployment of new data planes
-to N3. The impact on N3, F1-U, and XN-U interfaces is still TBD.
+to N3. The impact on N3, F1-U, and Xn-U interfaces is still TBD.
 
 ## Document Structure
 
 {{sec-arch}} provides a high level overview of the 5G system architecture
 and the relevant scenarios like roaming, support fo multiple PDU sessions, etc.
 {{sec-req}} provides a list of architectural requirements that candidate solutions should address
-are provided. {{sec-models}} provides an overview of the various protocols and how they can be used
-in the 3GPP 5G architecture is provided.  Details of the
-protocols are provided as references in the respective sections.
+are provided. {{sec-models}} provides an overview of the various protocols. 
 {{sec-integration}} discusses how various approaches can be integrated into the 5G framework. 
 A summary is provided in
 {{sec-summary}}.
@@ -342,19 +365,33 @@ quickly identifying or finding the portions of this RFC covered by these
 keywords.
 
 Acronyms
+
 *AF*: Application Function
+
 *AUSF*: Authentication Server Function
+
 *AMF*: Access and Mobility Management Function
+
 *DN*: Data Network, e.g. operator services, Internet access or 3rd party services
+
 *NEF*: Network Exposure Function
+
 *NRF*: Network Repository Function
+
 *NSSF*: Network Slice Selection Function
+
 *PCF*: Policy Control Function
+
 *RAN*: (Radio) Access Network
+
 *SMF*: Session Management Function
+
 *UDM*: Unified Data Management
+
 *UDR*: Unified Data Repository
+
 *UE*: User Equipment
+
 *UPF*: User Plane Function
 
 # Overview of 3GPP Release 15 5G Architecture {#sec-arch}
@@ -399,7 +436,7 @@ TS 23.501, and represented in {{fig_3GPP-5GS-in-Reference-Point}} and {{fig_3GPP
 ~~~~
 {: #fig_3GPP-5GS-in-Reference-Point title="5G System Architecture in Reference Point Representation"}
 
-A short description of the network functions is provided below.
+A short description of the network functions is provided below. Details are in {{TS.23.501-3GPP}}.
 
 Access and Mobility Management Function (AMF) interfaces with the Radio access network and provides
 management of registration/connection/reachability/mobility, access authentication and authorization,
@@ -499,6 +536,8 @@ below in {{fig_Protocol-Stack}}.
 ~~~~
 {: #fig_Protocol-Stack title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface}
 
+## Mobility Architecture with reference to N9
+
 This document focuses on the N9 interface which represents the user data plane
 between UPFs in 5G architecture. {{fig_3GPP-5GS-N9}} shows the relevant
 functions and interfaces.
@@ -516,10 +555,12 @@ functions and interfaces.
 ~~~~
 {: #fig_3GPP-5GS-N9 title="N3, N4, N9, and N6 interfaces in 5G Service Based Architecture"}
 
-## User Plane Function (UPF) Functionalities
+### User Plane Function (UPF) Functionalities
 
 The User plane function (UPF) is the function relevant to this evaluation and
-the N9 interface between two UPFs {{TS.23.501-3GPP}}.
+the N9 interface between two UPFs.
+
+The following is extracted from  {{TS.23.501-3GPP}}.
 
 The User Plane Function (UPF) handles the user plane path of PDU sessions. The
 UPF transmits the PDUs of the PDU session in a single tunnel between 5GC and
@@ -618,7 +659,9 @@ functionalities.
   based on the selected network slice instance, DNN and other
   information e.g.  UE subscription and local operator policies.
 
-## N9 Interface
+### N9 Interface
+
+The details of N9 interface are extracted from {{TS.29.891-3GPP}}.
 
 The following information is sent in an encapsulation header over the N3
 interface. N9 needs to support that.
@@ -652,7 +695,7 @@ decided to be supported.
 
 ## Roaming Architectures
 
-3GPP specifies two roaming models, namely the Local Break Out (LBO) and the Home
+3GPP specifies two roaming models in {{TS.23.501-3GPP}}, namely the Local Break Out (LBO) and the Home
 Routed (HR) model.
 
 - Local Break Out Model: This model enables traffic to be offloaded locally in the visited network.
@@ -660,11 +703,12 @@ Routed (HR) model.
 - Home Routed Model: In this model, the traffic is always routed to the home network.
 
 A given UE can have multiple simultaneous PDU sessions
-with different roaming model. In these scenarios, the HPLMN uses subscription
+with different roaming models. In these scenarios, the HPLMN uses subscription
 data per Data Network Name(DNN) and per Single Network Slice Selection
 Assistance Information(S-NSSAI) to determine PDU sessions's roaming model.
 
-They are represented in {{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}}.
+They are represented in {{fig_3GPP-5GS-Local-Breakout}} and {{fig_3GPP-5GS-Home-Routed}} to the extent 
+relevant to N9.
 
 ~~~~
                                    VPLMN      |     HPLMN
@@ -720,7 +764,7 @@ PLMN (VPLMN) interact with their respective SMFs as well as one another to
 support roaming.
 
 The interface between the PCF and SMF allows the PCF to have dynamic control
-over policy and charging desicions at SMF.  More specifically, the interface
+over policy and charging decisions at SMF.  More specifically, the interface
 
 - Enables the SMF to establish PDU session,
 - Allows policy and charging control decisions to be requested from the SMF to
@@ -2261,7 +2305,7 @@ __ID-based__
 Finally, in slice #4, a slice using hICN-AMM is shown, that does not require any
 mapping system nor changes in N4.
 
-## Interoperability/Roaming considerations for different mobility protocols
+## Interoperability/Roaming considerations
 
 Different situations including roaming scenarios might require the coexistence
 of different mobility protocols for the same user plane. In
