@@ -1,6 +1,6 @@
 ---
 title: Optimized Mobile User Plane Solutions for 5G
-abbrev: draft-bogineni-dmm-optimized-mobile-user-plane
+abbrev: draft-bogineni-dmm-optimized-mobile-up
 docname: draft-bogineni-dmm-optimized-mobile-user-plane-01
 date: 2018
 category: info
@@ -8,7 +8,7 @@ category: info
 ipr:
 area: Internet Area
 workgroup: dmm
-keyword: Internet-Draft
+keyword: I-D
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs]
