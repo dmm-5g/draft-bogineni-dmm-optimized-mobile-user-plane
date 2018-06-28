@@ -1118,9 +1118,9 @@ can offer end-to-end network slices that spans all those elements
 The versatility and adaptability of SR combined with IPv6's ample and flexible
 address space positions SRv6 as a viable data plane for the next
 generation of mobile user-plane, in particular the 3GPP N3 and N9 interfaces.
-Notice that SRv6 applicability does not require a new mobility control-plane,
-although SRv6 can be combined with other control-planes as described later
-in this document (LISP, hICN).
+Notice that SRv6 applicability does not require a new mobility control-plane.
+SRv6 can be combined with other control-planes such as LISP, hICN described later
+in this document or others such as DHT, propietary CP, etc.
 
 The applicability of SRv6 to mobility is described in {{?I-D.ietf-dmm-srv6-mobile-uplane}}.
 
@@ -1134,14 +1134,20 @@ then shows how SRv6 as a GTP-U replacement can then provide additional features
 such as TE, IP session aggregation, rate limiting, and distributed NFVi
 that are not natively available by GTP.
 
+It must be noted that the SRv6 models discussed in this document 
+can follow either of the interworking or the integration model
+mentioned earlier depending on operator's requirements.
+
 SRv6 appears well placed as a mechanism to replace GTP-U with initially no
 control plane changes, but to then offer a progressive path towards many
 innovations in routing.
 
+
 ### SRv6 with Traffic Engineering
 
 SRv6 can be applied as a drop-in replacement for GTP without changes in the control-plane.
-This is a simple 1 to 1 replacement discussed in section 6.1. However, SRv6 offers much richer possibilities.
+This is a simple 1 to 1 replacement discussed in section 6.1. However, SRv6 offers 
+much richer possibilities.
 
 Traffic engineering is a native feature of SR. The SRv6 variant of SR of
 course supports both strict and loose models of source routing. Here, the SID
@@ -1222,8 +1228,11 @@ The previous sections discussed how SRv6 could be employed as a replacement for
 GTP tunnels while leaving the existing control plane intact. This section
 describes the use of SRv6 as a vehicle to implement Locator/ID Separation model
 for UPF data plane connectivity.
+It must be ntoed that SRv6 implementation of the ID-LOC architecture can employ
+a variety of different control planes including LISP, , different variety of
+DHT, proprietary, etc.
 
-#### UPF connectivity via SRv6 with Loc-ID separation (GTP integration)
+#### UPF connectivity via SRv6 with Loc-ID separation (Interworking model)
 
 SRv6 can easily implement ID-LOC Separation model for UPF connectivity. The SIDs
 are once again the main vehicle here. In this model, UPFs are considered to be
@@ -1238,7 +1247,7 @@ It must be noted that use of GTP at UPFs allows us to leave the 3GPP control
 plane intact and hence provides a smooth migration path toward SRv6 with
 ID-Locator model.
 
-#### SRv6 Capable UPFs and RLOCs (GTP replacement)
+#### SRv6 Capable UPFs and RLOCs (Integration model)
 
 In this model, the head-end UPF (Ingress UPF) is the ingress node and the entity
 that constructs the SRH in the SRv6 domain.
@@ -1769,16 +1778,23 @@ the data path between the above mentioned network nodes for a particular user
 flow. In other words, TEIDs are used to coordinate traffic hand off between
 different UPFs.
 
-In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP
-tunnels. This is commonly known as Traditional Mode.
+In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP tunnels.
+The control plane in this approach remains the same, and still attempts to establish 
+GTP-U tunnels and communicate TEIDs between the tunnel end points. However, at the next level,
+SRv6 capable nodes use SIDs to direct user traffic between the UPFs.
 
-A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
-and other relevant data can be encoded into SRv6 SIDs which can be mapped back
-to TEID's at the intermediate UPFs thus requiring no changes except at the
-encapsulation and de-encapsulation points in the UPF chains.
+The simplest option here is to encapsulate the entire GTP frame as a payload within SRv6.
+This scheme still carries the GTP header as the payload and as such doesn't
+offer any significant advantage.
 
-Note that this is a apple-to-apple replacement of GTP by SRv6. Its also worth
-noting that in this case the MTU overhead in the N9 interface is reduced.
+A much more promising and efficient option however is to use SIDs to carry tunnel
+related information. This is commonly known as the Traditional Mode for SRv6 support
+for mobility. Here, TEIDs and other relevant data can be encoded into SRv6 SIDs
+which can be mapped back to TEID's at the intermediate UPFs thus requiring no changes
+except at the encapsulation and de-encapsulation points in the UPF chains.
+
+Note that this is a direct replacement of GTP by SRv6. It’s also worth noting that
+in this case the MTU overhead in the N9 interface is reduced.
 
 {{?I-D.ietf-dmm-srv6-mobile-uplane}} discusses the details of leveraging the
 existing control plane for distributing GTP tunnel information between the end
@@ -1787,13 +1803,33 @@ defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how
 hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves
 a migration path toward a full SRv6 data plane.
 
+Another alternative that can provide for a smooth migration toward SRv6 data
+plane between UPFs is via the use of "Tag", and optional TLV fields in SRH.
+Similar to the previously described method, this approach takes advantage of
+the existing control plane to deliver GTP tunnel information to the UPF
+endpoints. "Tag" and optional TLV fields in SRH are then used to encode
+tunnel information in the SRv6 data plane where the UPFs can determine the
+TEID etc. by inverting the mapping.
+
+In yet another option, GTP tunnel information can be encoded as a separate SID
+either within the same SRH after the SID that identifies the UPF itself (SRH-UPF)
+or inside a separate SRH (SRH-GTP). This option resembles the MPLS label stacking
+mechanism which is widely used in different VPN scenarios. Here, we use one SID
+to carry traffic to the target UPF and use the other to encode and decode GTP 
+related information.
+
+It must be noted that in any of the above mentioned approaches, the ingress UPF 
+in SRv6 domain can insert a SRH containing the list of SIDs that corresponds
+to all UPFs along the path. Alternatively, UPFs can stack a new SRH on top of
+the one inserted by the previous one as packets traverse network paths between
+different pairs of UPFs in the network.
+
 ### Control Plane considerations
 
-SRv6, when applied in Tradditional Mode, does not require control-plane changes.
-It still attemps
-to establish GTP-U tunnels and communicate TEIDs between the tunnel endpoints.
-However, at the user plane, SRv6 capable nodes use SIDs to direct user traffic
-between the UPFs.
+SRv6, when applied in Tradditional Mode follows the inteworking model and as such
+does not require control-plane changes. It still attemps to establish GTP-U tunnels
+and communicate TEIDs between the tunnel endpoints. AT the next level of user plane
+however, SRv6 capable nodes use SIDs to direct user traffic between the UPFs.
 
 ### Extensions to N3/F1-U/Xn-U interface
 
