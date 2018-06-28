@@ -1580,7 +1580,7 @@ problem is described in {{ADDRPRIV}}.
 
 ### Overview
 
-hCIN Anchorless Mobility Management (hICN-AMM) refers to a novel mobility
+hICN Anchorless Mobility Management (hICN-AMM) refers to a novel mobility
 management approach, introduced in {{?I-D.auge-dmm-hicn-mobility}}, that leverages
 routable location-independent identifiers (IDs) and an Information-Centric
 Networking (ICN) communication model integrated in IPv6, (also referred to as
@@ -2123,7 +2123,7 @@ while allowing distributed selection of ingress UPFs, and dynamic per-packet
 load balancing of traffic across them.
 
 
-### Coexistence with 3GPP architecture
+### Coexistence with GTP-based architecture
 
 This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G
 reference architecture, where GTP tunnels are preserved. As previously stated,
