@@ -209,9 +209,7 @@ Optimization of the user plane can be in different ways - packet overhead,
 transport integration, etc. 
 
 Several IETF protocols are considered for comparison: SRv6, LISP, ILA and
-several combinations of control plane and user plane protocols. Each protocol
-identifies what is being optimised, and provides a self evaluation in 
-comparison to GTP.
+several combinations of control plane and user plane protocols.
 
 --- middle
 
@@ -302,8 +300,6 @@ The scenario of replacing GTP on N9 as the focus of CT4 study is discussed for e
 Additional scenarios are related to N3/F1-U; integration of mobility with
 transport; support for different mobility protocols on different slices of the
 5G system, etc.
-
-Each protocol provides a self evaluation as compared to GTP.
 
 ## Rationale for GTP replacement
 
