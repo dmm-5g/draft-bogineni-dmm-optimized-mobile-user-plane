@@ -1035,7 +1035,9 @@ __Reviewed approaches__
 ~~~~
 {: #fig-approaches title="Overview of reviewed approaches"}
 
-## SRv6 {#sec-srv6}
+## SRv6 
+
+### Overview {#sec-srv6}
 
 SRv6 {{?I-D.filsfils-spring-srv6-network-programming}} is the IPv6 dataplane
 instantiation of Segment Routing {{?I-D.ietf-spring-segment-routing}}.
@@ -1576,7 +1578,7 @@ problem is described in {{ADDRPRIV}}.
 
 ## Hybrid ICN (hICN) {#sec-hicn}
 
-### Description
+### Overview
 
 hCIN Anchorless Mobility Management (hICN-AMM) refers to a novel mobility
 management approach, introduced in {{?I-D.auge-dmm-hicn-mobility}}, that leverages
@@ -1590,7 +1592,7 @@ locator-based solutions like Mobile IP (conf)using locators as identifiers, (ii)
 to remove the need for a global mapping system as the one required by
 locator-identifier separation solutions.
 
-__Consumer and Producer mobility__
+### Consumer and Producer mobility
 
 In ICN and hICN endpoints can act as consumers and/or producers. Consumers when they
 emit requests for named data packets (so called Interests), producers when they
@@ -1616,7 +1618,7 @@ Producer mobility is not natively supported by ICN architecture, rather handled
 in different ways according to the selected producer mobility management
 scheme.
 
-__Anchorless mobility support__
+### Anchorless mobility support
 
 The selected mobility management scheme for hICN is MAP-Me, an
 anchorless producer mobility management solution originally proposed for ICN
