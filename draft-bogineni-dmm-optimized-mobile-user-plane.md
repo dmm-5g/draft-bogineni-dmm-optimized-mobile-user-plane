@@ -574,7 +574,7 @@ functionalities may be supported in a single instance of a UPF.  Not all of the
 UPF functionalities are required to be supported in an instance of user plane
 function of a Network Slice.
 
-The following provides a breif list of main UPF functionalities.Please refert to
+The following provides a breif list of main UPF functionalities. Please refer to
 section 6.2.3 of {{TS.23.501-3GPP}} for detailed description of UPF and its
 functionalities.
 
@@ -582,17 +582,17 @@ functionalities.
 - Sending and forwarding of one or more end marker to the source NG- RAN node
 - External PDU Session point of interconnect to Data Network.
 - PDU session type: IPv4, IPv6, Ethernet, Unstructured (type of PDU totally
-  transparent t-the 5GS)
+  transparent to  5GS)
 - Activation and release of the UP connection of an PDU session, upon UE
   transition between the CM-IDLE and CM-CONNECTED states(i.e. activation and
   release of N3 tunnelling towards the access network)
 - Data forwarding between the SMF and the UE or DN (e.g. IP address allocation
   or DN authorization during the establishment of a PDU session)
-- Packet routing and forwarding (e.g. support of Uplink classifier t-route
+- Packet routing and forwarding (e.g. support of Uplink classifier to route
   traffic flows to an instance of a data network, support of Branching point
-  t-support IPv6 multi-homed PDU session>
+  to support IPv6 multi-homed PDU session>
 - Branching Point to support routing of traffic flows of an IPv6 multi-homed PDU
-  session t-a data network, based on the source Prefix of the PDU
+  session to a data network, based on the source Prefix of the PDU
 - User Plane part of policy rule enforcement (e.g.  Gating, Redirection, Traffic
   steering)
 - Uplink Classifier enforcement to support routing traffic flows to a data
@@ -604,9 +604,7 @@ functionalities.
       enforcement (with the Session-AMBR computed by the UPF over the Averaging
       window provisioned over N4, see subclause 5.7.3 of 3GPP
       {{TS.23.501-3GPP}}), UL/DL Guaranteed Flow Bit Rate (GFBR) enforcement,
-      UL/DL Maximum Flow Bit Rate
-
-      (MFBR) enforcement, etc
+      UL/DL Maximum Flow Bit Rate (MFBR) enforcement, etc
 
     - marking packets with the QoS Flow ID (QFI) in an encapsulation header on
       N3 (the QoS flow is the finest granularity of QoS differentiation in the
