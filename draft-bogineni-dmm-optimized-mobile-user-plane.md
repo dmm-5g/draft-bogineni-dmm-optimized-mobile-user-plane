@@ -565,8 +565,6 @@ functions and interfaces.
 The User plane function (UPF) is the function relevant to this evaluation and
 the N9 interface between two UPFs.
 
-The following is extracted from  {{TS.23.501-3GPP}}.
-
 The User Plane Function (UPF) handles the user plane path of PDU sessions. The
 UPF transmits the PDUs of the PDU session in a single tunnel between 5GC and
 (R)AN. The UPF includes the following functionality. Some or all of the UPF
