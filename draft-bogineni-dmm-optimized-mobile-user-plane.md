@@ -1871,7 +1871,7 @@ with GTP-U traffic.
 This is important towards a slow migration from a GTP-based architecture
 into different architectures.
 
-## ID/Loc split 
+## ID-LOC split 
 
 ### Insertion in N9 interface
 An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from
@@ -1916,7 +1916,7 @@ of the N9 interface along with current GTP.
 --N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
      +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
 ~~~~
-{: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
+{: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (Interworking model)"}
 
 Another option is to implement the ID-LOC data-plane function directly in the
 UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled
@@ -1939,7 +1939,7 @@ ID-LOC protocol will completely replace GTP in the N9 interface.
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
 ~~~~
-{: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
+{: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (Integrated model)"}
 
 Finally, another aspect to consider when integrating the ID-LOC architecture 
 into the 5G framework is that the Mapping System needs to contain the 
@@ -1949,7 +1949,7 @@ directly or by the LOC-nodes that should be in synch with the SMF. In
 the former case, an interface from the SMF to the Mapping System is needed 
 (as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
 
-### LISP control plane considerations
+### LISP control plane
 
 The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
 is data-plane agnostic and can serve as control plane for different data-plane
@@ -1990,7 +1990,7 @@ endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 nod
 The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
 can be found in {{I-D.TBD}}.
 
-### ILA control plane considerations
+### ILA control plane
 
 The ILA control plane is composed of mapping protocols that manage and
 disseminate information about the mapping database. There are two levels of
@@ -2015,6 +2015,10 @@ reliability, statefulness implied by established connections, ordering, and
 security in the form of TLS. Secure redirects are facilitated by the use of TCP.
 RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
 are popular in SDN.
+
+### Extensions to N3/F1-U/Xn-U interface
+
+While not the main focus of this document, it is worth noting that it is also possible to enable an ID-LOC data-plane over the N3 interface and to instantiate the ID-LOC overlay directly at the NodeB. In this case, the NodeB will implement the functionality of an ID-LOC node, i.e. it will retrieve ID-LOC mappings using an ID-LOC control protocol and will encapsulate/transform ID packets into LOC packets. Bringing the ID-LOC data-plane to the NodeB (closer to the UE) has several advantages: (1) complete removal of GTP tunnels, (2) unified management of the ID-LOC data-plane across the network, (3) improved data-plane latency due to traffic being forwarded to the destination ID-LOC node directly from the NodeB, and (4) lower handover time since the ID-LOC mobility event can start at the NodeB itself.
 
 ### Coexistence with GTP-based architecture
 
@@ -2090,7 +2094,6 @@ GTP-based mechanism.
 Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-### Compliance with architectural requirements
 
 ## ID-based - hICN
 
@@ -2259,13 +2262,13 @@ protocols, or allow the coexistence of different deployment options.
 {{fig-slices-5g}} illustrates the use of network slices with the different
 proposals. All categories of approach can coexist in separate slices, so as
 different deployments of the same approach. We refer to previous sections for
-more details about the possible configurations for ID/Loc, and limit our
+more details about the possible configurations for ID-LOC, and limit our
 discussion here to the possibility for different slices to deploy their own
 mapping system, or share it as illustrated here.
 
 
 ~~~~
-Locator-based                   ID/Loc split              ID-based
+Locator-based                   ID-LOC split              ID-based
 (GTP, SRv6-T)             (LISP, ILSR, ILA, SRv6-E)        (hICN)
  ----+-------------------------------+-----------------------+----------
      |                               |                       |
@@ -2299,9 +2302,9 @@ Slice #1 illustrates legacy use of UPFs with GTP in a slice. New
 approaches can be deployed incrementally or in parts of the network. As
 demonstrated, the use of network slices can provide domain isolation for this.
 
-__ID/Loc split__
+__ID-LOC split__
 
-Slice #2 and #3 support ID/Loc. We illustrate in slice #2 a typical deployment
+Slice #2 and #3 support ID-LOC. We illustrate in slice #2 a typical deployment
 with ILA. Mapping then corresponds to ILA-M, LOC-A to ILA-N and LOC-B to ILA-R.
 
 Some number of ILA-Ns and ILA-Rs are deployed. ILA transformations are
