@@ -1810,12 +1810,13 @@ Potential gains can result for an early handling of traffic right from the RAN
 and thus possibly closer to the UE. The result is a simpler and lighter
 architecture, allowing convergence with other non-3GPP accesses.
 
-
 The mobile network would benefit of the application of SRv6 to both, N3 and
 N9 interfaces. The intrinsic ability of SRv6 to integrate, in a single protocol,
 the control of the overlay, underlay and NFV implies that if applied to the N3
 interface the end-to-end SRv6-based network slice can start on the NodeB itself.
 
+In addition, SRv6 could be applied to the F1-U interface for cloud-RAN and 
+TE purposes.
 
 ### Coexistence with GTP-based architecture
 
@@ -1909,9 +1910,6 @@ so, the mappings in the Mapping System are populated either by the SMF
 directly or by the LOC-nodes that should be in synch with the SMF. In 
 the former case, an interface from the SMF to the Mapping System is needed 
 (as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
-
-
-
 
 ### LISP control plane considerations
 
