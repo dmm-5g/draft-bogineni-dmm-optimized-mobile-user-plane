@@ -1140,8 +1140,8 @@ innovations in routing.
 
 ### SRv6 with Traffic Engineering
 
-SRv6 can be appleid as a drop-in replacement for GTP without changes in the control-plane.
-This is a simple 1 to 1 replacement. However, SRv6 offers much richer possibilities.
+SRv6 can be applied as a drop-in replacement for GTP without changes in the control-plane.
+This is a simple 1 to 1 replacement discussed in section 6.1. However, SRv6 offers much richer possibilities.
 
 Traffic engineering is a native feature of SR. The SRv6 variant of SR of
 course supports both strict and loose models of source routing. Here, the SID
