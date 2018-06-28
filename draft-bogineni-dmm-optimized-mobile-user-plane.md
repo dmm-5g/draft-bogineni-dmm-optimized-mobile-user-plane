@@ -1276,10 +1276,13 @@ Due to IPv6 128-bit address space, large SRH size can have a negative impact on
 MTU. Large SRH size can also exert undesirable header tax especially in the case
 of small payload size.
 
-ID-LOC architecture relies on high performance mapping systems. Distributed
-mapping systems using some form Distributed Hash Table(DHT) exhibit very
-promising results. But further investigation is required to ensure mobility
-requirements in mobile data plane.
+ID-LOC architecture relies on high performance mapping systems. The SRv6 support of
+ID-LOC as described earlier can employ different control planes. Distributed mapping
+systems using some form Distributed Hash Table(DHT) however, exhibit very promising
+results. But further investigation is needed to ensure comformance with performance 
+metrics required by the mobile networks, specially for slice types supporting
+high speed mobility.
+
 
 ## LISP {#sec-lisp}
 
