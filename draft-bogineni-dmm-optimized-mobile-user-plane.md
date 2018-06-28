@@ -1139,12 +1139,10 @@ SRv6 appears well placed as a mechanism to replace GTP-U with initially no
 control plane changes, but to then offer a progressive path towards many
 innovations in routing.
 
-### SRv6 as Drop-In GTP Replacement with TE
+### SRv6 with NFV and TE
 
-The previous section discussed using SRv6 as a drop-in replacement for GTP
-tunnels in existing mobile networks. No new capabilities were introduced by this
-simple 1 to 1 replacement. We now explore additional possible features once SRv6
-has been introduced.
+SRv6 can be appleid as a drop-in replacement for GTP without changes in the control-plane.
+This is a simple 1 to 1 replacement. However, SRv6 offers much richer possibilities.
 
 Traffic engineering is a native feature of SR. The SRv6 variant of SR of
 course supports both strict and loose models of source routing. Here, the SID
