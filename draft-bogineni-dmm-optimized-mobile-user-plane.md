@@ -989,20 +989,15 @@ mechanisms Section 6.6.
 The data plane architectures considered for UPF connectivity in mobile packet
 core fall into two categories:
 
-1. Interworking model:
+- Interworking model:
     - This model uses GWs.
     - UPFs and 3GPP control remain unchanged.
     - 3GPP data plane becomes an overlay on top of new data planes
     - GWs convert GTP traffic to underlying data plane format.
-
-The details are provided in Section 6.1.
-
-2. Integrated model:
+- Integrated model:
     - In this model UPFs transmit/receive packets in accordance with the new data plane format.
     - UPFs and 3GPP control will be modified.
     - 3GPP and transport data plane are collapsed into one data plane.
-
-The details are provided in Section 6.2.
 
 ## Forwarding and mobility paradigms
 
@@ -1435,7 +1430,7 @@ Benefits of ILA include:
 - Facilitates node mobility and virtualization
 - Multiple use cases (mobile, datacenter, cloud)
 - Super efficient and performant data plane
-- Allows strong privacy in addressing {{ADDRPRIV}}
+- Allows strong privacy in addressing 
 - Promotes anchorless mobility
 - No typical tunneling issues (e.g. MTU) or management related to encapsulation
 - Flexible control plane that splits data and control
@@ -1522,7 +1517,7 @@ are popular in SDN.
 ### IP addressing
 
 ILA supports single address assignments as well as prefix assignments. ILA will
-also support strong privacy in addressing {{ADDRPRIV}}.
+also support strong privacy in addressing.
 
 #### Singleton address assignment
 
@@ -1582,8 +1577,7 @@ reused after a hold-down period to allow stale mappings to be purged.
 #### Strong privacy addresses
 
 Note that when a /64 is assigned to UEs, the assigned prefix may become a
-persistent identifier for a device. This is a potential privacy issue. {{ADDRPRIV}}
-describes this problem and suggests some solutions that may be used with ILA.
+persistent identifier for a device. This is a potential privacy issue.
 
 ### Traffic engineering
 
@@ -1848,9 +1842,6 @@ with GTP-U traffic.
 This is important towards a slow migration from a GTP-based architecture
 into different architectures.
 
-
-### Compliance with architectural requirements
-
 ## ID/Loc split 
 
 ### Insertion in N9 interface
@@ -2073,8 +2064,6 @@ GTP-based mechanism.
 Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-### Compliance with architectural requirements
-
 ## ID-based - hICN
 
 By operating directly on routers’ FIBs for mobility updates, dynamic hop-by-hop
@@ -2194,35 +2183,6 @@ in terms of consumer mobility and flexible transport.
 
 A more in depth presentation of those alternative deployments can be found in
 {{?I-D.auge-dmm-hicn-mobility-deployment-options}}.
-
-
-### Compliance with architectural requirements
-
-ARCH-Req-1: hICN is fully built-in and compatible with IPv4 and IPv6; support of
-Ethernet or unstructured PDU can be transported over hICN by leveraging naming
-to identify a given session.
-
-ARCH-Req-2: For the same reasons, IP connectivity over N3, N6, and N9 is supported.
-
-ARCH-Req-3: hICN flexible data plane natively support multihoming, multipath and
-multisource, as discussed previously. The properties of hICN transport allows
-for a simpler and more dynamic internetworking between involved UPFs, even in an
-anchorless fashion.
-
-ARCH-Req-4: Dynamic forwarding strategies allow for flexible UPF selection for a
-given PDU session, but can further be used within a session for dynamic load
-balancing, policy implementation, etc. up to packet granularity.
-
-ARCH-Req-5: hICN imposes no limit on the number of UPFs/sources and can leverage
-forwarding strategies through dynamic forwarding / packet steering through UPFs.
-Alternatively, underlying dataplanes such as SRv6 might offer similar
-capabilities.
-
-ARCH-Req-6: QFI might be encoded and applied through forwarding strategies
-applied to a given prefix, or complementary mechanisms such as SRv6 for
-instance. hICN exposes rich names at netwwork layer, so faciltating labelling,
-aggregation and more generally QoS management.
-
 
 
 ## Coexistence of multiple protocols in network slices
