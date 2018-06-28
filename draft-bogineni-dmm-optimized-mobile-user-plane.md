@@ -1139,39 +1139,6 @@ SRv6 appears well placed as a mechanism to replace GTP-U with initially no
 control plane changes, but to then offer a progressive path towards many
 innovations in routing.
 
-### SRv6 as Drop-In Alternative for GTP-U
-
-Existing mobile backhaul employs GTP tunnels to carry user traffic flows in the
-network. These tunnels are unidirectional, are established via the control plane
-for a particular QoS level, and run on links between access and the different
-anchor nodes all the way to DN gateways.
-
-The Tunnel Endpoint Id (TEID) field in the GTP tunnel plays a crucial role in stitching
-the data path between the above mentioned network nodes for a particular user
-flow. In other words, TEIDs are used to coordinate traffic hand off between
-different UPFs.
-
-In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP
-tunnels. The control plane in this approach remains the same, and still attempts
-to establish GTP-U tunnels and communicate TEIDs between the tunnel endpoints.
-However, at the user plane, SRv6 capable nodes use SIDs to direct user traffic
-between the UPFs.
-
-A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
-and other relevant data can be encoded into SRv6 SIDs which can be mapped back
-to TEID's at the intermediate UPFs thus requiring no changes except at the
-encapsulation and de-encapsulation points in the UPF chains.
-
-Note that this is a apple-to-apple replacement of GTP by SRv6. Its also worth
-noting that in this case the MTU overhead in the N9 interface is reduced.
-
-{{?I-D.ietf-dmm-srv6-mobile-uplane}} discusses the details of leveraging the
-existing control plane for distributing GTP tunnel information between the end
-nodes and employing SRv6 in data plane for UPF connectivity. The document
-defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how
-hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves
-a migration path toward a full SRv6 data plane.
-
 ### SRv6 as Drop-In GTP Replacement with TE
 
 The previous section discussed using SRv6 as a drop-in replacement for GTP
@@ -1307,25 +1274,6 @@ ID-LOC architecture relies on high performance mapping systems. Distributed
 mapping systems using some form Distributed Hash Table(DHT) exhibit very
 promising results. But further investigation is required to ensure mobility
 requirements in mobile data plane.
-
-### Architecture requirements compliance
-
-Section 4 identifies some architectural requirements. The following table
-summarizes the support for each one of these:
-
-~~~~
-                 +-------------------------------------------------+
-                 |                       SRv6                      |
-+----------------+-------------------------------------------------+
-| R1-PDU-TYPES   | Supported (all of them)                         |
-| R2-IP-N3-N6-N9 | Supported + Tight-integration with SR-transport |
-| R3-MULTIHOMING | Supported                                       |
-| R4-UPF-SELECT  | Supported                                       |
-| R5-UPF-LIMIT   | Supported                                       |
-| R6-QFI         | Supported                                       |
-+----------------+-------------------------------------------------+
-~~~~
-{: #fig-req-srv6 title="Summary of architectural requirement support for SRv6"}
 
 ## LISP {#sec-lisp}
 
@@ -1814,7 +1762,41 @@ technology gets adopted and deployed.
 
 ### Insertion in N9 interface
 
+Existing mobile backhaul employs GTP tunnels to carry user traffic flows in the
+network. These tunnels are unidirectional, are established via the control plane
+for a particular QoS level, and run on links between access and the different
+anchor nodes all the way to DN gateways.
+
+The Tunnel Endpoint Id (TEID) field in the GTP tunnel plays a crucial role in stitching
+the data path between the above mentioned network nodes for a particular user
+flow. In other words, TEIDs are used to coordinate traffic hand off between
+different UPFs.
+
+In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP
+tunnels. 
+
+A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
+and other relevant data can be encoded into SRv6 SIDs which can be mapped back
+to TEID's at the intermediate UPFs thus requiring no changes except at the
+encapsulation and de-encapsulation points in the UPF chains.
+
+Note that this is a apple-to-apple replacement of GTP by SRv6. Its also worth
+noting that in this case the MTU overhead in the N9 interface is reduced.
+
+{{?I-D.ietf-dmm-srv6-mobile-uplane}} discusses the details of leveraging the
+existing control plane for distributing GTP tunnel information between the end
+nodes and employing SRv6 in data plane for UPF connectivity. The document
+defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how
+hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves
+a migration path toward a full SRv6 data plane.
+
 ### Control Plane considerations
+
+SRv6, when applied in Tradditional Mode, does not require control-plane changes.
+It still attemps
+to establish GTP-U tunnels and communicate TEIDs between the tunnel endpoints.
+However, at the user plane, SRv6 capable nodes use SIDs to direct user traffic
+between the UPFs.
 
 ### Extensions to N3/F1-U/Xn-U interface
 
@@ -1851,9 +1833,6 @@ with GTP-U traffic.
 
 This is important towards a slow migration from a GTP-based architecture
 into different architectures.
-
-
-### Compliance with architectural requirements
 
 ## ID/Loc split 
 
