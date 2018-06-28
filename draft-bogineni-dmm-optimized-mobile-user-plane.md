@@ -1726,33 +1726,6 @@ appropriate mobility management, and dedicated hICN nodes with appropriate
 caching/forwarding strategies at places aggregating considerable number of user
 requests.
 
-### Compliance with architectural requirements
-
-ARCH-Req-1: hICN is fully built-in and compatible with IPv4 and IPv6; support of
-Ethernet or unstructured PDU can be transported over hICN by leveraging naming
-to identify a given session.
-
-ARCH-Req-2: For the same reasons, IP connectivity over N3, N6, and N9 is supported.
-
-ARCH-Req-3: hICN flexible data plane natively support multihoming, multipath and
-multisource, as discussed previously. The properties of hICN transport allows
-for a simpler and more dynamic internetworking between involved UPFs, even in an
-anchorless fashion.
-
-ARCH-Req-4: Dynamic forwarding strategies allow for flexible UPF selection for a
-given PDU session, but can further be used within a session for dynamic load
-balancing, policy implementation, etc. up to packet granularity.
-
-ARCH-Req-5: hICN imposes no limit on the number of UPFs/sources and can leverage
-forwarding strategies through dynamic forwarding / packet steering through UPFs.
-Alternatively, underlying dataplanes such as SRv6 might offer similar
-capabilities.
-
-ARCH-Req-6: QFI might be encoded and applied through forwarding strategies
-applied to a given prefix, or complementary mechanisms such as SRv6 for
-instance. hICN exposes rich names at netwwork layer, so faciltating labelling,
-aggregation and more generally QoS management.
-
 ### Summary
 
 hICN proposes a general purpose network architecture that combines the benefits of a
@@ -1771,6 +1744,7 @@ technology gets adopted and deployed.
 
 
 # Integration into the 5G framework {#sec-integration}
+
 ## Locator based 
 
 ### SRv6
@@ -1820,6 +1794,7 @@ into different architectures.
 
 ## ID/Loc split 
 
+### Insertion in N9 interface
 An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from
 their location in the network (LOC). Common ID-LOC architectures are based on two main
 components, ID-LOC data-plane nodes and an ID-LOC mapping system.
@@ -1896,7 +1871,76 @@ the former case, an interface from the SMF to the Mapping System is needed
 (as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
 
 
-### Overview of 5GS and ID-LOC Coexistence Approach
+
+
+### LISP Control-Plane considerations
+
+The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
+is data-plane agnostic and can serve as control-plane for different data-plane
+protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to
+register, request, notify and update ID-Loc mappings between ID-LOC data-plane
+elements and the ID-LOC Mapping System. In the sections below we describe how
+LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
+
+It should be noted that the LISP-CP can run over TCP or UDP. The same signaling
+and logic applies independently of the transport. Additionally, when running over
+TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}}
+can be applied.
+
+#### LISP-CP for ILA
+
+The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the
+operation of an ILA data-plane. The required ILA control-plane operations of "request/response"
+and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}}
+and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is
+implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered
+as response to data-plane events.
+
+Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible
+to locally derivate it from the endpoint address. These two mapping operations,
+Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation
+to obtain the ILA Identifier and associated Locators in a single round of signaling.
+
+The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane
+can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
+
+#### LISP-CP for SRv6
+
+The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and
+its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node
+can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular
+endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
+
+The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
+can be found in {{I-D.TBD}}.
+
+### ILA control plane considerations
+
+The ILA control plane is composed of mapping protocols that manage and
+disseminate information about the mapping database. There are two levels of
+mapping protocols: one used by ILA routers that require the full set of ILA
+mappings for a domain, and one used by ILA nodes that maintain a caches of
+mappings.
+
+The ILA mapping system is effectively a key/value datastore that maps
+identifiers to locators. The protocol for sharing mapping information amongst
+ILA routers can thus be implemented by a distributed database
+{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the data plane,
+so alternative control plane protocols may be used with a common data plane
+{{?I-D.lapukhov-bgp-ila-afi}}, {{?I-D.rodrigueznatal-ila-lisp}}.
+
+The ILA Mapping Protocol {{?I-D.herbert-ila-ilamp}} is used between ILA
+forwarding nodes and ILA mapping routers. The purpose of the protocol is to
+populate and maintain the ILA mapping cache in forwarding nodes. ILAMP defines
+redirects, a request/response protocol, and a push mechanism to populate the
+mapping table. Unlike traditional routing protocols that run over UDP, this
+protocol is intended to be run over TCP and may be RPC oriented. TCP provides
+reliability, statefulness implied by established connections, ordering, and
+security in the form of TLS. Secure redirects are facilitated by the use of TCP.
+RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
+are popular in SDN.
+
+### Coexistance with GTP-based architecture
 
 ID-Locator separation architecture can be implemented by control plane of a
 dedicated protocol such as LISP, ILA, etc., however, it may cause major
@@ -1970,73 +2014,7 @@ GTP-based mechanism.
 Meanwhile, this approach causes an extra hop when diverting packets to
 ID-Locator separation domain, and it may leads to increase of latency.
 
-### LISP Control-Plane considerations
-
-The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
-is data-plane agnostic and can serve as control-plane for different data-plane
-protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to
-register, request, notify and update ID-Loc mappings between ID-LOC data-plane
-elements and the ID-LOC Mapping System. In the sections below we describe how
-LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.
-
-It should be noted that the LISP-CP can run over TCP or UDP. The same signaling
-and logic applies independently of the transport. Additionally, when running over
-TCP, the optimizations specified in {{?I-D.kouvelas-lisp-map-server-reliable-transport}}
-can be applied.
-
-#### LISP-CP for ILA
-
-The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the
-operation of an ILA data-plane. The required ILA control-plane operations of "request/response"
-and "push" are implemented via the LISP mechanisms defined in {{?I-D.ietf-lisp-rfc6833bis}}
-and {{?I-D.ietf-lisp-pubsub}} respectively. In addition, the ILA "redirect" operation is
-implemented via the mapping notifications described in {{?I-D.ietf-lisp-pubsub}} triggered
-as response to data-plane events.
-
-Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible
-to locally derivate it from the endpoint address. These two mapping operations,
-Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation
-to obtain the ILA Identifier and associated Locators in a single round of signaling.
-
-The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane
-can be found in {{?I-D.rodrigueznatal-ila-lisp}}.
-
-#### LISP-CP for SRv6
-
-The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and
-its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node
-can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular
-endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
-
-The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
-can be found in {{I-D.TBD}}.
-
-### ILA control plane considerations
-
-The ILA control plane is composed of mapping protocols that manage and
-disseminate information about the mapping database. There are two levels of
-mapping protocols: one used by ILA routers that require the full set of ILA
-mappings for a domain, and one used by ILA nodes that maintain a caches of
-mappings.
-
-The ILA mapping system is effectively a key/value datastore that maps
-identifiers to locators. The protocol for sharing mapping information amongst
-ILA routers can thus be implemented by a distributed database
-{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the data plane,
-so alternative control plane protocols may be used with a common data plane
-{{?I-D.lapukhov-bgp-ila-afi}}, {{?I-D.rodrigueznatal-ila-lisp}}.
-
-The ILA Mapping Protocol {{?I-D.herbert-ila-ilamp}} is used between ILA
-forwarding nodes and ILA mapping routers. The purpose of the protocol is to
-populate and maintain the ILA mapping cache in forwarding nodes. ILAMP defines
-redirects, a request/response protocol, and a push mechanism to populate the
-mapping table. Unlike traditional routing protocols that run over UDP, this
-protocol is intended to be run over TCP and may be RPC oriented. TCP provides
-reliability, statefulness implied by established connections, ordering, and
-security in the form of TLS. Secure redirects are facilitated by the use of TCP.
-RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
-are popular in SDN.
-
+### Compliance with architectural requirements
 
 ## ID-based
 
