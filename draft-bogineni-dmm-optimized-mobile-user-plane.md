@@ -841,7 +841,7 @@ within a single PDU Session.
 
 {{fig_Overview-Network-with-dUPF}}
 depicts overview of a network model where multiple UPFs are distributed geographically. Such networks have two types of UPFs:
-central UPF deployed for covering wide area, and local/distributed UPF deployed close to UEs' access points.　
+central UPF (cUPF) deployed for covering wide area, and local/distributed UPF (dUPF) deployed close to UEs' access points.　
 UPFs are connected via N9 interfaces over transport network.
 
 ~~~~
@@ -863,7 +863,7 @@ UPFs are connected via N9 interfaces over transport network.
        +-----+-----+               +-----+-----+    
        |   dUPF#1  |N6 +-------+   |   dUPF#2  |N6 +-------+
        |  [UL/CL]  +---| dDN#A |   |   [UL/CL] +---| dDN#B |
-       +-----------+   +-------+   +-----------+  +-------+   
+       +-----------+   +-------+   +-----------+   +-------+   
              |N3                         |N3
           +-----+                     +-----+
           | gNB |                     | gNB |
@@ -1921,22 +1921,22 @@ The architecture is shown in {{fig_ID-Loc-5G-3}}.
  ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
             |[ULCL]|               |      |    |     |   |
             +--+---+               +------+    +-----+   |
-               |                                       Synch
+               |                                        Sync
                N6                                        |
-           . . | . . . . . . . . . . . . . .             |
- +-----+  . +--+---+                        .            |
- | dDN +-N6-+ LOC- +--ID-LOC UP--           .            |
- |     |  . | Node |               +-----+  .            |
- +-----+  . |      +--ID-LOC CP----+ MS  +<--------------+
-          . +------+               +-----+  .
-           . . . . . . . . . . . . . . . . .
-                    ID-LOC Domain
-        
-                       dUPF/cUPF: Distributed/Central UPF
-                        dDN/cDN : Distributed/Central DN
-                             MS : Mapping System 
-                   ID-LOC UP/CP : ID-LOC User Plane/Control Plane
-
+           . . | . . . . . . . . . . . . . . .           |
+ +-----+  . +--+---+              +---------+ .          |
+ | dDN +-N6-+ ID-L +--ID-LOC CP---+ ID-LOC  | .          | 
+ |     |  . | Node |              | Mapping |<-----------+
+ +-----+  . |      +--ID-LOC UP   | System  | .
+          . +------+         |    +---+-----+ .
+          .                  |        |       .
+          . +------+         |        |       .
+        -N6-+ ID-L +---------+        |       .
+          . | Node |                  |       .
+          . |      +--ID-LOC CP-------+       .
+          . +--+---+                          .
+           . . N6 . . . . . . . . . . . . . .
+               |       ID-LOC Domain
 ~~~~
 {: #fig_ID-Loc-5G-3 title="Architecture of 5GS and ID-LOC Coexistence"}
 
