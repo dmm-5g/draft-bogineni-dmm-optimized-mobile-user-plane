@@ -308,7 +308,7 @@ span over the mobile backhaul.  However, GTP is used at multiple interfaces beyo
 N9.
 
 N3 and N9 interfaces are tightly coupled and
-{{sec-alt}} discusses the possibility to extend the deployment of new data planes
+Section 6 discusses the possibility to extend the deployment of new data planes
 to N3. The impact on N3, F1-U, and XN-U interfaces is still TBD.
 
 ## Document Structure
@@ -1009,7 +1009,7 @@ proposal consists in an overview with pointers to reference material for a more
 in depth description. The focus is then given to a discussion on its integration
 at N9 interface, as well as the benefits with respect to GTP-U. Extensions to N3
 interface as well as alternative deployments preserving GTP tunnels as discussed
-later in this document in {{sec-alt}}.
+later in this document in Section 6.
 
 __Reviewed approaches__
 
