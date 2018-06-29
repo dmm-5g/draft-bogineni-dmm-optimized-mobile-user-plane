@@ -173,8 +173,6 @@ informative:
     -
         ins: T. Herbert
     date: January 2018
-  ADDRPRIV:
-    title: TODO
   LISP-WG:
     title: TODOgit diff
     
@@ -190,8 +188,12 @@ informative:
     date: December 2017
   IRTF-RRG:
     title: TODO
-  I-D.TBD:
-    title: TODO - SRv6 and LISP-CP
+  I-D.rodrigueznatal-lisp-srv6:
+    title: "LISP Control Plane for SRv6 Endpoint Mobility"
+    author:
+    - org: Rodriguez-Natal, A., et al.  
+    seriesinfo: draft-rodrigueznatal-lisp-srv6-00 (work in progress)
+    date: 2018-06
 
 --- abstract
 
@@ -219,8 +221,9 @@ Release 15 of the 3GPP specifications provide the 5G System Architecture in
 {{TS.23.501-3GPP}}, {{TS.23.502-3GPP}}, and {{TS.23.503-3GPP}}. They come with
 significant changes to the radio and core architectures with respect to previous
 generations, with the objective of enabling new use case requirements expected
-from 5G networks. The data plane is however still based on GTP-U, and tunnelling
+from 5G networks. The user plane is however still based on GTP-U, and tunnelling
 user-traffic to anchor points in the core network.
+User, data and forwarding plane are used with the same meaning in this context.
 
 3GPP CT4 is in charge of specifying the user plane interface named N9, and
 has approved a study item {{CP-173160-1}} to study possible candidates for user
@@ -322,7 +325,7 @@ central core location, and opt for distributed/decentralized/full
 removal of anchors.
 
 *Offloading of local communications* : a direct consequence on the
-distribution/removal of data plane anchors is the ability to offload
+distribution/removal of user plane anchors is the ability to offload
 local traffic from the core.
 
 *Control plane anchors* : remove dependency on additional control
@@ -338,7 +341,7 @@ span over the mobile backhaul.  However, GTP is used at multiple interfaces beyo
 N9.
 
 N3 and N9 interfaces are tightly coupled and
-Section 6 discusses the possibility to extend the deployment of new data planes
+Section 6 discusses the possibility to extend the deployment of new user planes
 to N3. The impact on N3, F1-U, and Xn-U interfaces is still TBD.
 
 ## Document Structure
@@ -539,11 +542,11 @@ below in {{fig_Protocol-Stack}}.
        It provides encapsulation on a per PDU session level. This layer
        carries also the marking associated with a QoS Flow.
 ~~~~
-{: #fig_Protocol-Stack title="Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface}
+{: #fig_Protocol-Stack title="Non-roaming 5G SA for multiple PDU Sessions"}
 
 ## Mobility Architecture with reference to N9
 
-This document focuses on the N9 interface which represents the user data plane
+This document focuses on the N9 interface which represents the user user plane
 between UPFs in 5G architecture. {{fig_3GPP-5GS-N9}} shows the relevant
 functions and interfaces.
 
@@ -572,7 +575,7 @@ functionalities may be supported in a single instance of a UPF.  Not all of the
 UPF functionalities are required to be supported in an instance of user plane
 function of a Network Slice.
 
-The following provides a breif list of main UPF functionalities. Please refer to
+The following provides a brief list of main UPF functionalities. Please refer to
 section 6.2.3 of {{TS.23.501-3GPP}} for detailed description of UPF and its
 functionalities.
 
@@ -820,7 +823,7 @@ In the HR roaming model:
   is established. The interface between H-SMF and V-SMF is also able to carry
   (N9) User Plane forwarding information exchanged between H-SMF and V-SMF.  The
   V-SMF may check QoS requests from the H-SMF with respect to roaming
-  agreements.At the data plane, the ecapsulation header carries QoS flow ID
+  agreements.At the user plane, the ecapsulation header carries QoS flow ID
   (QFI) over N3, and N9 without any changes to the end to end packet header.
 - The AMF selects a V-SMF and a H-SMF, and provides the identifier of the
   selected H-SMF to the selected V-SMF.
@@ -962,7 +965,7 @@ ARCH-Req-4: Supporting flexible UPF selection for PDU
 The appropriate UPFs are selected for a PDU session based on parameters and information
 such as UPF's dynamic load or UE location information.
 
-ARCH-Req-5: No limitation for number of UPFs in a data plane path
+ARCH-Req-5: No limitation for number of UPFs in a user plane path
 
 The number of UPF in the data path is not constrained by 3GPP specifications.
 
@@ -986,18 +989,18 @@ mechanisms Section 6.6.
 
 ## Overview
 
-The data plane architectures considered for UPF connectivity in mobile packet
+The user plane architectures considered for UPF connectivity in mobile packet
 core fall into two categories:
 
 - Interworking model:
     - This model uses GWs.
     - UPFs and 3GPP control remain unchanged.
-    - 3GPP data plane becomes an overlay on top of new data planes
-    - GWs convert GTP traffic to underlying data plane format.
+    - 3GPP user plane becomes an overlay on top of new user planes
+    - GWs convert GTP traffic to underlying user plane format.
 - Integrated model:
-    - In this model UPFs transmit/receive packets in accordance with the new data plane format.
+    - In this model UPFs transmit/receive packets in accordance with the new user plane format.
     - UPFs and 3GPP control will be modified.
-    - 3GPP and transport data plane are collapsed into one data plane.
+    - 3GPP and transport user plane are collapsed into one user plane.
 
 ## Forwarding and mobility paradigms
 
@@ -1107,11 +1110,11 @@ can offer end-to-end network slices that spans all those elements
 (overlay, underlay, NFV).
 
 The versatility and adaptability of SR combined with IPv6's ample and flexible
-address space positions SRv6 as a viable data plane for the next
+address space positions SRv6 as a viable user plane for the next
 generation of mobile user-plane, in particular the 3GPP N3 and N9 interfaces.
-Notice that SRv6 applicability does not require a new mobility control-plane,
-although SRv6 can be combined with other control-planes as described later
-in this document (LISP, hICN).
+Notice that SRv6 applicability does not require a new mobility control-plane.
+SRv6 can be combined with other control-planes such as LISP, hICN described later
+in this document or others such as DHT, propietary CP, etc.
 
 The applicability of SRv6 to mobility is described in {{?I-D.ietf-dmm-srv6-mobile-uplane}}.
 
@@ -1125,14 +1128,20 @@ then shows how SRv6 as a GTP-U replacement can then provide additional features
 such as TE, IP session aggregation, rate limiting, and distributed NFVi
 that are not natively available by GTP.
 
+It must be noted that the SRv6 models discussed in this document 
+can follow either of the interworking or the integration model
+mentioned earlier depending on operator's requirements.
+
 SRv6 appears well placed as a mechanism to replace GTP-U with initially no
 control plane changes, but to then offer a progressive path towards many
 innovations in routing.
 
+
 ### SRv6 with Traffic Engineering
 
 SRv6 can be applied as a drop-in replacement for GTP without changes in the control-plane.
-This is a simple 1 to 1 replacement discussed in section 6.1. However, SRv6 offers much richer possibilities.
+This is a simple 1 to 1 replacement discussed in section 6.1. However, SRv6 offers 
+much richer possibilities.
 
 Traffic engineering is a native feature of SR. The SRv6 variant of SR of
 course supports both strict and loose models of source routing. Here, the SID
@@ -1147,7 +1156,7 @@ network with TE optimization objectives (i.e. low-latency).
 It must be noted that the SRH could contain multiple sets of SIDs each
 representing a TE path between a pair of UPFs. Alternatively, the SRH can
 contain a fully resolved end to end TE path that covers every intermediate node
-and UPF along the data plane.
+and UPF along the user plane.
 
 SR considers segments to be instructions. Therefore each SID can represent a
 function that enforces a specific nodal or global packet treatment. Attributes
@@ -1181,9 +1190,9 @@ Please refer to {{?I-D.xuclad-spring-sr-service-chaining}} for further detail.
 
 ### SRv6 and Entropy
 
-Ability to provide a good level of entropy is an important aspect of data plane
+Ability to provide a good level of entropy is an important aspect of user plane
 protocols. If included in network node's hashing, the TEID field in GTP tunnels
-algorithms can result in good load balancing. Therefore, any new data plane
+algorithms can result in good load balancing. Therefore, any new user plane
 proposal should be able to deal with entropy in an efficient manner.
 
 SRv6 natively supports entropy by using the IPv6 Flow Label. Additionally,
@@ -1212,9 +1221,12 @@ in the network. ID-LOC for mobility support is one such option.
 The previous sections discussed how SRv6 could be employed as a replacement for
 GTP tunnels while leaving the existing control plane intact. This section
 describes the use of SRv6 as a vehicle to implement Locator/ID Separation model
-for UPF data plane connectivity.
+for UPF user plane connectivity.
+It must be ntoed that SRv6 implementation of the ID-LOC architecture can employ
+a variety of different control planes including LISP, , different variety of
+DHT, proprietary, etc.
 
-#### UPF connectivity via SRv6 with Loc-ID separation (GTP integration)
+#### UPF connectivity via SRv6 with Loc-ID separation (Interworking model)
 
 SRv6 can easily implement ID-LOC Separation model for UPF connectivity. The SIDs
 are once again the main vehicle here. In this model, UPFs are considered to be
@@ -1229,7 +1241,7 @@ It must be noted that use of GTP at UPFs allows us to leave the 3GPP control
 plane intact and hence provides a smooth migration path toward SRv6 with
 ID-Locator model.
 
-#### SRv6 Capable UPFs and RLOCs (GTP replacement)
+#### SRv6 Capable UPFs and RLOCs (Integration model)
 
 In this model, the head-end UPF (Ingress UPF) is the ingress node and the entity
 that constructs the SRH in the SRv6 domain.
@@ -1251,17 +1263,20 @@ these features are not readily available by GTP.
 ### Areas of Concerns
 
 Support for IPv6 is a precondition for SRv6. Although SRv6 can support hybrid
-IPv4/IPv6 mobile data plane through an interworking node, support of UPFs with
+IPv4/IPv6 mobile user plane through an interworking node, support of UPFs with
 IPv4 address is rather complex.
 
 Due to IPv6 128-bit address space, large SRH size can have a negative impact on
 MTU. Large SRH size can also exert undesirable header tax especially in the case
 of small payload size.
 
-ID-LOC architecture relies on high performance mapping systems. Distributed
-mapping systems using some form Distributed Hash Table(DHT) exhibit very
-promising results. But further investigation is required to ensure mobility
-requirements in mobile data plane.
+ID-LOC architecture relies on high performance mapping systems. The SRv6 support of
+ID-LOC as described earlier can employ different control planes. Distributed mapping
+systems using some form Distributed Hash Table(DHT) however, exhibit very promising
+results. But further investigation is needed to ensure comformance with performance 
+metrics required by the mobile networks, specially for slice types supporting
+high speed mobility.
+
 
 ## LISP {#sec-lisp}
 
@@ -1357,7 +1372,7 @@ contained in the network layer. It is not limited to end node deployment, does
 not require any changes to transport layer protocols, and does not use extension
 headers.
 
-ILA includes both a data plane and control plane. The data plane defines the
+ILA includes both a user plane and control plane. The user plane defines the
 address structure and mechanisms for transforming application visible identifier
 addresses to locator addresses. The control plane's primary focus is a mapping
 system that includes a database of identifier to locator mappings. This mapping
@@ -1374,7 +1389,7 @@ Benefits of ILA include:
 
 - Facilitates node mobility and virtualization
 - Multiple use cases (mobile, datacenter, cloud)
-- Super efficient and performant data plane
+- Super efficient and performant user plane
 - Allows strong privacy in addressing 
 - Promotes anchorless mobility
 - No typical tunneling issues (e.g. MTU) or management related to encapsulation
@@ -1383,14 +1398,14 @@ Benefits of ILA include:
 - Scale number of nodes to billions for 5G, DC virtualization
 - Upstream Linux kernel data path {{ILAKERNEL}} and open source ctrl plane {{ILACONTROL}}.
 
-The ILA data plane protocol is described in {{?I-D.herbert-intarea-ila}},
+The ILA user plane protocol is described in {{?I-D.herbert-intarea-ila}},
 motivation and problems areas are described in {{ILAMOTIVE}}, ILA in the mobile
 user-plane is described in detail in {{?I-D.herbert-ila-mobile}}.
 
 ### Protocol Layering
 
 {{fig_ILA-Protocol-Layering}} illustrates the protocol layers of packets packets
-sent over various data plane interfaces in the downlink direction of data
+sent over various user plane interfaces in the downlink direction of data
 network to a mobile node. Note that this assumes the topology shown in Figure 2
 where GTP-U is used over N3 and ILA is used on N9.
 
@@ -1444,8 +1459,8 @@ mappings.
 The ILA mapping system is effectively a key/value datastore that maps
 identifiers to locators. The protocol for sharing mapping information amongst
 ILA routers can thus be implemented by a distributed database
-{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the data plane,
-so alternative control plane protocols may be used with a common data plane
+{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the user plane,
+so alternative control plane protocols may be used with a common user plane
 {{?I-D.lapukhov-bgp-ila-afi}}, {{?I-D.rodrigueznatal-ila-lisp}}.
 
 The ILA Mapping Protocol {{?I-D.herbert-ila-ilamp}} is used between ILA
@@ -1557,8 +1572,7 @@ ILA protocols since they are untrusted. ILA control protocols, include ILA
 redirects, use TCP. TLS or other protocols can be applied for strong security.
 
 Privacy in addressing is a consideration. ILA endeavors to provide a mechanism
-of address assignment that prevents inference of user identity or location. This
-problem is described in {{ADDRPRIV}}.
+of address assignment that prevents inference of user identity or location.
 
 ## Hybrid ICN (hICN) {#sec-hicn}
 
@@ -1715,7 +1729,7 @@ requests.
 
 ### hICN with SRv6
 
-The association of hICN with other data planes technologies, such as SRv6, is
+The association of hICN with other user planes technologies, such as SRv6, is
 investigated as a possibility to overcome the above-mentioned tradeoff yielding
 to a selective, yet fully beneficial insertion of hICN in IP networks. This
 would inherit all SRv6 advantages for underlay (TE, FRR) and service
@@ -1759,31 +1773,58 @@ the data path between the above mentioned network nodes for a particular user
 flow. In other words, TEIDs are used to coordinate traffic hand off between
 different UPFs.
 
-In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP
-tunnels. This is commonly known as Traditional Mode.
+In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP tunnels.
+The control plane in this approach remains the same, and still attempts to establish 
+GTP-U tunnels and communicate TEIDs between the tunnel end points. However, at the next level,
+SRv6 capable nodes use SIDs to direct user traffic between the UPFs.
 
-A simple option is to use SIDs to carry tunnel related information. Here, TEIDs
-and other relevant data can be encoded into SRv6 SIDs which can be mapped back
-to TEID's at the intermediate UPFs thus requiring no changes except at the
-encapsulation and de-encapsulation points in the UPF chains.
+The simplest option here is to encapsulate the entire GTP frame as a payload within SRv6.
+This scheme still carries the GTP header as the payload and as such doesn't
+offer any significant advantage.
 
-Note that this is a apple-to-apple replacement of GTP by SRv6. Its also worth
-noting that in this case the MTU overhead in the N9 interface is reduced.
+A much more promising and efficient option however is to use SIDs to carry tunnel
+related information. This is commonly known as the Traditional Mode for SRv6 support
+for mobility. Here, TEIDs and other relevant data can be encoded into SRv6 SIDs
+which can be mapped back to TEID's at the intermediate UPFs thus requiring no changes
+except at the encapsulation and de-encapsulation points in the UPF chains.
+
+Note that this is a direct replacement of GTP by SRv6. It’s also worth noting that
+in this case the MTU overhead in the N9 interface is reduced.
 
 {{?I-D.ietf-dmm-srv6-mobile-uplane}} discusses the details of leveraging the
 existing control plane for distributing GTP tunnel information between the end
-nodes and employing SRv6 in data plane for UPF connectivity. The document
+nodes and employing SRv6 in user plane for UPF connectivity. The document
 defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how
 hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves
-a migration path toward a full SRv6 data plane.
+a migration path toward a full SRv6 user plane.
+
+Another alternative that can provide for a smooth migration toward SRv6 data
+plane between UPFs is via the use of "Tag", and optional TLV fields in SRH.
+Similar to the previously described method, this approach takes advantage of
+the existing control plane to deliver GTP tunnel information to the UPF
+endpoints. "Tag" and optional TLV fields in SRH are then used to encode
+tunnel information in the SRv6 user plane where the UPFs can determine the
+TEID etc. by inverting the mapping.
+
+In yet another option, GTP tunnel information can be encoded as a separate SID
+either within the same SRH after the SID that identifies the UPF itself (SRH-UPF)
+or inside a separate SRH (SRH-GTP). This option resembles the MPLS label stacking
+mechanism which is widely used in different VPN scenarios. Here, we use one SID
+to carry traffic to the target UPF and use the other to encode and decode GTP 
+related information.
+
+It must be noted that in any of the above mentioned approaches, the ingress UPF 
+in SRv6 domain can insert a SRH containing the list of SIDs that corresponds
+to all UPFs along the path. Alternatively, UPFs can stack a new SRH on top of
+the one inserted by the previous one as packets traverse network paths between
+different pairs of UPFs in the network.
 
 ### Control Plane considerations
 
-SRv6, when applied in Tradditional Mode, does not require control-plane changes.
-It still attemps
-to establish GTP-U tunnels and communicate TEIDs between the tunnel endpoints.
-However, at the user plane, SRv6 capable nodes use SIDs to direct user traffic
-between the UPFs.
+SRv6, when applied in Tradditional Mode follows the inteworking model and as such
+does not require control-plane changes. It still attemps to establish GTP-U tunnels
+and communicate TEIDs between the tunnel endpoints. AT the next level of user plane
+however, SRv6 capable nodes use SIDs to direct user traffic between the UPFs.
 
 ### Extensions to N3/F1-U/Xn-U interface
 
@@ -1810,7 +1851,7 @@ TE purposes.
 ### Coexistence with GTP-based architecture
 
 An alternative vision, although not recommended, would be to preserve the
-current architecture as is, and deploy alternative data planes on top.
+current architecture as is, and deploy alternative user planes on top.
 
 As explained in section 5.3.1, SRv6 can co-exist with the current GTP-based
 control plane. Additionally, the current control plane can be extended to suport
@@ -1822,7 +1863,7 @@ with GTP-U traffic.
 This is important towards a slow migration from a GTP-based architecture
 into different architectures.
 
-## ID/Loc split 
+## ID-LOC split 
 
 ### Insertion in N9 interface
 An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from
@@ -1867,7 +1908,7 @@ of the N9 interface along with current GTP.
 --N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
      +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
 ~~~~
-{: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (GTP integration)"}
+{: #fig_ID-Loc-5G-1 title="5G Integration with ID-LOC (Interworking model)"}
 
 Another option is to implement the ID-LOC data-plane function directly in the
 UPFs (as shown in Fig. {{fig_ID-Loc-5G-2}}). In this case, these ID-LOC enabled
@@ -1890,7 +1931,7 @@ ID-LOC protocol will completely replace GTP in the N9 interface.
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
 ~~~~
-{: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (GTP replacement)"}
+{: #fig_ID-Loc-5G-2 title="5G Integration with ID-LOC (Integrated model)"}
 
 Finally, another aspect to consider when integrating the ID-LOC architecture 
 into the 5G framework is that the Mapping System needs to contain the 
@@ -1900,7 +1941,7 @@ directly or by the LOC-nodes that should be in synch with the SMF. In
 the former case, an interface from the SMF to the Mapping System is needed 
 (as shown in Figs. {{fig_ID-Loc-5G-1}} and  {{fig_ID-Loc-5G-2}}).
 
-### LISP control plane considerations
+### LISP control plane
 
 The current LISP control-plane (LISP-CP) specification {{?I-D.ietf-lisp-rfc6833bis}}
 is data-plane agnostic and can serve as control plane for different data-plane
@@ -1939,9 +1980,9 @@ can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particu
 endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
 
 The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
-can be found in {{I-D.TBD}}.
+can be found in {{I-D.rodrigueznatal-lisp-srv6}}.
 
-### ILA control plane considerations
+### ILA control plane
 
 The ILA control plane is composed of mapping protocols that manage and
 disseminate information about the mapping database. There are two levels of
@@ -1952,8 +1993,8 @@ mappings.
 The ILA mapping system is effectively a key/value datastore that maps
 identifiers to locators. The protocol for sharing mapping information amongst
 ILA routers can thus be implemented by a distributed database
-{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the data plane,
-so alternative control plane protocols may be used with a common data plane
+{{?I-D.herbert-ila-ilamp}}. ILA separates the control plane from the user plane,
+so alternative control plane protocols may be used with a common user plane
 {{?I-D.lapukhov-bgp-ila-afi}}, {{?I-D.rodrigueznatal-ila-lisp}}.
 
 The ILA Mapping Protocol {{?I-D.herbert-ila-ilamp}} is used between ILA
@@ -1966,6 +2007,10 @@ reliability, statefulness implied by established connections, ordering, and
 security in the form of TLS. Secure redirects are facilitated by the use of TCP.
 RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that
 are popular in SDN.
+
+### Extensions to N3/F1-U/Xn-U interface
+
+While not the main focus of this document, it is worth noting that it is also possible to enable an ID-LOC data-plane over the N3 interface and to instantiate the ID-LOC overlay directly at the NodeB. In this case, the NodeB will implement the functionality of an ID-LOC node, i.e. it will retrieve ID-LOC mappings using an ID-LOC control protocol and will encapsulate/transform ID packets into LOC packets. Bringing the ID-LOC data-plane to the NodeB (closer to the UE) has several advantages: (1) complete removal of GTP tunnels, (2) unified management of the ID-LOC data-plane across the network, (3) improved data-plane latency due to traffic being forwarded to the destination ID-LOC node directly from the NodeB, and (4) lower handover time since the ID-LOC mobility event can start at the NodeB itself.
 
 ### Coexistence with GTP-based architecture
 
@@ -2179,13 +2224,13 @@ protocols, or allow the coexistence of different deployment options.
 {{fig-slices-5g}} illustrates the use of network slices with the different
 proposals. All categories of approach can coexist in separate slices, so as
 different deployments of the same approach. We refer to previous sections for
-more details about the possible configurations for ID/Loc, and limit our
+more details about the possible configurations for ID-LOC, and limit our
 discussion here to the possibility for different slices to deploy their own
 mapping system, or share it as illustrated here.
 
 
 ~~~~
-Locator-based                   ID/Loc split              ID-based
+Locator-based                   ID-LOC split              ID-based
 (GTP, SRv6-T)             (LISP, ILSR, ILA, SRv6-E)        (hICN)
  ----+-------------------------------+-----------------------+----------
      |                               |                       |
@@ -2219,9 +2264,9 @@ Slice #1 illustrates legacy use of UPFs with GTP in a slice. New
 approaches can be deployed incrementally or in parts of the network. As
 demonstrated, the use of network slices can provide domain isolation for this.
 
-__ID/Loc split__
+__ID-LOC split__
 
-Slice #2 and #3 support ID/Loc. We illustrate in slice #2 a typical deployment
+Slice #2 and #3 support ID-LOC. We illustrate in slice #2 a typical deployment
 with ILA. Mapping then corresponds to ILA-M, LOC-A to ILA-N and LOC-B to ILA-R.
 
 Some number of ILA-Ns and ILA-Rs are deployed. ILA transformations are
@@ -2295,18 +2340,6 @@ interconnection.
 This document summarized the various IETF protocol options for GTP replacement
 on N9 interface of 3GPP 5G architecture.
 
-    Motivate the introduction of optimized solutions with respect to :
-
-    - the gap between both "coexistence" and "integrated" deployment strategies;
-    - how well architectural requirements are addressed
-    - how well we address GTP shortcomings (provided they are detailed in the
-    beginning of the document)
-
-    complex management
-    out of 3GPP control plane as we do an early termination
-    keep overhead and complexity of tunnel
-
-
 # Formal Syntax
 
 The following syntax specification uses the augmented Backus-Naur Form (BNF) as
@@ -2314,11 +2347,11 @@ described in {{!RFC2234}}.
 
 # Security Consideration
 
-TBD
+All 3GPP security aspects apply to all the protocols discussed in this document.
 
 # IANA Considerations
 
-TBD
+There are no IANA considerations in this specification.
 
 # Acknowledgement
 
