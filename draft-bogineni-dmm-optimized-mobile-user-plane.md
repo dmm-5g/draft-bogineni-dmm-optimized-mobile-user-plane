@@ -190,8 +190,12 @@ informative:
     date: December 2017
   IRTF-RRG:
     title: TODO
-  I-D.TBD:
-    title: TODO - SRv6 and LISP-CP
+  I-D.rodrigueznatal-lisp-srv6:
+    title: "LISP Control Plane for SRv6 Endpoint Mobility"
+    author:
+    - org: Rodriguez-Natal, A., et al.  
+    seriesinfo: draft-rodrigueznatal-lisp-srv6-00 (work in progress)
+    date: 2018-06
 
 --- abstract
 
@@ -1988,7 +1992,7 @@ can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particu
 endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.
 
 The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane
-can be found in {{I-D.TBD}}.
+can be found in {{I-D.rodrigueznatal-lisp-srv6}}.
 
 ### ILA control plane
 
