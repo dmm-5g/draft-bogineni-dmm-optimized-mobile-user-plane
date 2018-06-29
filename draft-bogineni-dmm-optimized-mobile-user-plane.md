@@ -159,8 +159,6 @@ informative:
     author:
       - org: Linux Foundation fd.io
     date: 2018
-  ILAKERNEL:
-    title: TODO
   ILACONTROL:
     title: "Identifier Locator Addressing Mapping Protocol draft-herbert-ila-ilamp-00"
     author:
@@ -174,8 +172,13 @@ informative:
         ins: T. Herbert
     date: January 2018
   LISP-WG:
-    title: TODOgit diff
-    
+    title: "IETF Locator/ID Separation Protocol (lisp) Working Group"
+    author: 
+    - 
+        ins: J. Halrpen
+    -
+        ins: L. Iannone    
+    date: June 2018
   ILSR-WP:
     title: "Evolving 5G Routing"
     author:
@@ -187,7 +190,11 @@ informative:
         ins: D. Farinacci
     date: December 2017
   IRTF-RRG:
-    title: TODO
+    title: "IRTF Routing Research Group (rrg)"
+    author: 
+    - ins:  T. Li
+    date: November 2012
+    
   I-D.rodrigueznatal-lisp-srv6:
     title: "LISP Control Plane for SRv6 Endpoint Mobility"
     author:
@@ -1396,7 +1403,7 @@ Benefits of ILA include:
 - Flexible control plane that splits data and control
 - Modern "SDN" control protocols (e.g. RPC/TCP)
 - Scale number of nodes to billions for 5G, DC virtualization
-- Upstream Linux kernel data path {{ILAKERNEL}} and open source ctrl plane {{ILACONTROL}}.
+- Upstream Linux kernel data path  and open source ctrl plane {{ILACONTROL}}.
 
 The ILA user plane protocol is described in {{?I-D.herbert-intarea-ila}},
 motivation and problems areas are described in {{ILAMOTIVE}}, ILA in the mobile
@@ -2337,8 +2344,9 @@ interconnection.
 
 # Summary {#sec-summary}
 
-This document summarized the various IETF protocol options for GTP replacement
-on N9 interface of 3GPP 5G architecture.
+This document summarizes the various IETF protocol options for GTP replacement
+on N9 interface of 3GPP 5G architecture. The document also proposes optional
+raplacemets of GTP in N3 interface.
 
 # Formal Syntax
 
