@@ -1,6 +1,6 @@
 % Optimized Mobile User Plane Solutions for 5G
 % K. Bogineni, et al.
-% IETF 102 Montreal, 17th – 23rd July, 2018
+% IETF 102 Montreal, 14th – 20th July, 2018
 
 ## Acknowledgements
 The authors would like to thank the 3GPP delegates from various companies who
