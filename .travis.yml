@@ -9,6 +9,7 @@ addons:
      - xsltproc
      - enscript
      - ghostscript
+     - pandoc
 
 env:
   global:
@@ -18,6 +19,7 @@ env:
 
 install:
  - pip install xml2rfc
+ - pip install pandocfilters
  - if head -1 -q *.md | grep '^\-\-\-' >/dev/null 2>&1; then gem install --no-doc kramdown-rfc2629; fi
  - if head -1 -q *.md | grep '^%%%' >/dev/null 2>&1; then go get "$mmark_src" && go build "$mmark_src"; fi
 
@@ -26,11 +28,12 @@ script:
  - make pdf
  - make
  - make ghpages
+ - cd slides; make; cd..;
 
 after_success:
  - mkdir public
  - cd public
- - mv ../*.txt ../*.html ../*.pdf .
+ - mv ../*.txt ../*.html ../*.pdf ../slides/*.pdf .
  - ../.travisci/make-index.py . > index.html
  - cd ..
 
