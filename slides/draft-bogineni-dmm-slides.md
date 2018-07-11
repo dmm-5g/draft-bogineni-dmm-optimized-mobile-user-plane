@@ -27,9 +27,9 @@ and for providing content into various sections.
 
 ## 3GPP Release 15 5G NGC Architecture
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 \tiny
 __Non-Roaming Architecture: Reference Point Representation__
@@ -72,7 +72,9 @@ __NRF__: NF Repository Function
 
 __NSSF__: Network Slice Selection Function
 
-[column=0.5]
+</div>
+
+<div class="column" width="50%">
 
 \tiny
 __Non-Roaming Architecture: Services Based Interfaces__
@@ -116,7 +118,8 @@ __UE__: User Equipment
 
 __RAN__: (Radio) Access Network
 
-[/columns]
+</div>
+</div>
 
 ## Roaming Architectures
 - Acronymns:
@@ -124,15 +127,15 @@ __RAN__: (Radio) Access Network
    - VPLMN: 	Visited PLMN
 - Definitions (3GPP TS 21.905)
    - Mobility: The ability for the user to communicate whilst moving independent of location.
-   - Roaming: The ability for a user to function in a serving network different from the home network. 
+   - Roaming: The ability for a user to function in a serving network different from the home network.
    The serving network could be a shared network operated by two or more network operator.
 - Requirements:
    - Roaming Requirements: 3GPP TS 22.011 Section 2
-   - Mobility Requirements: 3GPP TS 22.278 Section 7 
+   - Mobility Requirements: 3GPP TS 22.278 Section 7
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 \tiny
 
@@ -157,11 +160,12 @@ __RAN__: (Radio) Access Network
 
     Figure 5: Roaming 5G System Architecture - Local Breakout Scenario
 
-[column=0.5]
+</div>
+<div class="column" width="50%">
 
 \tiny
 
-    
+
                                  VPLMN   |      HPLMN
                   --------------------  N32 ----------------------------
                      |                   |               |
@@ -185,13 +189,14 @@ __RAN__: (Radio) Access Network
 
       Figure 6: Roaming 5G System Architecture- Home Routed Scenario
 
-[/columns]
+</div>
+</div>
 
 ## Sample Configurations for Access to Two DNs
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 \tiny
 
@@ -213,8 +218,9 @@ __RAN__: (Radio) Access Network
 
        Figure 7: Non-roaming 5G System Architecture for multiple PDU
                      Sessions Service Based Interface
-                     
-[column=0.5]
+
+</div>
+<div class="column" width="50%">
 
 \tiny
 
@@ -237,18 +243,19 @@ __RAN__: (Radio) Access Network
                               +-----+
 
 
-[/columns]
+</div>
+</div>
 
-## Requirements 
+## Requirements
 
 - UPF Requirements: 3GPP TS 23.501 Section 6.2.3
-- N9 Requirements: 3GPP TR 29.891 Section 5.1.1 
+- N9 Requirements: 3GPP TR 29.891 Section 5.1.1
 
 ## Reference Scenarios for Evaluation
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 - Non-Roaming Scenarios
    - UE- Internet Connectivity (mobility cases)
@@ -258,8 +265,9 @@ __RAN__: (Radio) Access Network
 - Roaming Scenarios
    - Local Break out
    - Home routed
+</div>
 
-[column=0.5]
+<div class="column" width="50%">
 
 - UE mobility SSC Mode 1
    - Single UPF
@@ -271,9 +279,10 @@ __RAN__: (Radio) Access Network
    - Single UPF
    - Multiple UPF
 
-[/columns]
+</div>
+</div>
 
-- Support for independent slices using GTP and/or other protocol will be covered. Mobility Management will be within each slice. 
+- Support for independent slices using GTP and/or other protocol will be covered. Mobility Management will be within each slice.
 - Support for one UE connected to multiple slices using different mobility protocols will be described.
 
 - Impacts to N2, N3, N4, N6, gNB, AMF and SMF
@@ -293,7 +302,7 @@ __RAN__: (Radio) Access Network
    - Address rewrite
       - ILA
 - ID-based
-   - Hybrid ICN 
+   - Hybrid ICN
 
 ## Protocol Stacks
 
@@ -301,9 +310,9 @@ __RAN__: (Radio) Access Network
 
 ## LISP – Locator Identifier Separation Protocol
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 - LISP Control-Plane (RFC6833bis)
    - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP, …
@@ -316,8 +325,9 @@ __RAN__: (Radio) Access Network
 - LISP Data-Plane (RFC6830bis)
    - Uses dynamic tunnel encapsulation
    - Fixed headers (16 bytes) are used between outer and inner IP headers
+</div>
 
-[column=0.5]
+<div class="column" width="50%">
 
 \tiny
 
@@ -334,15 +344,16 @@ __RAN__: (Radio) Access Network
      +---+---+                                               +---+---+
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
-     
-[/columns]
+
+</div>
+</div>
 
 
 ## ILA – Identifier Locator Addressing
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 - Identifier Locator Addressing: Problem areas, Motivation, and Use Cases:  draft-herbert-ila-motivation-00
 - Identifier-locator addressing for IPv6: draft-herbert-intarea-ila-00
@@ -351,30 +362,33 @@ __RAN__: (Radio) Access Network
 - Identifier groups: draft-herbert-idgroups-00
 - Mobility Management Using Identifier Locator Addressing: draft-mueller-ila-mobility-02
 - Use of BGP for dissemination of ILA mapping information: draft-lapukhov-bgp-ila-afi-02
+</div>
 
-[column=0.5]
+<div class="column" width="50%">
 
-[/columns]
+</div>
+</div>
 
 
 ## LISP Control Plane with ILA User Plane
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="40%">
 
-- LISP Control-Plane (RFC6833bis) 
+- LISP Control-Plane (RFC6833bis)
      - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP.
      - Mature mapping control-plane (10+ years) with large deployments
      - Mobility, traffic engineering, multihoming…
-- ILA Data-Plane (draft-herbert-intarea-ila) 
+- ILA Data-Plane (draft-herbert-intarea-ila)
      - Address transformation (no encapsulation)
 - LISP Control-Plane with ILA Data-Plane
      - No ILA or LISP architectural changes
      - IETF draft for LISP+ILA specific details
      - draft-rodrigueznatal-ila-lisp
+</div>
 
-[column=0.6]
+<div class="column" width="60%">
 
 \tiny
 ~~~
@@ -393,19 +407,22 @@ __RAN__: (Radio) Access Network
      +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
 ~~~
 
-[/columns]
+</div>
+</div>
 
-## Hybrid-ICN 
+## Hybrid-ICN
 
-[columns]
+<div class="columns">
 
-[column=0.5]
+<div class="column" width="50%">
 
 - draft-muscariello-intarea-hicn
 - draft-auge-dmm-hicn-mobility
 - draft-auge-dmm-hicn-deployment-options
 
-[column=0.5]
+</div>
+
+<div class="column" width="50%">
 
 \tiny
 ~~~
@@ -430,8 +447,10 @@ __RAN__: (Radio) Access Network
    |        | |        |   L1   |-|-|   L1   |   L1   |-|-|   L1   | |
    +--------+ +-----------------+ | +-----------------+ | +--------+ |
                                   |                     |            |
-~~~                             
-[/columns]
+~~~
+
+</div>
+</div>
 
 
 ## Network Slicing in 5G
@@ -472,5 +491,5 @@ Locator-based                   ID-LOC split              ID-based
 - We would like to ask the DMM WG to adopt the draft and incorporate it as part of the response back to 3GPP.
     - To attach this ongoing work to a formulated response LS back to CT4 and SA2.
     - Seek cooperation from interested teams in 3GPP to work with us in further development of this draft into a useful document to 3GPP.
-    - Propose joint 3GPP-IETF meetings (CT and SA2). 
-    
+    - Propose joint 3GPP-IETF meetings (CT and SA2).
+
