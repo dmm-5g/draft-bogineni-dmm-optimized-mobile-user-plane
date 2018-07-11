@@ -34,7 +34,6 @@ and for providing content into various sections.
 \tiny
 __Non-Roaming Architecture: Reference Point Representation__
 
-~~~
          +------+ +------+     +------+
          | NSSF | | AUSF +-N13-+ UDM  |
          +------+ +------+     +------+
@@ -53,9 +52,7 @@ __Non-Roaming Architecture: Reference Point Representation__
   +-----+        +--------+        ++-----++        +------+
                                     |     |
                                     +--N9-+
-
         5G System Architecture in Reference Point Representation
-~~~
 
 \tiny
 
@@ -79,7 +76,6 @@ __NSSF__: Network Slice Selection Function
 \tiny
 __Non-Roaming Architecture: Services Based Interfaces__
 
-~~~
                         Service Based Interfaces
     ----+-----+-----+----+----+---------+--------+-----+----+----
         |     |     |    |    |         |        |     |    |
@@ -101,7 +97,7 @@ __Non-Roaming Architecture: Services Based Interfaces__
              +------------+
 
                       5G Service Based Architecture
-~~~
+
 \tiny
 
 __PCF__: Policy Control Function
@@ -138,7 +134,7 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
-~~~
+
                                       VPLMN      |     HPLMN
             +-----+         +-------+            |        +-------+
             | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
@@ -159,14 +155,12 @@ __RAN__: (Radio) Access Network
               +-----+   +-+-+    +---+  +----+   |
 
         Roaming 5G System Architecture - Local Breakout Scenario
-~~~
 
 </div>
 <div class="column" width="40%">
 
 \tiny
 
-~~~
                                  VPLMN   |      HPLMN
                   --------------------  N32 ----------------------------
                      |                   |               |
@@ -188,7 +182,6 @@ __RAN__: (Radio) Access Network
           +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
                 +-----+     +--+--+      |      +-----+      +----+
            Roaming 5G System Architecture- Home Routed Scenario
-~~~
 
 </div>
 </div>
@@ -200,7 +193,6 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
-~~~
                            Service Based Interfaces
        ---------+------------+------------------+----------------------
                              |                  |
@@ -218,13 +210,12 @@ __RAN__: (Radio) Access Network
                 +-------+                    +-----+     +-----+  +----+
 
 Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface
-~~~
 
 </div>
 <div class="column" width="40%">
 
 \tiny
-~~~
+
                            Service Based Interfaces
        ---------+-----------------------+-----------------------
                                         |
@@ -242,8 +233,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
                               +--+--+
                               |  DN |
                               +-----+
-~~~
-
 </div>
 </div>
 
@@ -331,7 +320,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 \tiny
-~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
          |                       +----+----+                     |
@@ -345,8 +333,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
      +---+---+                                               +---+---+
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
-~~~
-
 </div>
 </div>
 
@@ -393,7 +379,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="50%">
 
 \tiny
-~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
          |                       +----+----+                     |
@@ -407,8 +392,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
      +---+---+      +----+----+             +----+----+      +---+---+
 --N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
      +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
-~~~
-
 </div>
 </div>
 
@@ -427,7 +410,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 \tiny
-~~~
        UE            5G-AN        N3         UPF        N9   UPF    N6
        |                          |                     |            |
    +--------+                     |                     |            |
@@ -449,15 +431,14 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
    |        | |        |   L1   |-|-|   L1   |   L1   |-|-|   L1   | |
    +--------+ +-----------------+ | +-----------------+ | +--------+ |
                                   |                     |            |
-~~~
-
 </div>
 </div>
 
 
 ## Network Slicing in 5G
+
 \tiny
-~~~
+
 Locator-based                   ID-LOC split              ID-based
 (GTP, SRv6-T)             (LISP, ILSR, ILA, SRv6-E)        (hICN)
  ----+-------------------------------+-----------------------+----------
@@ -485,7 +466,6 @@ Locator-based                   ID-LOC split              ID-based
               +-----+  +-------------------------+
 
                           Network slices in 5G
-~~~
 
 ## Next Steps
 - This draft aims to provide a useful comparison among different contending options. Work will continue on roaming, charging, security, scalability, etc aspects.

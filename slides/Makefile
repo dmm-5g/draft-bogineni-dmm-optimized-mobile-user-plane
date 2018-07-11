@@ -5,7 +5,7 @@ BEAMER = -s -t beamer  -V aspectratio:169  -V fontsize=8pt
 DEPS = draft-bogineni-dmm-slides.md
 
 slide: $(DEPS)
-	PYTHONPATH=. $(COM) $(BEAMER) $(DEPS) -o draft-bogineni-dmm-slides.pdf
+	$(COM) $(BEAMER) $(DEPS) -o draft-bogineni-dmm-slides.pdf
 
 cleanall:
 		@rm *.html *.pdf
