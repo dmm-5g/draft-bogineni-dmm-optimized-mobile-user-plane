@@ -20,16 +20,16 @@ env:
    - mmark=./mmark
 
 install:
- - for i in /etc/apt/sources.list.d/*; do sed "s/^/#/" $i; done
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" > /etc/apt/sources.list
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates main restricted" >> /etc/apt/sources.list
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic universe" >> /etc/apt/sources.list
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates universe" >> /etc/apt/sources.list
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic multiverse" >> /etc/apt/sources.list
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates multiverse" >> /etc/apt/sources.list
- - sudo echo "deb http://archive.ubuntu.com/ubuntu cosmic-backports main restricted universe multiverse" >> /etc/apt/sources.list
- - sudo echo "deb http://security.ubuntu.com/ubuntu cosmic-security main" >> /etc/apt/sources.list
- - sudo echo "deb http://security.ubuntu.com/ubuntu cosmic-security universe" >> /etc/apt/sources.list
+ - for i in /etc/apt/sources.list.d/*; do sed -i "s/^/#/" $i; done
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates main restricted" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic universe" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates universe" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic multiverse" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates multiverse" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu cosmic-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://security.ubuntu.com/ubuntu cosmic-security main" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://security.ubuntu.com/ubuntu cosmic-security universe" | sudo tee -a /etc/apt/sources.list
  - sudo apt-get update
  - sudo apt-get install dpkg
  - sudo dpkg -r bash-completion
