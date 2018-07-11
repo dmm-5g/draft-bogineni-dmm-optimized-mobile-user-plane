@@ -11,7 +11,7 @@ addons:
      - ghostscript
      - pandoc
      - texlive-latex-base
-     - texlive-latex-recommended
+     - latex-beamer
 
 env:
   global:
