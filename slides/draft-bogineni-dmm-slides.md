@@ -53,7 +53,6 @@ __Non-Roaming Architecture: Reference Point Representation__
   +-----+        +--------+        ++-----++        +------+
                                     |     |
                                     +--N9-+
-
         5G System Architecture in Reference Point Representation
 
 ~~~
@@ -140,7 +139,9 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
+
 ~~~
+
                                       VPLMN      |     HPLMN
             +-----+         +-------+            |        +-------+
             | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
@@ -170,6 +171,7 @@ __RAN__: (Radio) Access Network
 \tiny
 
 ~~~
+
                                  VPLMN   |      HPLMN
                   --------------------  N32 ----------------------------
                      |                   |               |
@@ -205,6 +207,7 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
+
 ~~~
                            Service Based Interfaces
        ---------+------------+------------------+----------------------
@@ -230,6 +233,7 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 \tiny
+
 ~~~
                            Service Based Interfaces
        ---------+-----------------------+-----------------------
@@ -337,6 +341,7 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 \tiny
+
 ~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
@@ -399,6 +404,7 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="50%">
 
 \tiny
+
 ~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
@@ -433,6 +439,7 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 \tiny
+
 ~~~
        UE            5G-AN        N3         UPF        N9   UPF    N6
        |                          |                     |            |
@@ -462,7 +469,9 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 
 
 ## Network Slicing in 5G
+
 \tiny
+
 ~~~
 Locator-based                   ID-LOC split              ID-based
 (GTP, SRv6-T)             (LISP, ILSR, ILA, SRv6-E)        (hICN)
