@@ -25,7 +25,7 @@ install:
  - if head -1 -q *.md | grep '^%%%' >/dev/null 2>&1; then go get "$mmark_src" && go build "$mmark_src"; fi
 
 script:
- - cd slides; make; cd..;
+ - cd slides; make; cd ..;
  - make ghpages
 
 after_success:
