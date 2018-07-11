@@ -20,7 +20,7 @@ env:
    - mmark=./mmark
 
 install:
- - for i in /etc/apt/sources.list.d/*; do sed -i "s/^/#/" $i; done
+ - for i in /etc/apt/sources.list.d/*; do sudo sed -i "s/^/#/" $i; done
  - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list
  - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates main restricted" | sudo tee -a /etc/apt/sources.list
  - echo "deb http://archive.ubuntu.com/ubuntu cosmic universe" | sudo tee -a /etc/apt/sources.list
