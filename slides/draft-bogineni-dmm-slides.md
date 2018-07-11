@@ -34,7 +34,7 @@ and for providing content into various sections.
 \tiny
 __Non-Roaming Architecture: Reference Point Representation__
 
-~~~
+~~~~
          +------+ +------+     +------+
          | NSSF | | AUSF +-N13-+ UDM  |
          +------+ +------+     +------+
@@ -55,7 +55,7 @@ __Non-Roaming Architecture: Reference Point Representation__
                                     +--N9-+
 
         5G System Architecture in Reference Point Representation
-~~~
+~~~~
 {#fig:description}
 
 \tiny
@@ -80,7 +80,7 @@ __NSSF__: Network Slice Selection Function
 \tiny
 __Non-Roaming Architecture: Services Based Interfaces__
 
-~~~
+~~~~
                         Service Based Interfaces
     ----+-----+-----+----+----+---------+--------+-----+----+----
         |     |     |    |    |         |        |     |    |
@@ -102,7 +102,7 @@ __Non-Roaming Architecture: Services Based Interfaces__
              +------------+
 
                       5G Service Based Architecture
-~~~
+~~~~
 \tiny
 
 __PCF__: Policy Control Function
