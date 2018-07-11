@@ -9,7 +9,6 @@ addons:
      - xsltproc
      - enscript
      - ghostscript
-     - pandoc
      - texlive-latex-base
      - latex-beamer
 
@@ -25,6 +24,9 @@ install:
  - if head -1 -q *.md | grep '^%%%' >/dev/null 2>&1; then go get "$mmark_src" && go build "$mmark_src"; fi
 
 script:
+ - wget https://github.com/jgm/pandoc/releases/download/2.2.1/pandoc-2.2.1-linux.tar.gz
+ - tar xvzf pandoc-2.2.1-linux.tar.gz
+ - cp ./pandoc-2.2.1/bin/* /usr/bin/
  - make
  - make pdf
  - cd slides; make; cd ..;
