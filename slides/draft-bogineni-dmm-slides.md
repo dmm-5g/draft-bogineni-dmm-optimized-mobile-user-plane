@@ -507,3 +507,6 @@ Locator-based                   ID-LOC split              ID-based
 ## Next Steps
 - Feedback from 3GPP CT4
 
+![](img/5g-rp.png){ .class height=120% width=80%}
+
+
