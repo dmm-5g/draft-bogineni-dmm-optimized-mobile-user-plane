@@ -14,6 +14,15 @@
 - Several protocol candidates in IETF: SRv6, LISP, ILA, Hybrid-ICN, etc
 - Document prepared as submission to CT4 for consideration draft-bogineni-dmm-optimized-mobile-user-plane-01
 
+## Overview of updates
+
+- Overview of updates
+   - Focus of 5G architecture only on mobility management parts
+   - Roaming architectures: policy aspects; details on LBO and Home Routed
+   - Support for different mobility protocols within same operator network using 5G network slices
+   - Roaming architectures when operators use different mobility management protocols on N9
+   - Data Plane architecture models for N9: Locator based; Locator-ID based; ID-based
+   - Reviewed approaches: add tree in Section 5.2
 
 ## 3GPP Release 15 5G NGC Architecture
 
