@@ -1,17 +1,6 @@
 % Optimized Mobile User Plane Solutions for 5G
 % K. Bogineni, et al.
-% IETF 102 Montreal, 14th – 20th July, 2018
-
-## Acknowledgements
-The authors would like to thank the 3GPP delegates from various companies who
-participated on the Conference Calls and provided constructive feedback on the
-content development.
-
-The authors would like to thank Farooq Bari, Devaki Chandramouli, Ravi
-Guntupalli, Sri Gundavelli, Peter Ashwood Smith, Satoru Matsushima, Michael
-Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne, Uma Chunduri,
-and Padma Pillay-Esnault for reviewing various iterations of the document
-and for providing content into various sections.
+% IETF 102 Montreal, 17th of July, 2018
 
 
 ## Background
@@ -22,8 +11,9 @@ and for providing content into various sections.
     - 3GPP TS 23.501 (V15.0.0): System Architecture for the 5G System
     - 3GPP TS 23.503 ( V15.0.0): Policy and Charging Control Framework for the 5G System, Stage 2
     - ETSI GR NGP 004 (V1.1.1): Next Generation Protocol (NGP): Evolved Architecture for mobility using Identity Oriented Networks
-- Several protocol candidates in IETF: SRv6, LISP, ILA, etc
-- Document being prepared in DMM WG as submission to CT4 for consideration
+- Several protocol candidates in IETF: SRv6, LISP, ILA, Hybrid-ICN, etc
+- Document prepared as submission to CT4 for consideration draft-bogineni-dmm-optimized-mobile-user-plane-01
+
 
 ## 3GPP Release 15 5G NGC Architecture
 
@@ -80,7 +70,6 @@ __NSSF__: Network Slice Selection Function
 __Non-Roaming Architecture: Services Based Interfaces__
 
 ~~~
-                        Service Based Interfaces
     ----+-----+-----+----+----+---------+--------+-----+----+----
         |     |     |    |    |         |        |     |    |
     +---+---+ |  +--+--+ | +--+---+  +--+--+  +--+--+  |  +----+
@@ -300,11 +289,14 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 
 ## Reviewed Approaches for Mobility Management
 
+The document discusses the ability to introduce several approaches for mobility management,
+some able to provide anchor-less mobility management, useful in some of the mentioned use cases.
+
 - Locator-based
     - Tunnelling
     - 3GPP / GTP-U
     - Packet steering
-    - SRv6 (backwards-compatible)
+    - SRv6 (backward-compatible)
 - Loc/ID split
     - Packet steering
         - SRv6
@@ -314,8 +306,6 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
         - ILA
 - ID-based
     - Hybrid ICN
-
-## Protocol Stacks
 
 ## Segment Routing v6
 
@@ -504,10 +494,5 @@ Locator-based                   ID-LOC split              ID-based
 ~~~
 
 ## Next Steps
-- This draft aims to provide a useful comparison among different contending options. Work will continue on roaming, charging, security, scalability, etc aspects.
-- We would like to encourage interested members to work with us in an accelerated pace to complete this work in accordance with the deadlines put forward by 3GPP.
-- We would like to ask the DMM WG to adopt the draft and incorporate it as part of the response back to 3GPP.
-    - To attach this ongoing work to a formulated response LS back to CT4 and SA2.
-    - Seek cooperation from interested teams in 3GPP to work with us in further development of this draft into a useful document to 3GPP.
-    - Propose joint 3GPP-IETF meetings (CT and SA2).
+- Feedback from 3GPP CT4
 
