@@ -10,7 +10,7 @@ addons:
      - enscript
      - ghostscript
      - pandoc
-     - pdflatex
+     - texlive-latex-base
 
 env:
   global:
