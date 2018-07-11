@@ -29,7 +29,7 @@ and for providing content into various sections.
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 __Non-Roaming Architecture: Reference Point Representation__
@@ -74,7 +74,7 @@ __NSSF__: Network Slice Selection Function
 
 </div>
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 __Non-Roaming Architecture: Services Based Interfaces__
@@ -135,7 +135,7 @@ __RAN__: (Radio) Access Network
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 
@@ -161,7 +161,7 @@ __RAN__: (Radio) Access Network
     Figure 5: Roaming 5G System Architecture - Local Breakout Scenario
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 
@@ -196,7 +196,7 @@ __RAN__: (Radio) Access Network
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 
@@ -220,7 +220,7 @@ __RAN__: (Radio) Access Network
                      Sessions Service Based Interface
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 
@@ -255,7 +255,7 @@ __RAN__: (Radio) Access Network
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 - Non-Roaming Scenarios
    - UE- Internet Connectivity (mobility cases)
@@ -267,7 +267,7 @@ __RAN__: (Radio) Access Network
    - Home routed
 </div>
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 - UE mobility SSC Mode 1
    - Single UPF
@@ -312,7 +312,7 @@ __RAN__: (Radio) Access Network
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 - LISP Control-Plane (RFC6833bis)
    - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP, …
@@ -327,7 +327,7 @@ __RAN__: (Radio) Access Network
    - Fixed headers (16 bytes) are used between outer and inner IP headers
 </div>
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 
@@ -353,7 +353,7 @@ __RAN__: (Radio) Access Network
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 - Identifier Locator Addressing: Problem areas, Motivation, and Use Cases:  draft-herbert-ila-motivation-00
 - Identifier-locator addressing for IPv6: draft-herbert-intarea-ila-00
@@ -364,7 +364,7 @@ __RAN__: (Radio) Access Network
 - Use of BGP for dissemination of ILA mapping information: draft-lapukhov-bgp-ila-afi-02
 </div>
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 </div>
 </div>
@@ -414,7 +414,7 @@ __RAN__: (Radio) Access Network
 
 <div class="columns">
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 - draft-muscariello-intarea-hicn
 - draft-auge-dmm-hicn-mobility
@@ -422,7 +422,7 @@ __RAN__: (Radio) Access Network
 
 </div>
 
-<div class="column" width="50%">
+<div class="column" width="40%">
 
 \tiny
 ~~~

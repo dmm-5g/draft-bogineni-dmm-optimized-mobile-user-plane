@@ -1,0 +1,26 @@
+<reference anchor="DOI_10.1109_TNSM.2018.2796720" >
+  <front>
+    <title>MAP-Me: Managing Anchor-Less Producer Mobility in Content-Centric Networks</title>
+    <author initials="J." surname="Auge" fullname="Jordan Auge">
+      <organization></organization>
+    </author>
+    <author initials="G." surname="Carofiglio" fullname="Giovanna Carofiglio">
+      <organization></organization>
+    </author>
+    <author initials="G." surname="Grassi" fullname="Giulio Grassi">
+      <organization></organization>
+    </author>
+    <author initials="L." surname="Muscariello" fullname="Luca Muscariello">
+      <organization></organization>
+    </author>
+    <author initials="G." surname="Pau" fullname="Giovanni Pau">
+      <organization></organization>
+    </author>
+    <author initials="X." surname="Zeng" fullname="Xuan Zeng">
+      <organization></organization>
+    </author>
+    <date year="2018" month="June"/>
+  </front>
+  <seriesInfo name="IEEE Transactions on Network and Service Management" value="Vol. 15, pp. 596-610"/>
+  <seriesInfo name="DOI" value="10.1109/tnsm.2018.2796720"/>
+</reference>

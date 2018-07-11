@@ -1,0 +1,23 @@
+<reference anchor="DOI_10.1145_2984356.2984361" >
+  <front>
+    <title>Leveraging ICN In-network Control for Loss Detection and Recovery in Wireless Mobile networks</title>
+    <author initials="G." surname="Carofiglio" fullname="Giovanna Carofiglio">
+      <organization></organization>
+    </author>
+    <author initials="L." surname="Muscariello" fullname="Luca Muscariello">
+      <organization></organization>
+    </author>
+    <author initials="M." surname="Papalini" fullname="Michele Papalini">
+      <organization></organization>
+    </author>
+    <author initials="N." surname="Rozhnova" fullname="Natalya Rozhnova">
+      <organization></organization>
+    </author>
+    <author initials="X." surname="Zeng" fullname="Xuan Zeng">
+      <organization></organization>
+    </author>
+    <date year="2016"/>
+  </front>
+  <seriesInfo name="Proceedings of the 2016 conference on 3rd ACM Conference on Information-Centric Networking - ACM-ICN" value="'16"/>
+  <seriesInfo name="DOI" value="10.1145/2984356.2984361"/>
+</reference>
