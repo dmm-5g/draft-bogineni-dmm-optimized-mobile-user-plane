@@ -10,7 +10,6 @@ addons:
      - enscript
      - ghostscript
      - pandoc
-     - python-pandocfilters
      - texlive-latex-base
 
 env:
