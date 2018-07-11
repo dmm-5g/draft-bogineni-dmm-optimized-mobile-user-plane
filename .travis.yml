@@ -31,7 +31,7 @@ install:
  - echo "deb http://security.ubuntu.com/ubuntu cosmic-security main" | sudo tee -a /etc/apt/sources.list
  - echo "deb http://security.ubuntu.com/ubuntu cosmic-security universe" | sudo tee -a /etc/apt/sources.list
  - sudo apt-get update
- - sudo apt-get install dpkg
+ - sudo apt-get install dpkg -o APT::Force-LoopBreak=1
  - sudo dpkg -r bash-completion
  - sudo apt-get install pandoc
  - sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
