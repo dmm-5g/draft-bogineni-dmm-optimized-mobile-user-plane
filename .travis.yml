@@ -26,7 +26,6 @@ install:
 
 script:
  - cd slides; make; cd ..;
- - make ghpages
 
 after_success:
  - mkdir public
