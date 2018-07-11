@@ -11,6 +11,7 @@ addons:
      - ghostscript
      - texlive-latex-base
      - latex-beamer
+     - lmodern
 
 env:
   global:
@@ -26,7 +27,7 @@ install:
 script:
  - wget https://github.com/jgm/pandoc/releases/download/2.2.1/pandoc-2.2.1-linux.tar.gz
  - tar xvzf pandoc-2.2.1-linux.tar.gz
- - cp ./pandoc-2.2.1/bin/* /usr/bin/
+ - sudo cp ./pandoc-2.2.1/bin/* /usr/bin/
  - make
  - make pdf
  - cd slides; make; cd ..;
