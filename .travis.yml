@@ -37,7 +37,7 @@ after_success:
  - mkdir public
  - cd public
  - mv ../*.txt ../*.html ../*.pdf ../slides/*.pdf .
- - ../.travisci/make-index.py . > index.html
+ - sh ../.travisci/make-index.py . > index.html
  - cd ..
 
 deploy:
