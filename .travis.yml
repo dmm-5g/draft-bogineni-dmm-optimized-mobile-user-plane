@@ -9,7 +9,7 @@ addons:
      - xsltproc
      - enscript
      - ghostscript
-     - texlive-latex-full
+     - texlive-latex-base
      - latex-beamer
      - lmodern
      - texlive-fonts-recommended
