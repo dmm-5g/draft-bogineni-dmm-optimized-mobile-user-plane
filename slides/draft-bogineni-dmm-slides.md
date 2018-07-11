@@ -54,8 +54,9 @@ __Non-Roaming Architecture: Reference Point Representation__
                                     |     |
                                     +--N9-+
 
-    Figure 1: 5G System Architecture in Reference Point Representation
+        5G System Architecture in Reference Point Representation
 ~~~
+{#fig:description}
 
 \tiny
 
@@ -100,7 +101,7 @@ __Non-Roaming Architecture: Services Based Interfaces__
        +-----|    gNB     |
              +------------+
 
-                  Figure 2: 5G Service Based Architecture
+                      5G Service Based Architecture
 ~~~
 \tiny
 
@@ -138,7 +139,7 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
-
+~~~~
                                       VPLMN      |     HPLMN
             +-----+         +-------+            |        +-------+
             | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
@@ -158,14 +159,15 @@ __RAN__: (Radio) Access Network
           +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
               +-----+   +-+-+    +---+  +----+   |
 
-    Figure 5: Roaming 5G System Architecture - Local Breakout Scenario
+        Roaming 5G System Architecture - Local Breakout Scenario
+~~~~
 
 </div>
 <div class="column" width="40%">
 
 \tiny
 
-
+~~~~
                                  VPLMN   |      HPLMN
                   --------------------  N32 ----------------------------
                      |                   |               |
@@ -186,8 +188,8 @@ __RAN__: (Radio) Access Network
           |     +-+---+     +--+--+      |      +--+--+      +----+
           +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
                 +-----+     +--+--+      |      +-----+      +----+
-
-      Figure 6: Roaming 5G System Architecture- Home Routed Scenario
+           Roaming 5G System Architecture- Home Routed Scenario
+~~~~
 
 </div>
 </div>
@@ -199,7 +201,7 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
-
+~~~~
                            Service Based Interfaces
        ---------+------------+------------------+----------------------
                              |                  |
@@ -216,14 +218,14 @@ __RAN__: (Radio) Access Network
           +-----|  gNB  |--------------------| UPF |--N9-| UPF |--| DN |
                 +-------+                    +-----+     +-----+  +----+
 
-       Figure 7: Non-roaming 5G System Architecture for multiple PDU
-                     Sessions Service Based Interface
+Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface
+~~~~
 
 </div>
 <div class="column" width="40%">
 
 \tiny
-
+~~~~
                            Service Based Interfaces
        ---------+-----------------------+-----------------------
                                         |
@@ -241,7 +243,7 @@ __RAN__: (Radio) Access Network
                               +--+--+
                               |  DN |
                               +-----+
-
+~~~~
 
 </div>
 </div>
@@ -330,7 +332,7 @@ __RAN__: (Radio) Access Network
 <div class="column" width="40%">
 
 \tiny
-
+~~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
          |                       +----+----+                     |
@@ -344,6 +346,7 @@ __RAN__: (Radio) Access Network
      +---+---+                                               +---+---+
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
+~~~~
 
 </div>
 </div>
@@ -388,7 +391,7 @@ __RAN__: (Radio) Access Network
      - draft-rodrigueznatal-ila-lisp
 </div>
 
-<div class="column" width="60%">
+<div class="column" width="50%">
 
 \tiny
 ~~~
@@ -482,7 +485,7 @@ Locator-based                   ID-LOC split              ID-based
               | MEC |--| +-------+    +-------+  |   +----+
               +-----+  +-------------------------+
 
-                      Figure 16: Network slices in 5G
+                          Network slices in 5G
 ~~~
 
 ## Next Steps
