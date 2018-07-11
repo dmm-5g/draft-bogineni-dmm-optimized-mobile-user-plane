@@ -55,6 +55,7 @@ __Non-Roaming Architecture: Reference Point Representation__
                                     +--N9-+
 
         5G System Architecture in Reference Point Representation
+
 ~~~
 
 \tiny
@@ -101,6 +102,7 @@ __Non-Roaming Architecture: Services Based Interfaces__
              +------------+
 
                       5G Service Based Architecture
+
 ~~~
 \tiny
 
@@ -123,15 +125,15 @@ __RAN__: (Radio) Access Network
 
 ## Roaming Architectures
 - Acronymns:
-   - HPLMN: 	Home Public Land Mobile Network
-   - VPLMN: 	Visited PLMN
+    - HPLMN: Home Public Land Mobile Network
+    - VPLMN: Visited PLMN
 - Definitions (3GPP TS 21.905)
-   - Mobility: The ability for the user to communicate whilst moving independent of location.
-   - Roaming: The ability for a user to function in a serving network different from the home network.
+    - Mobility: The ability for the user to communicate whilst moving independent of location.
+    - Roaming: The ability for a user to function in a serving network different from the home network.
    The serving network could be a shared network operated by two or more network operator.
 - Requirements:
-   - Roaming Requirements: 3GPP TS 22.011 Section 2
-   - Mobility Requirements: 3GPP TS 22.278 Section 7
+    - Roaming Requirements: 3GPP TS 22.011 Section 2
+    - Mobility Requirements: 3GPP TS 22.278 Section 7
 
 <div class="columns">
 
@@ -159,6 +161,7 @@ __RAN__: (Radio) Access Network
               +-----+   +-+-+    +---+  +----+   |
 
         Roaming 5G System Architecture - Local Breakout Scenario
+
 ~~~
 
 </div>
@@ -187,7 +190,9 @@ __RAN__: (Radio) Access Network
           |     +-+---+     +--+--+      |      +--+--+      +----+
           +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
                 +-----+     +--+--+      |      +-----+      +----+
-           Roaming 5G System Architecture- Home Routed Scenario
+
+           Roaming 5G System Architecture - Home Routed Scenario
+
 ~~~
 
 </div>
@@ -218,6 +223,7 @@ __RAN__: (Radio) Access Network
                 +-------+                    +-----+     +-----+  +----+
 
 Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface
+
 ~~~
 
 </div>
@@ -259,13 +265,13 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 - Non-Roaming Scenarios
-   - UE- Internet Connectivity (mobility cases)
-   - UE-UE IP Packet Flow (mobility cases)
-   - UE – 2 DNs with multiple PDU sessions
-   - UE – 2 DNs single PDU session
+    - UE- Internet Connectivity (mobility cases)
+    - UE-UE IP Packet Flow (mobility cases)
+    - UE – 2 DNs with multiple PDU sessions
+    - UE – 2 DNs single PDU session
 - Roaming Scenarios
-   - Local Break out
-   - Home routed
+    - Local Break out
+    - Home routed
 </div>
 
 <div class="column" width="40%">
@@ -291,19 +297,19 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 ## Reviewed Approaches for Mobility Management
 
 - Locator-based
-   - Tunnelling
-   - 3GPP / GTP-U
-   - Packet steering
-   - SRv6 (backwards-compatible)
+    - Tunnelling
+    - 3GPP / GTP-U
+    - Packet steering
+    - SRv6 (backwards-compatible)
 - Loc/ID split
-   - Packet steering
-      - SRv6
-   - Encapsulation
-      - LISP, LISP-MN, ILSR
-   - Address rewrite
-      - ILA
+    - Packet steering
+        - SRv6
+    - Encapsulation
+        - LISP, LISP-MN, ILSR
+    - Address rewrite
+        - ILA
 - ID-based
-   - Hybrid ICN
+    - Hybrid ICN
 
 ## Protocol Stacks
 
@@ -316,16 +322,16 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 - LISP Control-Plane (RFC6833bis)
-   - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP, …
-   - Mature mapping control-plane (10+ years) with large deployments
-   - Mobility related drafts:
-      - draft-ietf-lisp-eid-anonymity
-      - draft-ietf-lisp-eid-mobility
-      - draft-ietf-lisp-mn
-      - draft-ietf-lisp-predictive-rlocs
+    - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP, …
+    - Mature mapping control-plane (10+ years) with large deployments
+    - Mobility related drafts:
+        - draft-ietf-lisp-eid-anonymity
+        - draft-ietf-lisp-eid-mobility
+        - draft-ietf-lisp-mn
+        - draft-ietf-lisp-predictive-rlocs
 - LISP Data-Plane (RFC6830bis)
-   - Uses dynamic tunnel encapsulation
-   - Fixed headers (16 bytes) are used between outer and inner IP headers
+    - Uses dynamic tunnel encapsulation
+    - Fixed headers (16 bytes) are used between outer and inner IP headers
 </div>
 
 <div class="column" width="40%">
@@ -379,15 +385,15 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 <div class="column" width="40%">
 
 - LISP Control-Plane (RFC6833bis)
-     - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP.
-     - Mature mapping control-plane (10+ years) with large deployments
-     - Mobility, traffic engineering, multihoming…
+    - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP.
+    - Mature mapping control-plane (10+ years) with large deployments
+    - Mobility, traffic engineering, multihoming…
 - ILA Data-Plane (draft-herbert-intarea-ila)
-     - Address transformation (no encapsulation)
+    - Address transformation (no encapsulation)
 - LISP Control-Plane with ILA Data-Plane
-     - No ILA or LISP architectural changes
-     - IETF draft for LISP+ILA specific details
-     - draft-rodrigueznatal-ila-lisp
+    - No ILA or LISP architectural changes
+    - IETF draft for LISP+ILA specific details
+    - draft-rodrigueznatal-ila-lisp
 </div>
 
 <div class="column" width="50%">
@@ -485,6 +491,7 @@ Locator-based                   ID-LOC split              ID-based
               +-----+  +-------------------------+
 
                           Network slices in 5G
+
 ~~~
 
 ## Next Steps

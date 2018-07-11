@@ -10,8 +10,8 @@ addons:
      - enscript
      - ghostscript
      - pandoc
-     - texlive-latex-base
-     - latex-beamer
+#     - texlive-latex-base
+#     - latex-beamer
 
 env:
   global:
@@ -20,6 +20,12 @@ env:
    - mmark=./mmark
 
 install:
+ - sudo sed -i "s/trusty/cosmic/" /etc/apt/sources.list
+ - sudo apt update
+ - sudo apt install dpkg
+ - sudo dpkg -r bash-completion
+ - sudo apt install pandoc
+ - sudo apt install texlive-latex-base texlive-latex-recommended texlive-latex-extra
  - pip install xml2rfc
  - if head -1 -q *.md | grep '^\-\-\-' >/dev/null 2>&1; then gem install --no-doc kramdown-rfc2629; fi
  - if head -1 -q *.md | grep '^%%%' >/dev/null 2>&1; then go get "$mmark_src" && go build "$mmark_src"; fi
