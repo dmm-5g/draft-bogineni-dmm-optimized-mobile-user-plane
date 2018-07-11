@@ -1,6 +1,6 @@
-% Optimized Mobile User Plane Solutions for 5G
-% K. Bogineni, et al.
-% IETF 102 Montreal, 17th of July, 2018
+% Optimized Mobile User Plane Solutions for 5G 
+% draft-bogineni-dmm-optimized-mobile-user-plane-01.txt 
+% K. Bogineni, A. Akhavain, T. Herbert, D. Farinacci, A. Rodriguez-Natal, G. Carofiglio, J. Auge, L. Muscariello, P. Camarillo, S. Homma IETF 102 Montreal, 17th of July, 2018
 
 
 ## Background
@@ -459,6 +459,8 @@ some able to provide anchor-less mobility management, useful in some of the ment
 
 
 ## Network Slicing in 5G
+The ability to support several mobility management protocols to fit different use cases
+using 5G slicing.
 
 \tiny
 
