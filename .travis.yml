@@ -10,8 +10,8 @@ addons:
      - enscript
      - ghostscript
      - pandoc
-#     - texlive-latex-base
-#     - latex-beamer
+     - texlive-latex-base
+     - latex-beamer
 
 env:
   global:
@@ -20,32 +20,6 @@ env:
    - mmark=./mmark
 
 install:
- - for i in /etc/apt/sources.list.d/*; do sudo sed -i "s/^/#/" $i; done
- - echo "deb http://archive.ubuntu.com/ubuntu artful main restricted" | sudo tee /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu artful-updates main restricted" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu artful universe" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu artful-updates universe" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu artful multiverse" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu artful-updates multiverse" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu artful-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://security.ubuntu.com/ubuntu artful-security main" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://security.ubuntu.com/ubuntu artful-security universe" | sudo tee -a /etc/apt/sources.list
- - sudo apt-get update
- - sudo apt-get install dpkg -o APT::Force-LoopBreak=1
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates main restricted" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic universe" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates universe" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic multiverse" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates multiverse" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://archive.ubuntu.com/ubuntu cosmic-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://security.ubuntu.com/ubuntu cosmic-security main" | sudo tee -a /etc/apt/sources.list
- - echo "deb http://security.ubuntu.com/ubuntu cosmic-security universe" | sudo tee -a /etc/apt/sources.list
- - sudo apt-get update
- - sudo apt-get install dpkg -o APT::Force-LoopBreak=1
- - sudo dpkg -r bash-completion
- - sudo apt-get install pandoc
- - sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
  - pip install xml2rfc
  - if head -1 -q *.md | grep '^\-\-\-' >/dev/null 2>&1; then gem install --no-doc kramdown-rfc2629; fi
  - if head -1 -q *.md | grep '^%%%' >/dev/null 2>&1; then go get "$mmark_src" && go build "$mmark_src"; fi
