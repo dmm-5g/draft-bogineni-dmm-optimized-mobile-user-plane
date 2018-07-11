@@ -21,6 +21,17 @@ env:
 
 install:
  - for i in /etc/apt/sources.list.d/*; do sudo sed -i "s/^/#/" $i; done
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty main restricted" | sudo tee /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty universe" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty-updates universe" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty multiverse" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty-updates multiverse" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://security.ubuntu.com/ubuntu trusty-security main" | sudo tee -a /etc/apt/sources.list
+ - echo "deb http://security.ubuntu.com/ubuntu trusty-security universe" | sudo tee -a /etc/apt/sources.list
+ - sudo apt-get update
+ - sudo apt-get install dpkg -o APT::Force-LoopBreak=1
  - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list
  - echo "deb http://archive.ubuntu.com/ubuntu cosmic-updates main restricted" | sudo tee -a /etc/apt/sources.list
  - echo "deb http://archive.ubuntu.com/ubuntu cosmic universe" | sudo tee -a /etc/apt/sources.list
