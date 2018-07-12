@@ -1,6 +1,6 @@
 % Optimized Mobile User Plane Solutions for 5G
 % draft-bogineni-dmm-optimized-mobile-user-plane-01.txt
-% K. Bogineni, A. Akhavain, T. Herbert, D. Farinacci, A. Rodriguez-Natal, G. Carofiglio, J. Auge, L. Muscariello, P. Camarillo, S. Homma IETF 102 Montreal, 17th of July, 2018
+% K. Bogineni, A. Akhavain, T. Herbert, D. Farinacci, A. Rodriguez-Natal, G. Carofiglio, J. Augé, L. Muscariello, P. Camarillo, S. Homma IETF 102 Montreal, 17th of July, 2018
 
 
 ## Background
@@ -314,7 +314,7 @@ some able to provide anchor-less mobility management, useful in some of the ment
     - Address rewrite
         - ILA
 - ID-based
-    - Hybrid ICN
+    - Hybrid-ICN
 
 ## Segment Routing v6
 
@@ -401,21 +401,68 @@ some able to provide anchor-less mobility management, useful in some of the ment
 </div>
 
 
-## Hybrid-ICN
+## ID-native > Hybrid-ICN Anchorless Mobility Management (hICN-AMM)
 
 <div class="columns">
 
-<div class="column" width="40%">
+<div class="column" width="55%">
 
-- draft-muscariello-intarea-hicn
-- draft-auge-dmm-hicn-mobility
-- draft-auge-dmm-hicn-deployment-options
+\textcolor{ProcessBlue}{Hybrid ICN mobility management overview}
+
+\vspace{2mm}
+
+- Routable, location-independent identifiers (ID)
+  \textcolor{Gray}{[draft-vonhugo-5gangip-ip-issues-03]}
+
+    - NO address overloading, NO data plane anchor
+    - NO mapping system, NO control plane anchor
+
+\vspace{2mm}
+
+- Hybrid-ICN: an ICN communication model within IPv6
+
+  \textcolor{Gray}{[draft-muscariello-intarea-hicn]}
+
+    - native consumer mobility; lightweight FIB update for producer
+    - ICN benefits for mobility \textcolor{Gray}{[RFC7476]} including:
+        - multi-source/multi-path/hetnet support
+        - fine-grained forwarding and security policies
+        - low-latency, multicast (in-path caching)
+        - network-assisted transport
+
+\vspace{2mm}
+
+- MAP-Me : a pure-ID mobility management scheme
+  \textcolor{Gray}{[draft-irtf-icnrg-mapme]}
+
+    - ensuring connectivity through __data plane__ mechanisms
+    - using data plane messages
+      \textcolor{Gray}{[Lui et al, NSDI'13]}
+
+\vspace{2mm}
+
+\textcolor{ProcessBlue}{Drafts}
+
+\vspace{2mm}
+
+\small
+
+~~~
+draft-auge-dmm-hicn-mobility-00
+draft-auge-dmm-hicn-deployment-options-00
+~~~
 
 </div>
 
-<div class="column" width="40%">
+<div class="column" width="45%">
 
-\tiny
+\textcolor{ProcessBlue}{GTP replacement on N9 (N9+N3)}
+
+\vspace{2mm}
+
+\nopandoc{\begin{center}}
+
+\Tiny
 
 ~~~
        UE            5G-AN        N3         UPF        N9   UPF    N6
@@ -441,7 +488,32 @@ some able to provide anchor-less mobility management, useful in some of the ment
                                   |                     |            |
 ~~~
 
+\nopandoc{\end{center}}
+
+\textcolor{ProcessBlue}{Deployment options}
+
+\vspace{2mm}
+
+- Partial deployment on few selected nodes
+    - transparent for IPv6 nodes
+    - eventually exploiting SRv6 DP in between
+
+\vspace{1mm}
+
+- full-benefits with hICN on endpoints, or proxy
+    
+\vspace{1mm}
+
+- benefits of ID-native by replacing N9 (+N3)
+    - even for non-hICN traffic
+
+\vspace{1mm}
+
+- alternative hICN insertion in MEC/UPF
+    - transport benefits
+
 </div>
+
 </div>
 
 
