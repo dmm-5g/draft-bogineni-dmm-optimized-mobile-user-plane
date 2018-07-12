@@ -33,7 +33,6 @@
 
 The document discusses the ability to introduce several approaches for mobility management,
 some able to provide anchor-less mobility management, useful in some of the mentioned use cases.
-
 The user plane architectures for UPF connectivity fall into two broad categories:
 
 - Interworking
@@ -50,12 +49,8 @@ The user plane architectures for UPF connectivity fall into two broad categories
 The draft also made an attempt to classify different approaches based on forwarding and mobility paradigm 
 The following shows the first pass at such a classification which still requires further study.
 
-
 - Locator-based
-    - Tunnelling
-    - 3GPP / GTP-U
-    - Packet steering
-    - SRv6 (backward-compatible)
+    - Tunnelling, 3GPP / GTP-U, Packet steering, SRv6 (backward-compatible)
 - Loc/ID split
     - Packet steering
         - SRv6
