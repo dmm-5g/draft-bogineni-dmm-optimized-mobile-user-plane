@@ -34,6 +34,23 @@
 The document discusses the ability to introduce several approaches for mobility management,
 some able to provide anchor-less mobility management, useful in some of the mentioned use cases.
 
+The user plane architectures for UPF connectivity fall into two broad categories:
+
+- Interworking
+  - This model uses GWs.
+  - UPFs and 3GPP control remain unchanged.
+  - 3GPP user plane becomes an overlay on top of the new user plane.
+  - GWs convert GTP traffic to underlying user plane format.
+  
+- Integrated
+  - In this model UPFs transmit/receive packet in accordance with the new user plane format.
+  - UPFs and 3GPP control are modified.
+  - 3GPP and transport user plane are collapsed into one user plane.
+  
+The draft also made an attempt to classify different approaches based on forwarding and mobility paradigm 
+The following shows the first pass at such a classification which still requires further study.
+
+
 - Locator-based
     - Tunnelling
     - 3GPP / GTP-U
@@ -49,6 +66,9 @@ some able to provide anchor-less mobility management, useful in some of the ment
 - ID-based
     - Hybrid-ICN
 
+The draft also discusses an approach that takes advantage of Up Link Classifier (ULCL) to allow coexistance 
+of new user plane proposals with today's GTP based user plane.
+    
 ## Segment Routing v6
 
 ![](img/SRv6-slide.png)
