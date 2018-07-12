@@ -318,6 +318,8 @@ some able to provide anchor-less mobility management, useful in some of the ment
 
 ## Segment Routing v6
 
+![](img/SRv6-slide.png)
+
 ## LISP – Locator Identifier Separation Protocol
 
 <div class="columns">
