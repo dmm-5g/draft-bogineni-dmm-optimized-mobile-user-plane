@@ -1,5 +1,5 @@
-% Optimized Mobile User Plane Solutions for 5G 
-% draft-bogineni-dmm-optimized-mobile-user-plane-01.txt 
+% Optimized Mobile User Plane Solutions for 5G
+% draft-bogineni-dmm-optimized-mobile-user-plane-01.txt
 % K. Bogineni, A. Akhavain, T. Herbert, D. Farinacci, A. Rodriguez-Natal, G. Carofiglio, J. Auge, L. Muscariello, P. Camarillo, S. Homma IETF 102 Montreal, 17th of July, 2018
 
 
@@ -310,7 +310,7 @@ some able to provide anchor-less mobility management, useful in some of the ment
     - Packet steering
         - SRv6
     - Encapsulation
-        - LISP, LISP-MN, ILSR
+        - LISP
     - Address rewrite
         - ILA
 - ID-based
@@ -332,15 +332,19 @@ some able to provide anchor-less mobility management, useful in some of the ment
         - draft-ietf-lisp-eid-mobility
         - draft-ietf-lisp-mn
         - draft-ietf-lisp-predictive-rlocs
+        - draft-farinacci-lisp-mobile-network
 - LISP Data-Plane (RFC6830bis)
     - Uses dynamic tunnel encapsulation
     - Fixed headers (16 bytes) are used between outer and inner IP headers
+- LISP Control-Plane for ILA
+    - draft-rodrigueznatal-ila-lisp
+- LISP Control-Plane for SRv6
+    - draft-rodrigueznatal-lisp-srv6
 </div>
 
-<div class="column" width="40%">
+<div class="column" width="50%">
 
 \tiny
-
 ~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
@@ -355,11 +359,26 @@ some able to provide anchor-less mobility management, useful in some of the ment
      +---+---+                                               +---+---+
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
+
+
+
+                                 +----+----+
+         +-------------N4--------+   SMF   +--------N4-----------+
+         |                       +----+----+                     |
+         |                            |                          |
+         |                       +----+----+                     |
+         |                       | ID-LOC  |                     |
+         |                       | Mapping |      ID-LOC         |
+         |               +------>| System  |<--control-plane     |
+         |               |       +----+----+     |               |
+         |               V                       V               |
+     +---+---+      +----+----+             +----+----+      +---+---+
+--N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
+     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
 ~~~
 
 </div>
 </div>
-
 
 ## ILA – Identifier Locator Addressing
 
@@ -381,47 +400,6 @@ some able to provide anchor-less mobility management, useful in some of the ment
 </div>
 </div>
 
-
-## LISP Control Plane with ILA User Plane
-
-<div class="columns">
-
-<div class="column" width="40%">
-
-- LISP Control-Plane (RFC6833bis)
-    - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP.
-    - Mature mapping control-plane (10+ years) with large deployments
-    - Mobility, traffic engineering, multihoming…
-- ILA Data-Plane (draft-herbert-intarea-ila)
-    - Address transformation (no encapsulation)
-- LISP Control-Plane with ILA Data-Plane
-    - No ILA or LISP architectural changes
-    - IETF draft for LISP+ILA specific details
-    - draft-rodrigueznatal-ila-lisp
-</div>
-
-<div class="column" width="50%">
-
-\tiny
-
-~~~
-                                 +----+----+
-         +-------------N4--------+   SMF   +--------N4-----------+
-         |                       +----+----+                     |
-         |                            |                          |
-         |                       +----+----+                     |
-         |                       | ID-LOC  |                     |
-         |                       | Mapping |      ID-LOC         |
-         |               +------>| System  |<--control-plane     |
-         |               |       +----+----+     |               |
-         |               V                       V               |
-     +---+---+      +----+----+             +----+----+      +---+---+
---N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
-     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
-~~~
-
-</div>
-</div>
 
 ## Hybrid-ICN
 
@@ -508,5 +486,3 @@ Locator-based                   ID-LOC split              ID-based
 - Feedback from 3GPP CT4
 
 ![](img/5g-rp.png){ .class height=120% width=80%}
-
-
