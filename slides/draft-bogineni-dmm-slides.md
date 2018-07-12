@@ -52,12 +52,9 @@ The following shows the first pass at such a classification which still requires
 - Locator-based
     - Tunnelling, 3GPP / GTP-U, Packet steering, SRv6 (backward-compatible)
 - Loc/ID split
-    - Packet steering
-        - SRv6
-    - Encapsulation
-        - LISP
-    - Address rewrite
-        - ILA
+    - Packet steering: SRv6
+    - Encapsulation: LISP
+    - Address rewrite: ILA
 - ID-based
     - Hybrid-ICN
 
