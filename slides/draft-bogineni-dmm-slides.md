@@ -46,8 +46,6 @@ The user plane architectures for UPF connectivity fall into two broad categories
   - UPFs and 3GPP control are modified.
   - 3GPP and transport user plane are collapsed into one user plane.
 
-## Reviewed Approaches for Mobility Management (Cont'd)
-
 The draft also made an attempt to classify different approaches based on forwarding and mobility paradigm 
 The following shows the first pass at such a classification which still requires further study.
 
