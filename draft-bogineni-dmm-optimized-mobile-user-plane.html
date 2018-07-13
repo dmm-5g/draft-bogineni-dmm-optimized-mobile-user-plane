@@ -1,0 +1,2344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Optimized Mobile User Plane Solutions for 5G</title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract p {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre {
+  font: 15px Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+  <meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Scope of 3GPP Study Items">
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Relevance to IETF">
+<link href="#rfc.section.1.3" rel="Chapter" title="1.3 Rationale for GTP replacement">
+<link href="#rfc.section.1.4" rel="Chapter" title="1.4 Usage of GTP">
+<link href="#rfc.section.1.5" rel="Chapter" title="1.5 Document Structure">
+<link href="#rfc.section.2" rel="Chapter" title="2 Conventions and terminology">
+<link href="#rfc.section.3" rel="Chapter" title="3 Overview of 3GPP Release 15 5G Architecture">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Non-Roaming Reference Architecture">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 End-to-end Protocol Stack">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Mobility Architecture with reference to N9">
+<link href="#rfc.section.3.3.1" rel="Chapter" title="3.3.1 User Plane Function (UPF) Functionalities">
+<link href="#rfc.section.3.3.2" rel="Chapter" title="3.3.2 N9 Interface">
+<link href="#rfc.section.3.4" rel="Chapter" title="3.4 Roaming Architectures">
+<link href="#rfc.section.3.4.1" rel="Chapter" title="3.4.1 Roaming and policy management">
+<link href="#rfc.section.3.4.2" rel="Chapter" title="3.4.2 Local Break Out Model">
+<link href="#rfc.section.3.4.3" rel="Chapter" title="3.4.3 Home Routed Model">
+<link href="#rfc.section.3.5" rel="Chapter" title="3.5 Support for Multiple PDU Sessions">
+<link href="#rfc.section.3.6" rel="Chapter" title="3.6 Service and Session Continuity Modes">
+<link href="#rfc.section.4" rel="Chapter" title="4 Architectural requirements">
+<link href="#rfc.section.5" rel="Chapter" title="5 Data plane architecture models for N9">
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Overview">
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Forwarding and mobility paradigms">
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 SRv6">
+<link href="#rfc.section.5.3.1" rel="Chapter" title="5.3.1 Overview">
+<link href="#rfc.section.5.3.2" rel="Chapter" title="5.3.2 SRv6 with Traffic Engineering">
+<link href="#rfc.section.5.3.3" rel="Chapter" title="5.3.3 Service Programming with SRv6">
+<link href="#rfc.section.5.3.4" rel="Chapter" title="5.3.4 SRv6 and Entropy">
+<link href="#rfc.section.5.3.5" rel="Chapter" title="5.3.5 SRv6 and transport slicing">
+<link href="#rfc.section.5.3.6" rel="Chapter" title="5.3.6 SRv6 and Alternative Approaches to Advanced Mobility Support">
+<link href="#rfc.section.5.3.7" rel="Chapter" title="5.3.7 Areas of Concerns">
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 LISP">
+<link href="#rfc.section.5.4.1" rel="Chapter" title="5.4.1 Overview">
+<link href="#rfc.section.5.4.2" rel="Chapter" title="5.4.2 LISP Encapsulation">
+<link href="#rfc.section.5.4.3" rel="Chapter" title="5.4.3 LISP Mapping Systems">
+<link href="#rfc.section.5.4.4" rel="Chapter" title="5.4.4 LISP Mobility Features">
+<link href="#rfc.section.5.4.5" rel="Chapter" title="5.4.5 ILSR">
+<link href="#rfc.section.5.5" rel="Chapter" title="5.5 ILA">
+<link href="#rfc.section.5.5.1" rel="Chapter" title="5.5.1 Overview">
+<link href="#rfc.section.5.5.2" rel="Chapter" title="5.5.2 Protocol Layering">
+<link href="#rfc.section.5.5.3" rel="Chapter" title="5.5.3 Control plane">
+<link href="#rfc.section.5.5.4" rel="Chapter" title="5.5.4 IP addressing">
+<link href="#rfc.section.5.5.5" rel="Chapter" title="5.5.5 Traffic engineering">
+<link href="#rfc.section.5.5.6" rel="Chapter" title="5.5.6 Locator Chaining with ILA">
+<link href="#rfc.section.5.5.7" rel="Chapter" title="5.5.7 Security considerations">
+<link href="#rfc.section.5.6" rel="Chapter" title="5.6 Hybrid ICN (hICN)">
+<link href="#rfc.section.5.6.1" rel="Chapter" title="5.6.1 Overview">
+<link href="#rfc.section.5.6.2" rel="Chapter" title="5.6.2 Consumer and Producer mobility">
+<link href="#rfc.section.5.6.3" rel="Chapter" title="5.6.3 Anchorless mobility support">
+<link href="#rfc.section.5.6.4" rel="Chapter" title="5.6.4 Benefits">
+<link href="#rfc.section.5.6.5" rel="Chapter" title="5.6.5 Deployment considerations">
+<link href="#rfc.section.5.6.6" rel="Chapter" title="5.6.6 hICN with SRv6">
+<link href="#rfc.section.5.6.7" rel="Chapter" title="5.6.7 Summary">
+<link href="#rfc.section.6" rel="Chapter" title="6 Integration into the 5G framework">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Locator based - SRv6">
+<link href="#rfc.section.6.1.1" rel="Chapter" title="6.1.1 Insertion in N9 interface">
+<link href="#rfc.section.6.1.2" rel="Chapter" title="6.1.2 Control Plane considerations">
+<link href="#rfc.section.6.1.3" rel="Chapter" title="6.1.3 Extensions to N3/F1-U/Xn-U interface">
+<link href="#rfc.section.6.1.4" rel="Chapter" title="6.1.4 Coexistence with GTP-based architecture">
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 ID-LOC split">
+<link href="#rfc.section.6.2.1" rel="Chapter" title="6.2.1 Insertion in N9 interface">
+<link href="#rfc.section.6.2.2" rel="Chapter" title="6.2.2 LISP control plane">
+<link href="#rfc.section.6.2.3" rel="Chapter" title="6.2.3 ILA control plane">
+<link href="#rfc.section.6.2.4" rel="Chapter" title="6.2.4 Extensions to N3/F1-U/Xn-U interface">
+<link href="#rfc.section.6.2.5" rel="Chapter" title="6.2.5 Coexistence with GTP-based architecture">
+<link href="#rfc.section.6.3" rel="Chapter" title="6.3 ID-based - hICN">
+<link href="#rfc.section.6.3.1" rel="Chapter" title="6.3.1 Insertion in N9 interface">
+<link href="#rfc.section.6.3.2" rel="Chapter" title="6.3.2 Control plane considerations">
+<link href="#rfc.section.6.3.3" rel="Chapter" title="6.3.3 Extensions to N3/F1-U/Xn-U interface">
+<link href="#rfc.section.6.3.4" rel="Chapter" title="6.3.4 Coexistence with GTP-based architecture">
+<link href="#rfc.section.6.4" rel="Chapter" title="6.4 Coexistence of multiple protocols in network slices">
+<link href="#rfc.section.6.5" rel="Chapter" title="6.5 Interoperability/Roaming considerations">
+<link href="#rfc.section.7" rel="Chapter" title="7 Summary">
+<link href="#rfc.section.8" rel="Chapter" title="8 Formal Syntax">
+<link href="#rfc.section.9" rel="Chapter" title="9 Security Consideration">
+<link href="#rfc.section.10" rel="Chapter" title="10 IANA Considerations">
+<link href="#rfc.section.11" rel="Chapter" title="11 Acknowledgement">
+<link href="#rfc.references" rel="Chapter" title="12 References">
+<link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.10.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Bogineni, K., Akhavain, A., Herbert, T., Farinacci, D., Rodriguez-Natal, A., Carofiglio, G., Aug&#233;, J., Muscariello, L., Camarillo, P., and S. Homma" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-bogineni-dmm-optimized-mobile-user-plane-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-13" />
+  <meta name="dct.abstract" content="3GPP CT4 has approved a study item to study different mobility management protocols for potential replacement of GTP tunnels between UPFs (N9 Interface) in the 3GPP 5G system architecture." />
+  <meta name="description" content="3GPP CT4 has approved a study item to study different mobility management protocols for potential replacement of GTP tunnels between UPFs (N9 Interface) in the 3GPP 5G system architecture." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">dmm</td>
+<td class="right">K. Bogineni</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Verizon</td>
+</tr>
+<tr>
+<td class="left">Intended status: Informational</td>
+<td class="right">A. Akhavain</td>
+</tr>
+<tr>
+<td class="left">Expires: January 14, 2019</td>
+<td class="right">Huawei Canada Research Centre</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">T. Herbert</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Quantonium</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">D. Farinacci</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">lispers.net</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">A. Rodriguez-Natal</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">G. Carofiglio</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">J. Aug&#233;</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">L. Muscariello</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">P. Camarillo</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Cisco Systems, Inc.</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">S. Homma</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">NTT</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">July 13, 2018</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Optimized Mobile User Plane Solutions for 5G<br />
+  <span class="filename">draft-bogineni-dmm-optimized-mobile-user-plane-01</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>3GPP CT4 has approved a study item to study different mobility management protocols for potential replacement of GTP tunnels between UPFs (N9 Interface) in the 3GPP 5G system architecture.</p>
+<p>This document provides an overview of 5G system architecture in the context of N9 Interface which is the scope of the 3GPP CT4 study item <a href="#CP-173160-1" class="xref">[CP-173160-1]</a>, <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>, <a href="#TS.23.502-3GPP" class="xref">[TS.23.502-3GPP]</a>, <a href="#TS.23.503-3GPP" class="xref">[TS.23.503-3GPP]</a>, <a href="#TS.29.244-3GPP" class="xref">[TS.29.244-3GPP]</a>, <a href="#TS.29.281-3GPP" class="xref">[TS.29.281-3GPP]</a>, <a href="#TS.38.300-3GPP" class="xref">[TS.38.300-3GPP]</a>, and <a href="#TS.38.401-3GPP" class="xref">[TS.38.401-3GPP]</a>.</p>
+<p>Architecture requirements for evaluation of candidate protocols are provided.  Optimization of the user plane can be in different ways - packet overhead, transport integration, etc.</p>
+<p>Several IETF protocols are considered for comparison: SRv6, LISP, ILA and several combinations of control plane and user plane protocols.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on January 14, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Scope of 3GPP Study Items</a>
+</li>
+<li>1.2.   <a href="#rfc.section.1.2">Relevance to IETF</a>
+</li>
+<li>1.3.   <a href="#rfc.section.1.3">Rationale for GTP replacement</a>
+</li>
+<li>1.4.   <a href="#rfc.section.1.4">Usage of GTP</a>
+</li>
+<li>1.5.   <a href="#rfc.section.1.5">Document Structure</a>
+</li>
+</ul><li>2.   <a href="#rfc.section.2">Conventions and terminology</a>
+</li>
+<li>3.   <a href="#rfc.section.3">Overview of 3GPP Release 15 5G Architecture</a>
+</li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Non-Roaming Reference Architecture</a>
+</li>
+<li>3.2.   <a href="#rfc.section.3.2">End-to-end Protocol Stack</a>
+</li>
+<li>3.3.   <a href="#rfc.section.3.3">Mobility Architecture with reference to N9</a>
+</li>
+<ul><li>3.3.1.   <a href="#rfc.section.3.3.1">User Plane Function (UPF) Functionalities</a>
+</li>
+<li>3.3.2.   <a href="#rfc.section.3.3.2">N9 Interface</a>
+</li>
+</ul><li>3.4.   <a href="#rfc.section.3.4">Roaming Architectures</a>
+</li>
+<ul><li>3.4.1.   <a href="#rfc.section.3.4.1">Roaming and policy management</a>
+</li>
+<li>3.4.2.   <a href="#rfc.section.3.4.2">Local Break Out Model</a>
+</li>
+<li>3.4.3.   <a href="#rfc.section.3.4.3">Home Routed Model</a>
+</li>
+</ul><li>3.5.   <a href="#rfc.section.3.5">Support for Multiple PDU Sessions</a>
+</li>
+<li>3.6.   <a href="#rfc.section.3.6">Service and Session Continuity Modes</a>
+</li>
+</ul><li>4.   <a href="#rfc.section.4">Architectural requirements</a>
+</li>
+<li>5.   <a href="#rfc.section.5">Data plane architecture models for N9</a>
+</li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">Overview</a>
+</li>
+<li>5.2.   <a href="#rfc.section.5.2">Forwarding and mobility paradigms</a>
+</li>
+<li>5.3.   <a href="#rfc.section.5.3">SRv6</a>
+</li>
+<ul><li>5.3.1.   <a href="#rfc.section.5.3.1">Overview</a>
+</li>
+<li>5.3.2.   <a href="#rfc.section.5.3.2">SRv6 with Traffic Engineering</a>
+</li>
+<li>5.3.3.   <a href="#rfc.section.5.3.3">Service Programming with SRv6</a>
+</li>
+<li>5.3.4.   <a href="#rfc.section.5.3.4">SRv6 and Entropy</a>
+</li>
+<li>5.3.5.   <a href="#rfc.section.5.3.5">SRv6 and transport slicing</a>
+</li>
+<li>5.3.6.   <a href="#rfc.section.5.3.6">SRv6 and Alternative Approaches to Advanced Mobility Support</a>
+</li>
+<li>5.3.7.   <a href="#rfc.section.5.3.7">Areas of Concerns</a>
+</li>
+</ul><li>5.4.   <a href="#rfc.section.5.4">LISP</a>
+</li>
+<ul><li>5.4.1.   <a href="#rfc.section.5.4.1">Overview</a>
+</li>
+<li>5.4.2.   <a href="#rfc.section.5.4.2">LISP Encapsulation</a>
+</li>
+<li>5.4.3.   <a href="#rfc.section.5.4.3">LISP Mapping Systems</a>
+</li>
+<li>5.4.4.   <a href="#rfc.section.5.4.4">LISP Mobility Features</a>
+</li>
+<li>5.4.5.   <a href="#rfc.section.5.4.5">ILSR</a>
+</li>
+</ul><li>5.5.   <a href="#rfc.section.5.5">ILA</a>
+</li>
+<ul><li>5.5.1.   <a href="#rfc.section.5.5.1">Overview</a>
+</li>
+<li>5.5.2.   <a href="#rfc.section.5.5.2">Protocol Layering</a>
+</li>
+<li>5.5.3.   <a href="#rfc.section.5.5.3">Control plane</a>
+</li>
+<li>5.5.4.   <a href="#rfc.section.5.5.4">IP addressing</a>
+</li>
+<li>5.5.5.   <a href="#rfc.section.5.5.5">Traffic engineering</a>
+</li>
+<li>5.5.6.   <a href="#rfc.section.5.5.6">Locator Chaining with ILA</a>
+</li>
+<li>5.5.7.   <a href="#rfc.section.5.5.7">Security considerations</a>
+</li>
+</ul><li>5.6.   <a href="#rfc.section.5.6">Hybrid ICN (hICN)</a>
+</li>
+<ul><li>5.6.1.   <a href="#rfc.section.5.6.1">Overview</a>
+</li>
+<li>5.6.2.   <a href="#rfc.section.5.6.2">Consumer and Producer mobility</a>
+</li>
+<li>5.6.3.   <a href="#rfc.section.5.6.3">Anchorless mobility support</a>
+</li>
+<li>5.6.4.   <a href="#rfc.section.5.6.4">Benefits</a>
+</li>
+<li>5.6.5.   <a href="#rfc.section.5.6.5">Deployment considerations</a>
+</li>
+<li>5.6.6.   <a href="#rfc.section.5.6.6">hICN with SRv6</a>
+</li>
+<li>5.6.7.   <a href="#rfc.section.5.6.7">Summary</a>
+</li>
+</ul></ul><li>6.   <a href="#rfc.section.6">Integration into the 5G framework</a>
+</li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Locator based - SRv6</a>
+</li>
+<ul><li>6.1.1.   <a href="#rfc.section.6.1.1">Insertion in N9 interface</a>
+</li>
+<li>6.1.2.   <a href="#rfc.section.6.1.2">Control Plane considerations</a>
+</li>
+<li>6.1.3.   <a href="#rfc.section.6.1.3">Extensions to N3/F1-U/Xn-U interface</a>
+</li>
+<li>6.1.4.   <a href="#rfc.section.6.1.4">Coexistence with GTP-based architecture</a>
+</li>
+</ul><li>6.2.   <a href="#rfc.section.6.2">ID-LOC split</a>
+</li>
+<ul><li>6.2.1.   <a href="#rfc.section.6.2.1">Insertion in N9 interface</a>
+</li>
+<li>6.2.2.   <a href="#rfc.section.6.2.2">LISP control plane</a>
+</li>
+<li>6.2.3.   <a href="#rfc.section.6.2.3">ILA control plane</a>
+</li>
+<li>6.2.4.   <a href="#rfc.section.6.2.4">Extensions to N3/F1-U/Xn-U interface</a>
+</li>
+<li>6.2.5.   <a href="#rfc.section.6.2.5">Coexistence with GTP-based architecture</a>
+</li>
+</ul><li>6.3.   <a href="#rfc.section.6.3">ID-based - hICN</a>
+</li>
+<ul><li>6.3.1.   <a href="#rfc.section.6.3.1">Insertion in N9 interface</a>
+</li>
+<li>6.3.2.   <a href="#rfc.section.6.3.2">Control plane considerations</a>
+</li>
+<li>6.3.3.   <a href="#rfc.section.6.3.3">Extensions to N3/F1-U/Xn-U interface</a>
+</li>
+<li>6.3.4.   <a href="#rfc.section.6.3.4">Coexistence with GTP-based architecture</a>
+</li>
+</ul><li>6.4.   <a href="#rfc.section.6.4">Coexistence of multiple protocols in network slices</a>
+</li>
+<li>6.5.   <a href="#rfc.section.6.5">Interoperability/Roaming considerations</a>
+</li>
+</ul><li>7.   <a href="#rfc.section.7">Summary</a>
+</li>
+<li>8.   <a href="#rfc.section.8">Formal Syntax</a>
+</li>
+<li>9.   <a href="#rfc.section.9">Security Consideration</a>
+</li>
+<li>10.   <a href="#rfc.section.10">IANA Considerations</a>
+</li>
+<li>11.   <a href="#rfc.section.11">Acknowledgement</a>
+</li>
+<li>12.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>12.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>12.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">Release 15 of the 3GPP specifications provide the 5G System Architecture in <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>, <a href="#TS.23.502-3GPP" class="xref">[TS.23.502-3GPP]</a>, and <a href="#TS.23.503-3GPP" class="xref">[TS.23.503-3GPP]</a>. They come with significant changes to the radio and core architectures with respect to previous generations, with the objective of enabling new use case requirements expected from 5G networks. The user plane is however still based on GTP-U, and tunnelling user-traffic to anchor points in the core network.  User, data and forwarding plane are used with the same meaning in this context.</p>
+<p id="rfc.section.1.p.2">3GPP CT4 is in charge of specifying the user plane interface named N9, and has approved a study item <a href="#CP-173160-1" class="xref">[CP-173160-1]</a> to study possible candidates for user plane protocol for the 5GC in Release 16.</p>
+<p id="rfc.section.1.p.3">This document comprehensively describes the various user plane protocols and how they can be used in the 3GPP 5G architecture. Specifically Segment Routing v6 (SRv6), Locator Identifier Separation Protocol (LISP), Identifier Locator Addressing (ILA) and Hybrid Information-Centric Networking (hICN) are introduced and their use as replacement of GTP for N9 is further described.</p>
+<p id="rfc.section.1.p.4">Analysis work for clarifying the specifications of GTP-U as the current mobile user plane protocol and the architectural requirements of the 5G system is provided in <a href="#I-D.hmm-dmm-5g-uplane-analysis" class="xref">[I-D.hmm-dmm-5g-uplane-analysis]</a>. That provides observations of GTP-U, the architectural requirements for UP protocol, and some evaluation criteria based on the requirements.</p>
+<p id="rfc.section.1.p.5">Optimization of the user plane can be in one more more of the following:</p>
+<p></p>
+
+<ul>
+<li>reduction/elimination of encapsulation;</li>
+<li>use of native routing mechanisms;</li>
+<li>efficient forwarding during, and in between mobility events;</li>
+<li>support of anchor-less mobility management and offloading of local traffic;</li>
+<li>reduction of session state and signaling associated with mobility management;</li>
+<li>convergence towards a flatter architecture, consistent with other mobility proposals.</li>
+</ul>
+<h1 id="rfc.section.1.1">
+<a href="#rfc.section.1.1">1.1.</a> <a href="#scope-of-3gpp-study-items" id="scope-of-3gpp-study-items">Scope of 3GPP Study Items</a>
+</h1>
+<p id="rfc.section.1.1.p.1">3GPP CT4 WG has approved a Release 16 study item <a href="#CP-173160-1" class="xref">[CP-173160-1]</a> to study user-plane protocol for N9 in 5GC architecture as specified in <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a> and <a href="#TS.23.502-3GPP" class="xref">[TS.23.502-3GPP]</a>. This provides an opportunity to investigate potential limits of the existing user plane solution and potential benefits of alternative user plane solutions.</p>
+<p id="rfc.section.1.1.p.2">The following is extracted from the CT4 study item <a href="#CP-173160-1" class="xref">[CP-173160-1]</a>.</p>
+<p id="rfc.section.1.1.p.3">The expected work in CT4 will include:</p>
+<p></p>
+
+<ul>
+<li>Identify the possible candidate protocols for user-plane including existing protocol;</li>
+<li>Define a list of evaluation criteria based on Rel-16 stage 2 requirements to evaluate the candidate protocols;</li>
+<li>Evaluate the candidate solutions against the list of requirements and the potential benefits against the existing user plane solution in 5GS.</li>
+</ul>
+<p id="rfc.section.1.1.p.5">CT4 will coordinate with RAN3 for selecting the user plane protocols for N3 and F1-U interfaces in RAN. CT4 will also coordinate with CT3 Working Group for potential impacts to N6 interface and with SA2 for potential impacts on stage 2 specifications.</p>
+<p id="rfc.section.1.1.p.6">Coordination will also be required with CT3 for potential impacts on N6, and with SA2 if the work has possible impacts on the stage 2 specifications.</p>
+<p id="rfc.section.1.1.p.7">Extracted from <a href="#SP-180231-1" class="xref">[SP-180231-1]</a>, the work in SA2 Study item will study the feasibility of extending the service concept from 5GC control plane to the user plane function(s).  Impact to User plane traffic processing is not expected in this study.</p>
+<h1 id="rfc.section.1.2">
+<a href="#rfc.section.1.2">1.2.</a> <a href="#relevance-to-ietf" id="relevance-to-ietf">Relevance to IETF</a>
+</h1>
+<p id="rfc.section.1.2.p.1">IETF has some protocols for potential consideration as candidates. These protocols have the potential to simplify the architecture through reduction/elimination of encapsulation; use of native routing mechanisms; support of anchor-less mobility management; reduction of session state and reduction of signaling associated with mobility management.</p>
+<p id="rfc.section.1.2.p.2">This document provides an overview of the various protocols and how they can be used in the 3GPP 5G architecture. Details of the protocols will be provided as references in the respective sections, then described in the context of the 3GPP 5G architecture. ILNP is an end-to-end protocol and is not included in this document.  The scenario of replacing GTP on N9 as the focus of CT4 study is discussed for each protocol.  Additional scenarios are related to N3/F1-U; integration of mobility with transport; support for different mobility protocols on different slices of the 5G system, etc.</p>
+<h1 id="rfc.section.1.3">
+<a href="#rfc.section.1.3">1.3.</a> <a href="#rationale-for-gtp-replacement" id="rationale-for-gtp-replacement">Rationale for GTP replacement</a>
+</h1>
+<p id="rfc.section.1.3.p.1">Although being different in terms of architecture or implementations, common objectives emerge from the different proposals and their positioning with respect to the GTP-U tunnel-based architecture.  We succintly discuss those aspects here, that will be detailed in the sections dedicated to each protocol, clarifying some terminology at the same occasion.</p>
+<p><em>Simplification</em> : simplify the management of networks, flat and converge architecture with other mobility proposals.</p>
+<p><em>Efficiency</em> : performance of the proposal for both packet forwarding, and handling of traffic during mobility events.</p>
+<p><em>Overhead</em> : remove encapsulation overhead due to tunneling.</p>
+<p><em>Data plane anchors</em> : remove anchoring of all communications in a central core location, and opt for distributed/decentralized/full removal of anchors.</p>
+<p><em>Offloading of local communications</em> : a direct consequence on the distribution/removal of user plane anchors is the ability to offload local traffic from the core.</p>
+<p><em>Control plane anchors</em> : remove dependency on additional control plane anchors, and interoperability with the SMF.</p>
+<p><em>Transport</em> : Relieve transport and application layers from the impact of mobility and related management protocols.</p>
+<h1 id="rfc.section.1.4">
+<a href="#rfc.section.1.4">1.4.</a> <a href="#usage-of-gtp" id="usage-of-gtp">Usage of GTP</a>
+</h1>
+<p id="rfc.section.1.4.p.1">The main focus of the study is on the N9 interfaces that interconnect UPFs and could span over the mobile backhaul.  However, GTP is used at multiple interfaces beyond N9.</p>
+<p id="rfc.section.1.4.p.2">N3 and N9 interfaces are tightly coupled and Section 6 discusses the possibility to extend the deployment of new user planes to N3. The impact on N3, F1-U, and Xn-U interfaces is still TBD.</p>
+<h1 id="rfc.section.1.5">
+<a href="#rfc.section.1.5">1.5.</a> <a href="#document-structure" id="document-structure">Document Structure</a>
+</h1>
+<p><a href="#sec-arch" class="xref">Section 3</a> provides a high level overview of the 5G system architecture and the relevant scenarios like roaming, support fo multiple PDU sessions, etc.  <a href="#sec-req" class="xref">Section 4</a> provides a list of architectural requirements that candidate solutions should address are provided. <a href="#sec-models" class="xref">Section 5</a> provides an overview of the various protocols.  <a href="#sec-integration" class="xref">Section 6</a> discusses how various approaches can be integrated into the 5G framework.  A summary is provided in <a href="#sec-summary" class="xref">Section 7</a>.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#conventions-and-terminology" id="conventions-and-terminology">Conventions and terminology</a>
+</h1>
+<p id="rfc.section.2.p.1">In examples, &#8220;C:&#8221; and &#8220;S:&#8221; indicate lines sent by the client and server respectively.</p>
+<p id="rfc.section.2.p.2">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in RFC 2119 <a href="#RFC2119" class="xref">[RFC2119]</a>.</p>
+<p id="rfc.section.2.p.3">In this document, these words will appear with that interpretation   only when in ALL CAPS. Lower case uses of these words are not to be interpreted as carrying significance described in RFC 2119.</p>
+<p id="rfc.section.2.p.4">In this document, the characters &#8220;&#187;&#8221; preceding an indented line(s)   indicates a statement using the key words listed above. This convention aids reviewers in quickly identifying or finding the portions of this RFC covered by these keywords.</p>
+<p id="rfc.section.2.p.5">Acronyms</p>
+<p><em>AF</em>: Application Function</p>
+<p><em>AUSF</em>: Authentication Server Function</p>
+<p><em>AMF</em>: Access and Mobility Management Function</p>
+<p><em>DN</em>: Data Network, e.g. operator services, Internet access or 3rd party services</p>
+<p><em>NEF</em>: Network Exposure Function</p>
+<p><em>NRF</em>: Network Repository Function</p>
+<p><em>NSSF</em>: Network Slice Selection Function</p>
+<p><em>PCF</em>: Policy Control Function</p>
+<p><em>RAN</em>: (Radio) Access Network</p>
+<p><em>SMF</em>: Session Management Function</p>
+<p><em>UDM</em>: Unified Data Management</p>
+<p><em>UDR</em>: Unified Data Repository</p>
+<p><em>UE</em>: User Equipment</p>
+<p><em>UPF</em>: User Plane Function</p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#sec-arch" id="sec-arch">Overview of 3GPP Release 15 5G Architecture</a>
+</h1>
+<p id="rfc.section.3.p.1">This section briefly describes the 5G system architecture as specified in <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>. The key relevant features for session management and mobility management are:</p>
+<p></p>
+
+<ul>
+<li>Separate the User Plane (UP) functions from the Control Plane (CP) functions, allowing independent scalability, evolution and flexible deployments e.g.  centralized location or distributed (remote) location.</li>
+<li>Support concurrent access to local and centralized services.  To support low latency services and access to local data networks, UP functions can be deployed close to the Access Network.</li>
+<li>Support roaming with both Home routed traffic as well as Local breakout traffic in the visited PLMN.</li>
+</ul>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> <a href="#non-roaming-reference-architecture" id="non-roaming-reference-architecture">Non-Roaming Reference Architecture</a>
+</h1>
+<p id="rfc.section.3.1.p.1">This section briefly describes the 5G system architecture as specified in 3GPP TS 23.501, and represented in <a href="#fig_3GPP-5GS-in-Reference-Point" class="xref">Figure 1</a> and <a href="#fig_3GPP-5GS-SBA" class="xref">Figure 2</a>.</p>
+<div id="rfc.figure.1"></div>
+<div id="fig_3GPP-5GS-in-Reference-Point"></div>
+<pre>
+         +------+ +------+     +------+
+         | NSSF | | AUSF +-N13-+ UDM  |
+         +------+ +------+     +------+
+               \      |      /      \
+                N22  N12   N8        N10
+                 \    |    /          \
+                 +----+----+       +-------+      +------+      +------+
+     +-----------+   AMF   +- N11 -+  SMF  +- N7 -+  PCF +- N5 -+  AF  |
+     |           +++-----+++       +---+---+      +--+---+      +------+
+     |            ||     ||            |             |
+     |            ||     |+------------|----- N15 ---+
+     N1         N2|+-N14-+            N4
+     |            |                    |
+  +--+--+        ++-------+        +---+---+        +------+
+  |  UE +-- NR --+ (R)AN  +-- N3 --+  UPF  +-- N6 --+  DN  |
+  +-----+        +--------+        ++-----++        +------+
+                                    |     |
+                                    +--N9-+
+</pre>
+<p class="figure">Figure 1: 5G System Architecture in Reference Point Representation</p>
+<p id="rfc.section.3.1.p.2">A short description of the network functions is provided below. Details are in <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>.</p>
+<p id="rfc.section.3.1.p.3">Access and Mobility Management Function (AMF) interfaces with the Radio access network and provides management of registration/connection/reachability/mobility, access authentication and authorization, etc.</p>
+<p id="rfc.section.3.1.p.4">Session Management function (SMF) handles session management, UE IP address allocation &amp; management, DHCP, ARP proxying, selection and control of UP function, traffic steering, interface to PCF,charging data collection, roaming, etc.</p>
+<p id="rfc.section.3.1.p.5">User Plane Function (UPF) is the anchor point mobility, packet routing/forwarding/marking, packet inspection, policy rule enforcement, lawful intercept, QoS handling,etc.</p>
+<p id="rfc.section.3.1.p.6">Policy Control Function (PCF) provides policy rules to Control Plane function(s) to enforce them.</p>
+<p id="rfc.section.3.1.p.7">Network Exposure Function (NEF) supports exposure of capabilities and events between network functions, to 3rd party, Application Functions, Edge Computing, etc.</p>
+<p id="rfc.section.3.1.p.8">Network Repository Function (NRF) supports service discovery function.</p>
+<p id="rfc.section.3.1.p.9">Unified Data Management (UDM) supports access authorization, subscription management, etc.</p>
+<p id="rfc.section.3.1.p.10">Authentication Server Function (AUSF) supports authentication for 3GPP access and untrusted non-3GPP access.</p>
+<p id="rfc.section.3.1.p.11">Network Slice Selection Function (NSSF) selects the set of Network Slice instances serving the UE, determines the allowed slices, etc.</p>
+<p id="rfc.section.3.1.p.12">Application Function (AF)</p>
+<div id="rfc.figure.2"></div>
+<div id="fig_3GPP-5GS-SBA"></div>
+<pre>
+                        Service Based Interfaces
+    ----+-----+-----+----+----+---------+--------+-----+----+----
+        |     |     |    |    |         |        |     |    |
+    +---+---+ |  +--+--+ | +--+---+  +--+--+  +--+--+  |  +----+
+    | NSSF  | |  | NRF | | | AUSF |  | UDM |  | NEF |  |  | AF |
+    +-------+ |  +-----+ | +------+  +-----+  +-----+  |  +----+
+          +---+----+  +--+--+            +-------------+--+
+          |  AMF   |  | PCF |            |      SMF       |
+          +---+--+-+  +-----+            +-+-----------+--+
+             N1  |                         |           |
+   +-------+  |  |                         N4          N4
+   | 5G UE |--+  |                         |           |
+   +---+---+     N2                  +-----+-+     +---+---+      +----+
+       |         |      +----N3------+  UPF  +-N9--+  UPF  +--N6--+ DN |
+       |         |      |            ++----+-+     +-------+      +----+
+       |         |      |             |    |
+       |     +---+------+-+           +-N9-+
+       +-----|    gNB     |
+             +------------+
+</pre>
+<p class="figure">Figure 2: 5G Service Based Architecture</p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> <a href="#end-to-end-protocol-stack" id="end-to-end-protocol-stack">End-to-end Protocol Stack</a>
+</h1>
+<p id="rfc.section.3.2.p.1">The protocol stack for the User Plane transport for a PDU session is depicted below in <a href="#fig_Protocol-Stack" class="xref">Figure 3</a>.</p>
+<div id="rfc.figure.3"></div>
+<div id="fig_Protocol-Stack"></div>
+<pre>
+   +-----+                     |                       |          |
+   | App +---------------------|-----------------------|----------|
+   +-----+                     |                       | +------+ |
+   | PDU +---------------------|-----------------------|-+ PDU  | |
+   +-----+  +---------------+  |  +-----------------+  | +------+ |
+   |     |  |\             /|  |  |\               /|  | |      | |
+   |     |  |  \  Relay  /  |  |  |  \    Relay  /  |  | |      | |
+   |     |  |    \     /    |  |  |    \       /    |  | |5G UP | |
+   | AN  |  |     --+--     |  |  |     ---+---     |  | | Enc  | |
+   | Pro |  |AN Pro | GTP-U +--|--+ GTP-U  |5GUP Enc+--|-+      | |
+   | Lyrs|  | Lyrs  +-------+  |  +--------+--------+  | +------+ |
+   |     +--+       |UDP/IP +--|--+ UDP/IP | UDP/IP +--|-+UDP/IP| |
+   |     |  |       +-------+  |  +--------+--------+  | +------+ |
+   |     |  |       |  L2   +--|--+  L2    |   L2   +--|-+  L2  | |
+   |     |  |       +-------+  |  +--------+--------+  | +------+ |
+   |     |  |       |  L1   +--|--+  L1    |   L1   +--|-+  L1  | |
+   +-----+  +-------+-------+  |  +--------+--------+  | +------+ |
+     UE            AN          N3         UPF        N9          N6
+                                                             UPF
+                                                    (PDU Session Anchor)
+
+
+   Legend:
+   o PDU layer: This layer corresponds to the PDU carried between the UE
+       and the DN over the PDU session. When the PDU session Type is
+       IPV6, it corresponds to IPv6 packets; When the PDU session Type
+       is Ethernet, it corresponds to Ethernet frames; etc.
+   o GPRS Tunnelling Protocol for the user plane (GTP U): This protocol
+       supports multiplexing traffic of different PDU sessions (possibly
+       corresponding to different PDU session Types) by tunnelling user
+       data over N3 (i.e. between the AN node and the UPF) in the
+       backbone network. GTP shall encapsulate all end user PDUs. It
+       provides encapsulation on a per PDU session level. This layer
+       carries also the marking associated with a QoS Flow.
+   o 5G Encapsulation: This layer supports multiplexing traffic of
+       different PDU sessions (possibly corresponding to different PDU
+       session Types) over N9 (i.e. between different UPF of the 5GC).
+       It provides encapsulation on a per PDU session level. This layer
+       carries also the marking associated with a QoS Flow.
+</pre>
+<p class="figure">Figure 3: Non-roaming 5G SA for multiple PDU Sessions</p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> <a href="#mobility-architecture-with-reference-to-n9" id="mobility-architecture-with-reference-to-n9">Mobility Architecture with reference to N9</a>
+</h1>
+<p id="rfc.section.3.3.p.1">This document focuses on the N9 interface which represents the user user plane between UPFs in 5G architecture. <a href="#fig_3GPP-5GS-N9" class="xref">Figure 4</a> shows the relevant functions and interfaces.</p>
+<div id="rfc.figure.4"></div>
+<div id="fig_3GPP-5GS-N9"></div>
+<pre>
+                               +-----------------+
+                               |       SMF       |
+                               +-+-------------+-+
+                                 |             |
+                                 N4            N4
+                                 |             |
+      +-----------+        +------+-+         +-+------+        +----+
+      |  gNB/RAN  |---N3---+  UPF   |---N9----|  UPF   +---N6---| DN |
+      +-----------+        +--------+         +--------+        +----+
+</pre>
+<p class="figure">Figure 4: N3, N4, N9, and N6 interfaces in 5G Service Based Architecture</p>
+<h1 id="rfc.section.3.3.1">
+<a href="#rfc.section.3.3.1">3.3.1.</a> <a href="#user-plane-function-upf-functionalities" id="user-plane-function-upf-functionalities">User Plane Function (UPF) Functionalities</a>
+</h1>
+<p id="rfc.section.3.3.1.p.1">The User plane function (UPF) is the function relevant to this evaluation and the N9 interface between two UPFs.</p>
+<p id="rfc.section.3.3.1.p.2">The User Plane Function (UPF) handles the user plane path of PDU sessions. The UPF transmits the PDUs of the PDU session in a single tunnel between 5GC and (R)AN. The UPF includes the following functionality. Some or all of the UPF functionalities may be supported in a single instance of a UPF.  Not all of the UPF functionalities are required to be supported in an instance of user plane function of a Network Slice.</p>
+<p id="rfc.section.3.3.1.p.3">The following provides a brief list of main UPF functionalities. Please refer to section 6.2.3 of <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a> for detailed description of UPF and its functionalities.</p>
+<p></p>
+
+<ul>
+<li>Anchor point for Intra-/Inter-RAT mobility (when applicable)&#8221;</li>
+<li>Sending and forwarding of one or more end marker to the source NG- RAN node</li>
+<li>External PDU Session point of interconnect to Data Network.</li>
+<li>PDU session type: IPv4, IPv6, Ethernet, Unstructured (type of PDU totally transparent to  5GS)</li>
+<li>Activation and release of the UP connection of an PDU session, upon UE transition between the CM-IDLE and CM-CONNECTED states(i.e. activation and release of N3 tunnelling towards the access network)</li>
+<li>Data forwarding between the SMF and the UE or DN (e.g. IP address allocation or DN authorization during the establishment of a PDU session)</li>
+<li>Packet routing and forwarding (e.g. support of Uplink classifier to route traffic flows to an instance of a data network, support of Branching point to support IPv6 multi-homed PDU session&gt;</li>
+<li>Branching Point to support routing of traffic flows of an IPv6 multi-homed PDU session to a data network, based on the source Prefix of the PDU</li>
+<li>User Plane part of policy rule enforcement (e.g.  Gating, Redirection, Traffic steering)</li>
+<li>Uplink Classifier enforcement to support routing traffic flows to a data network, e.g. based on the destination IP address/Prefix of the UL PDU</li>
+<li>Lawful intercept (UP collection)</li>
+<li>Traffic usage reporting</li>
+<li>QoS handling for user plane including: <ul>
+<li>packet filtering, gating, UL/DL rate enforcement, UL/DL Session-AMBR enforcement (with the Session-AMBR computed by the UPF over the Averaging window provisioned over N4, see subclause 5.7.3 of 3GPP <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>), UL/DL Guaranteed Flow Bit Rate (GFBR) enforcement, UL/DL Maximum Flow Bit Rate (MFBR) enforcement, etc</li>
+<li>marking packets with the QoS Flow ID (QFI) in an encapsulation header on N3 (the QoS flow is the finest granularity of QoS differentiation in the PDU session)</li>
+<li>enabling/disabling reflective QoS activation via the User Plane, i.e.  marking DL packets with the Reflective QoS Indication (RQI) in the encapsulation header on N3, for DL packets matching a QoS Rule that contains an indication to activate reflective QoS</li>
+</ul>
+</li>
+<li>Uplink Traffic verification (SDF to QoS flow mapping, i.e.  checking that QFIs in the UL PDUs are aligned with the QoS Rules provided to the UE or implicitly derived by the UE e.g. when using reflective QoS)</li>
+<li>Transport level packet marking in the uplink and downlink, e.g.  based on 5QI and ARP of the associated QoS flow.</li>
+<li>Downlink packet buffering and downlink data notification triggering: This includes the support and handling of the ARP priority of QoS Flows over the N4 interface, to support priority mechanism: <ul>
+<li>&#8220;For a UE that is not configured for priority treatment, upon receiving the &#8220;N7 PDU-CAN Session Modification&#8221; message from the PCF with an ARP priority level that is entitled for priority use, the SMF sends an &#8220;N4 Session Modification Request&#8221; to update the ARP for the Signalling QoS Flows, and sends an &#8220;N11 SM Request with PDU Session Modification Command&#8221; message to the AMF, as specified in clause 4.3.3.2 of <a href="#TS.23.502-3GPP" class="xref">[TS.23.502-3GPP]</a>.</li>
+<li>&#8220;If an IP packet arrives at the UPF for a UE that is CM-IDLE over a QoS Flow which has an ARP priority level value that is entitled for priority use, delivery of priority indication during the Paging procedure is provided by inclusion of the ARP in the N4 interface &#8220;Downlink Data Notification&#8221; message, as specified in clause 4.2.3.4 of <a href="#TS.23.502-3GPP" class="xref">[TS.23.502-3GPP]</a>.&#8221;</li>
+</ul>
+</li>
+<li>ARP proxying as specified in <a href="#RFC1027" class="xref">[RFC1027]</a> and / or IPv6 Neighbour Solicitation Proxying as specified in <a href="#RFC4861" class="xref">[RFC4861]</a> functionality for the Ethernet PDUs.  The UPF responds to the ARP and / or the IPv6 Neighbour Solicitation Request by providing the MAC address corresponding to the IP address sent in the request.</li>
+<li>Packet inspection (e.g.  Application detection based on service data flow template and the optional PFDs received from the SMF in addition)</li>
+<li>Traffic detection capabilities.  <ul>
+<li>For IP PDU session type, the UPF traffic detection capabilities may detect traffic using traffic pattern based on at least any combination of: <ul>
+<li>PDU session</li>
+<li>QFI</li>
+<li>IP Packet Filter Set. Please refer to section 5.7.6.2 of 3GPP TS 23.501 for further details.</li>
+</ul>
+</li>
+<li>For Ethernet PDU session type, the SMF may control UPF traffic detection capabilities based on at least any combination of: <ul>
+<li>PDU session</li>
+<li>QFI</li>
+<li>Ethernet Packet Filter Set. Please refer to section 5.7.6.3 of 3GPP TS 23.501 for further details.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Network slicing Requirements for different MM mechanisms on different slice.  The selection mechanism for SMF to select UPF based on the selected network slice instance, DNN and other information e.g.  UE subscription and local operator policies.</li>
+</ul>
+<h1 id="rfc.section.3.3.2">
+<a href="#rfc.section.3.3.2">3.3.2.</a> <a href="#n9-interface" id="n9-interface">N9 Interface</a>
+</h1>
+<p id="rfc.section.3.3.2.p.1">The details of N9 interface are extracted from <a href="#TR.29.891-3GPP" class="xref">[TR.29.891-3GPP]</a>.</p>
+<p id="rfc.section.3.3.2.p.2">The following information is sent in an encapsulation header over the N3 interface. N9 needs to support that.</p>
+<p></p>
+
+<ul>
+<li>QFI (QoS Flow Identifier), see subclause 5.7.1 of <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>.</li>
+<li>RQI (Reflective QoS Identifier), see subclause 5.7.5.4.2 of <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>.</li>
+<li>Support of RAN initiated QoS Flow mobility, when using Dual connectivity, also requires the QFI to be sent within End Marker packets.  See subclause 5.11.1 of <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a> and subclause 4.14.1 of <a href="#TS.23.502-3GPP" class="xref">[TS.23.502-3GPP]</a> respectively.</li>
+</ul>
+<p id="rfc.section.3.3.2.p.4">GTPv1-U as defined in <a href="#TS.29.281-3GPP" class="xref">[TS.29.281-3GPP]</a> is used over the N3 and N9 interfaces in Release 15. Release 15 is still work-in-progress and RAN3 will specify the contents of the 5GS Container. It is to be decided whether CT4 needs to specify new GTP-U extension header(s) in <a href="#TS.29.281-3GPP" class="xref">[TS.29.281-3GPP]</a> for the 5GS Container.</p>
+<p id="rfc.section.3.3.2.p.5">A GTP-U tunnel is used per PDU session to encapsulate T-PDUs and GTP-U signaling messages (e.g. End Marker, Echo Request, Error Indication) between GTP-U peers.</p>
+<p id="rfc.section.3.3.2.p.6">A 5GS Container is defined as a new single GTP-U Extension Header over the N3 and N9 interfaces and the elements are added to this container as they appear with the forthcoming features and releases. This approach would allow to design the 5GS information elements independently from the tunneling protocol used within the 5GS, i.e. it would achieve the separation of the Transport Network Layer (TNL) and Radio Network Layer (RNL) as required in 3GPP TR 38.801 subclause 7.3.2.  This would allow to not impact the RNL if in a future release a new transport network layer (TNL) other than GTP-U/UDP/IP (e.g. GRE/IP) was decided to be supported.</p>
+<h1 id="rfc.section.3.4">
+<a href="#rfc.section.3.4">3.4.</a> <a href="#roaming-architectures" id="roaming-architectures">Roaming Architectures</a>
+</h1>
+<p id="rfc.section.3.4.p.1">3GPP specifies two roaming models in <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>, namely the Local Break Out (LBO) and the Home Routed (HR) model.</p>
+<p></p>
+
+<ul>
+<li>Local Break Out Model: This model enables traffic to be offloaded locally in the visited network.</li>
+<li>Home Routed Model: In this model, the traffic is always routed to the home network.</li>
+</ul>
+<p id="rfc.section.3.4.p.3">A given UE can have multiple simultaneous PDU sessions with different roaming models. In these scenarios, the HPLMN uses subscription data per Data Network Name(DNN) and per Single Network Slice Selection Assistance Information(S-NSSAI) to determine PDU sessions&#8217;s roaming model.</p>
+<p id="rfc.section.3.4.p.4">They are represented in <a href="#fig_3GPP-5GS-Local-Breakout" class="xref">Figure 5</a> and <a href="#fig_3GPP-5GS-Home-Routed" class="xref">Figure 6</a> to the extent relevant to N9.</p>
+<div id="rfc.figure.5"></div>
+<div id="fig_3GPP-5GS-Local-Breakout"></div>
+<pre>
+                                   VPLMN      |     HPLMN
+         +-----+         +-------+            |        +-------+
+         | AF  |----N5---| V-PCF |-----------N24-------| H-PCF |
+         +-----+         +-------+            |        +-------+
+                             |                |
+                            N7                |
+                             |                |
+                          +--+--+             |
+                          | SMF |             |
+                          +--+--+             |
+                             |                |
+   +-------+                N4                |
+   | 5G UE +                 |                |
+   +---+---+           +-----+--+             |
+       |               |        |             |
+       |   +---+-+   +-+-+    +-+-+  +----+   |
+       +---| gNB |---|UPF|-N9-|UPF|--| DN |   |
+           +-----+   +-+-+    +---+  +----+   |
+</pre>
+<p class="figure">Figure 5: Roaming 5G System Architecture - Local Breakout Scenario</p>
+<div id="rfc.figure.6"></div>
+<div id="fig_3GPP-5GS-Home-Routed"></div>
+<pre>
+                              VPLMN   |      HPLMN
+               --------------------  N32 ----------------------------
+                  |                   |               |
+                  |     +-------+     |     +-------+ |      +-----+
+                  |     | V-PCF |--- N24 ---| H-PCF |---N5---| AF  |
+                  |     +-------+     |     +-------+ |      +-----+
+                  |                   |         |     |
+                  |                   |        N7     |
+                  |                   |         |     |
+                  |      +--+--+      |      +--+--+  |
+                  +------|V-SMF|      |      |H-SMF|--+
+                         +--+--+      |      +--+--+
+                            |         |         |
+   +-------+                |         |         |
+   | 5G UE |                |         |         |
+   +---+---+               N4         |         N4
+       |                    |         |         |
+       |     +-+---+     +--+--+      |      +--+--+      +----+
+       +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
+             +-----+     +--+--+      |      +-----+      +----+
+</pre>
+<p class="figure">Figure 6: Roaming 5G System Architecture- Home Routed Scenario</p>
+<h1 id="rfc.section.3.4.1">
+<a href="#rfc.section.3.4.1">3.4.1.</a> <a href="#roaming-and-policy-management" id="roaming-and-policy-management">Roaming and policy management</a>
+</h1>
+<p id="rfc.section.3.4.1.p.1">In general, the Policy Control Functions (PCF)s in Home PLMN (HPLMN) and Visited PLMN (VPLMN) interact with their respective SMFs as well as one another to support roaming.</p>
+<p id="rfc.section.3.4.1.p.2">The interface between the PCF and SMF allows the PCF to have dynamic control over policy and charging decisions at SMF.  More specifically, the interface</p>
+<p></p>
+
+<ul>
+<li>Enables the SMF to establish PDU session,</li>
+<li>Allows policy and charging control decisions to be requested from the SMF to the PCF direction or to be provisioned from the opposite direction.</li>
+<li>Provides a mean for SMF to deliver network events and PDU session parameters to PCF.</li>
+<li>Provides for PDU session termination at either PCF or SMF end.</li>
+</ul>
+<p id="rfc.section.3.4.1.p.4">The N24 interface betweeen V-PCF and H-PCF provides a communication path between these two entities. The interface enables H-PCF to provision access and mobility management related policies to V-PCF, and allows V-PCF to send Policy Association Establishmenent and Termination requests to H-PCF during UE registration and deregistration procedures.</p>
+<h1 id="rfc.section.3.4.2">
+<a href="#rfc.section.3.4.2">3.4.2.</a> <a href="#local-break-out-model" id="local-break-out-model">Local Break Out Model</a>
+</h1>
+<p id="rfc.section.3.4.2.p.1">In the LBO model, visited operator routes user traffic locally through UPFs that are local to the visited operator. In this model, the SMF and all UPF(s) involved by the PDU Session are located and are under the control of the VPLMN.</p>
+<p id="rfc.section.3.4.2.p.2">In this model, the V-PCF generates Policy and Charging Control (PCC) rules from the local configuration data that are based on the roaming agreement with the HPLMN.  The V-PCF might also use information from Application Function(AF) to generate PCC rules for VPLMN delivered services.  Here, the H-PCF uses the N24 interface to deliver UE access selection, and PDU session selection policies to the V-PCF. The V-PCF can either provide access and mobility policy information on its own, or alternatively obtain the required information from the H-PCF via the N24 interface.</p>
+<h1 id="rfc.section.3.4.3">
+<a href="#rfc.section.3.4.3">3.4.3.</a> <a href="#home-routed-model" id="home-routed-model">Home Routed Model</a>
+</h1>
+<p id="rfc.section.3.4.3.p.1">In the HR model, user traffic is routed to the UPF in HPLMN via the UPF in the visited network. In this scenario, the SMF in HPLMN (H-SMF) selects the UPF(s) in the HPLMN and the SMF in VPLMN(V-SMF) selects the UPF(s) in the VPLMN.  In this model, the UE obtains services from its home network.  Here, the UPF acting as PGW resides in home network, and can directly communicate with policy and billing system.</p>
+<p id="rfc.section.3.4.3.p.2">In the HR roaming model:</p>
+<p></p>
+
+<ul>
+<li>The NAS SM terminates at the V-SMF.</li>
+<li>The V-SMF forwards SM related informaton to the SMF in the HPLMN.</li>
+<li>The V-SMF sends UE&#8217;s Subscription Permanent Identifier(SUPI) to the H-SMF during the PDU session establishment procedure.</li>
+<li>The V-SMF sends the PDU Session Establishment Request message to the H-SMF along with the S-NSSAI with the value from the HPLMN.</li>
+<li>The H-SMF obtains subscription data directly from the Unified Data Management(UDM) and is responsible for checking the UE request with regard to the user subscription, and may reject the request in case of mismatch.</li>
+<li>The H-SMF may send QoS requirements associated with a PDU Session to the V-SMF. This may happen at PDU Session establishment and after the PDU Session is established. The interface between H-SMF and V-SMF is also able to carry (N9) User Plane forwarding information exchanged between H-SMF and V-SMF.  The V-SMF may check QoS requests from the H-SMF with respect to roaming agreements.At the user plane, the ecapsulation header carries QoS flow ID (QFI) over N3, and N9 without any changes to the end to end packet header.</li>
+<li>The AMF selects a V-SMF and a H-SMF, and provides the identifier of the selected H-SMF to the selected V-SMF.</li>
+<li>The H-SMF performs IP address management procedure based on the selected PDU session type.</li>
+</ul>
+<h1 id="rfc.section.3.5">
+<a href="#rfc.section.3.5">3.5.</a> <a href="#support-for-multiple-pdu-sessions" id="support-for-multiple-pdu-sessions">Support for Multiple PDU Sessions</a>
+</h1>
+<p><a href="#fig_3GPP-5GS-Multi-PDU-Sessions-SBI" class="xref">Figure 7</a> depicts the non-roaming architecture for UEs concurrently accessing two (e.g. local and central) data networks using multiple PDU Sessions, using the reference point representation. This figure shows the architecture for multiple PDU Sessions where two SMFs are selected for the two different PDU Sessions. However, each SMF may also have the capability to control both a local and a central UPF within a PDU Session.</p>
+<div id="rfc.figure.7"></div>
+<div id="fig_3GPP-5GS-Multi-PDU-Sessions-SBI"></div>
+<pre>
+                        Service Based Interfaces
+    ---------+------------+------------------+----------------------
+                          |                  |
+                       +--+--+            +--+--+
+                       | SMF |            | SMF |
+                       +--+--+            +--+--+
+                          |                  |
+   +-------+             N4                 N4
+   | 5G UE |              |                  |
+   +---+---+           +--+--+    +----+     +-----------+
+       |           +---| UPF |----| DN |     |           |
+       |           |   +-----+    +----+     |           |
+       |     +-+---+-+                    +--+--+     +--+--+  +----+
+       +-----|  gNB  |--------------------| UPF |--N9-| UPF |--| DN |
+             +-------+                    +-----+     +-----+  +----+
+</pre>
+<p class="figure">Figure 7: Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Interface</p>
+<p><a href="#fig_3GPP-5GS-Access2DN" class="xref">Figure 8</a> depicts the non-roaming architecture in case concurrent access to two (e.g. local and central) data networks is provided within a single PDU Session.</p>
+<div id="rfc.figure.8"></div>
+<div id="fig_3GPP-5GS-Access2DN"></div>
+<pre>
+                        Service Based Interfaces
+    ---------+-----------------------+-----------------------
+                                     |
+                                  +--+--+
+                                  | SMF |
+                                  +--+--+
+                                     |
+   +-------+                  +------+-------+
+   | 5G UE |                  |              |
+   +---+---+                  N4             N4
+       |     +-+---+       +--+--+        +--+--+    +----+
+       +-----| gNB |-------| UPF |----N9--| UPF |----| DN |
+             +-----+       +--+--+        +-----+    +----+
+                              |
+                           +--+--+
+                           |  DN |
+                           +-----+
+</pre>
+<p class="figure">Figure 8: Non-roaming 5G System Architecture for Current Access to Two (e.g. local and central) Data Networks (single PDU Session option</p>
+<p><a href="#fig_Overview-Network-with-dUPF" class="xref">Figure 9</a> depicts overview of a network model where multiple UPFs are distributed geographically. Such networks have two types of UPFs: central UPF (cUPF) deployed for covering wide area, and local/distributed UPF (dUPF) deployed close to UEs&#8217; access points.&#12288; UPFs are connected via N9 interfaces over transport network.</p>
+<div id="rfc.figure.9"></div>
+<div id="fig_Overview-Network-with-dUPF"></div>
+<pre>
+                           +----------+
+                           |   cDN/   |
+                           | Internet |
+                           +----------+
+                                |N6
+                          +-----+-----+
+                          |   cUPF    |
+                          +-----+-----+
+                                |N9
+        ,-----------------------+-----------------------.
+       /                                                 \
+       |              Transport Network                  |
+       \                                                 /
+        `----+---------------------------+--------------'
+             |N9                         |N9
+       +-----+-----+               +-----+-----+    
+       |   dUPF#1  |N6 +-------+   |   dUPF#2  |N6 +-------+
+       |  [UL/CL]  +---| dDN#A |   |   [UL/CL] +---| dDN#B |
+       +-----------+   +-------+   +-----------+   +-------+   
+             |N3                         |N3
+          +-----+                     +-----+
+          | gNB |                     | gNB |
+          +-----+                     +-----+
+             |                           |
+           +----+                     +----+
+           | UE |                     | UE |
+           +----+                     +----+
+
+                                            dUPF: Distributed UPF
+                                            cUPF: Central UPF
+                                             dDN: Distributed DN
+                                             cDN: Central DN
+
+</pre>
+<p class="figure">Figure 9: Overview of Network Model with Distributed UPFs</p>
+<h1 id="rfc.section.3.6">
+<a href="#rfc.section.3.6">3.6.</a> <a href="#service-and-session-continuity-modes" id="service-and-session-continuity-modes">Service and Session Continuity Modes</a>
+</h1>
+<p id="rfc.section.3.6.p.1">The 5G System supports different session and service continuity (SSC) modes.</p>
+<p><em>SSC mode 1</em>: the network preserves the connectivity service provided to the UE.</p>
+<p><em>SSC mode 2</em>: the network may release the connectivity service delivered to the UE and release the corresponding PDU Session.</p>
+<p><em>SSC mode 3</em>: changes to the user plane can be visible to the UE, while the network ensures that the UE suffers no loss of connectivity. A connection through new PDU Session Anchor point is established before the previous connection is terminated in order to allow for better service continuity.</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#sec-req" id="sec-req">Architectural requirements</a>
+</h1>
+<p><a href="#I-D.hmm-dmm-5g-uplane-analysis" class="xref">[I-D.hmm-dmm-5g-uplane-analysis]</a> provides a comprehensive summary of GTP architecture, and architectural requirements related to user plane collected from 3GPP specifications that we summarize here:</p>
+<p id="rfc.section.4.p.2">ARCH-Req-1: Supporting IPv4, IPv6, Ethernet and Unstructured PDU</p>
+<p id="rfc.section.4.p.3">The 5G system defines four types of PDU session as IPv4, IPv6, Ethernet, and Unstractured, and UP protocol would be required to support to convey all of these PDUs session type.</p>
+<p id="rfc.section.4.p.4">ARCH-Req-2: Supporting IP Connectivity over N3, N6, and N9</p>
+<p id="rfc.section.4.p.5">The 5G system provides IP connectivity over N3, N6, and N9 interfaces.</p>
+<p id="rfc.section.4.p.6">ARCH-Req-3: Supporting deployment of multiple UPFs as anchors for a single PDU session</p>
+<p id="rfc.section.4.p.7">The 5G system allows to deploy multiple UPFs as anchors for a single PDU session, and suupports multihoming of a single PDU session for such anchor UPFs.</p>
+<p id="rfc.section.4.p.8">ARCH-Req-4: Supporting flexible UPF selection for PDU</p>
+<p id="rfc.section.4.p.9">The appropriate UPFs are selected for a PDU session based on parameters and information such as UPF&#8217;s dynamic load or UE location information.</p>
+<p id="rfc.section.4.p.10">ARCH-Req-5: No limitation for number of UPFs in a user plane path</p>
+<p id="rfc.section.4.p.11">The number of UPF in the data path is not constrained by 3GPP specifications.</p>
+<p id="rfc.section.4.p.12">ARCH-Req-6: Supporting aggregation of multiple QoS Flow indicated with QFI into a PDU Session</p>
+<p id="rfc.section.4.p.13">In the 5G system, a single tunnel/data-path includes multiple QFIs contrast to just one QoS Flow (a bearer) to one tunnel/data-path</p>
+<p id="rfc.section.4.p.14">User plane protocol needs to support fundamentally these requirements.  In addition, <a href="#I-D.hmm-dmm-5g-uplane-analysis" class="xref">[I-D.hmm-dmm-5g-uplane-analysis]</a> provides evaluation aspects for user plane protocol that are mainly derived from the architectural requirements, such as Supporting PDU Session Type Variations, Nature of Data Path, Data Path Management, etc. The details are described in <a href="#I-D.hmm-dmm-5g-uplane-analysis" class="xref">[I-D.hmm-dmm-5g-uplane-analysis]</a>.</p>
+<p id="rfc.section.4.p.15">For each protocol, we will attempt in the next section to discuss to what extent those architectural requirements are addressed.  However, it is worth noticing that it is not mandatory that all those requirements are supported by the user plane protocol itself, as they might be realized through complementary mechanisms Section 6.6.</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#sec-models" id="sec-models">Data plane architecture models for N9</a>
+</h1>
+<h1 id="rfc.section.5.1">
+<a href="#rfc.section.5.1">5.1.</a> <a href="#overview" id="overview">Overview</a>
+</h1>
+<p id="rfc.section.5.1.p.1">The user plane architectures considered for UPF connectivity in mobile packet core fall into two categories:</p>
+<p></p>
+
+<ul>
+<li>Interworking model: <ul>
+<li>This model uses GWs.</li>
+<li>UPFs and 3GPP control remain unchanged.</li>
+<li>3GPP user plane becomes an overlay on top of new user planes</li>
+<li>GWs convert GTP traffic to underlying user plane format.</li>
+</ul>
+</li>
+<li>Integrated model: <ul>
+<li>In this model UPFs transmit/receive packets in accordance with the new user plane format.</li>
+<li>UPFs and 3GPP control will be modified.</li>
+<li>3GPP and transport user plane are collapsed into one user plane.</li>
+</ul>
+</li>
+</ul>
+<h1 id="rfc.section.5.2">
+<a href="#rfc.section.5.2">5.2.</a> <a href="#forwarding-and-mobility-paradigms" id="forwarding-and-mobility-paradigms">Forwarding and mobility paradigms</a>
+</h1>
+<p id="rfc.section.5.2.p.1">Based on their use of identifiers and locators, mobility approaches can be broadly categorized in the three following classes:</p>
+<p><strong>Locator-based</strong></p>
+<p id="rfc.section.5.2.p.3">IP communication relies solely on locators (host interfaces&#8217; addresses) that are also used as node/service identifiers at network layer. Such semantic overloading of IP addresses as both identifiers and locators does not allow to disentangle locators from location-independent traffic identifiers, thus complexifying mobility management.</p>
+<p id="rfc.section.5.2.p.4">As a result, traffic anchors and tunnels have been introduced to handle mobility while preserving the identifier exposed to the transport layer.</p>
+<p><strong>Locator-ID separation</strong></p>
+<p id="rfc.section.5.2.p.6">To overcome the limitations of purely locator-based architectures, &#8220;locator/identifier separation&#8221; (or Loc/ID split) schemes have been proposed, that use separate namespaces for so-called End-point Identifiers (EID) and Route Locators (RLOC), bound together through a mapping system. This service can be centralized, decentralized or distributed and offers control plane protocols for storage, update or retrieval of the correspondence between EIDs and RLOCs.</p>
+<p id="rfc.section.5.2.p.7">Loc/ID split has been originally proposed by LISP to solve the scalability challenges of Internet routing, and further adapted as a mobility management solution. This category includes most of the approaches reviewed in this document, namely ILA, ILSR and a SRv6-based solution, which all share the requirement for a mapping system.</p>
+<p><strong>ID-based</strong></p>
+<p id="rfc.section.5.2.p.9">A third class of approaches exists that redefines IP communication principles (i.e. network and transport layers) around location-independent identifiers <a href="#I-D.vonhugo-5gangip-ip-issues" class="xref">[I-D.vonhugo-5gangip-ip-issues]</a>.</p>
+<p id="rfc.section.5.2.p.10">Information-Centric Networking (ICN) approaches fall into such class of approaches that we refer to as purely ID-based, or in that specific case, as name-based <a href="#I-D.irtf-icnrg-terminology" class="xref">[I-D.irtf-icnrg-terminology]</a>. Previous work has highlighted the interest of ICN for mobility management <a href="#RFC7476" class="xref">[RFC7476]</a>.</p>
+<p id="rfc.section.5.2.p.11">The rest of this section details the set of reviewed approaches, namely SRv6, LISP, ILSR, ILA and hICN, as summarized in <a href="#fig-approaches" class="xref">Figure 10</a>. Each proposal consists in an overview with pointers to reference material for a more in depth description. The focus is then given to a discussion on its integration at N9 interface, as well as the benefits with respect to GTP-U. Extensions to N3 interface as well as alternative deployments preserving GTP tunnels as discussed later in this document in Section 6.</p>
+<p><strong>Reviewed approaches</strong></p>
+<div id="rfc.figure.10"></div>
+<div id="fig-approaches"></div>
+<pre>
+|_ Mobility Management
+   |_ Locator-based
+      |_ Tunnelling
+         |_ 3GPP / GTP-U                Sec. 4
+      |_ Packet steering
+         |_ SRv6 (backwards-compatible) Sec. 5.2.1
+   |_ Loc/ID split
+      |_ Packet steering
+         |_ SRv6                        Sec 5.2.2
+      |_ Encapsulation
+         |_ LISP, LISP-MN, ILSR         Sec. 5.3
+      |_ Address rewrite
+         |_ Network-based translation
+            |_ ILA                      Sec. 5.5
+   |_ ID-based
+      |_ Information-Centric Networking
+         |_ ID-based mobility / IPv6
+            |_ Hybrid ICN               Sec. 5.6
+</pre>
+<p class="figure">Figure 10: Overview of reviewed approaches</p>
+<h1 id="rfc.section.5.3">
+<a href="#rfc.section.5.3">5.3.</a> <a href="#srv6" id="srv6">SRv6</a>
+</h1>
+<h1 id="rfc.section.5.3.1">
+<a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#sec-srv6" id="sec-srv6">Overview</a>
+</h1>
+<p id="rfc.section.5.3.1.p.1">SRv6 <a href="#I-D.filsfils-spring-srv6-network-programming" class="xref">[I-D.filsfils-spring-srv6-network-programming]</a> is the IPv6 dataplane instantiation of Segment Routing <a href="#I-D.ietf-spring-segment-routing" class="xref">[I-D.ietf-spring-segment-routing]</a>.  Segment Routing is a network architecture based on source-routing (the headend inserts the nodes that a packet must traverse for TE, NFV and VPN purposes). Thus confining flow states to the ingress nodes in the SR domain.</p>
+<p id="rfc.section.5.3.1.p.2">The SRv6 dataplane consists on leveraging the IPv6 extension headers, defined in RFC8200, to include in the IPv6 header a new &#8220;Segment Routing Header&#8221; <a href="#I-D.ietf-6man-segment-routing-header" class="xref">[I-D.ietf-6man-segment-routing-header]</a> (SRH).</p>
+<p id="rfc.section.5.3.1.p.3">SRv6 encodes segments (SIDs) as IPv6 addresses in the Segment List of its header.  The IPv6 Destination Address (DA) specifies the active segment in the Segment List, while the Segments Left (SL) field of the SRH points to the next active segment in the Segment List. SRv6 routes over the shortest ECMP-aware path in the network up the the node instantiating the active segment. Once the packet has reached this node, the segment is executed. This implies running its associated function on the router, decrementing the SL value and updating the IPv6 DA to the next active segment. Notice that transit routers neither inspect the SRH nor process it. Thus they only need to be IPv6 capable.</p>
+<p id="rfc.section.5.3.1.p.4">The main benefit of SRv6 overlays is the reduction of state in the network (there is no state in the forwarding fabric), with optimized MTU overhead, and its capability to integrate with the underlay (SLA;  Traffic Engineering) and distributed NFVi. Hence there is no need NSH for NVF, RSVP for TE, or UDP for ECMP. SR also supports natively network slicing, which implies that SRv6 can offer end-to-end network slices that spans all those elements (overlay, underlay, NFV).</p>
+<p id="rfc.section.5.3.1.p.5">The versatility and adaptability of SR combined with IPv6&#8217;s ample and flexible address space positions SRv6 as a viable user plane for the next generation of mobile user-plane, in particular the 3GPP N3 and N9 interfaces.  Notice that SRv6 applicability does not require a new mobility control-plane.  SRv6 can be combined with other control-planes such as LISP, hICN described later in this document or others such as DHT, propietary CP, etc.</p>
+<p id="rfc.section.5.3.1.p.6">The applicability of SRv6 to mobility is described in <a href="#I-D.ietf-dmm-srv6-mobile-uplane" class="xref">[I-D.ietf-dmm-srv6-mobile-uplane]</a>.</p>
+<p id="rfc.section.5.3.1.p.7">SRv6 counts with three open-source implementations (Linux Kernel, FD.io VPP, P4) and several propietary implementations (4xCisco, 1xBarefoot Networks, 1xUTStarcom) which have publicly participated in interops and all execute at linecard rate.</p>
+<p id="rfc.section.5.3.1.p.8">This section starts by summarising the use of SRv6 as a drop-in alternative for GTP-U over the N9 interface connecting different User Plane Functions (UPF). It then shows how SRv6 as a GTP-U replacement can then provide additional features such as TE, IP session aggregation, rate limiting, and distributed NFVi that are not natively available by GTP.</p>
+<p id="rfc.section.5.3.1.p.9">It must be noted that the SRv6 models discussed in this document can follow either of the interworking or the integration model mentioned earlier depending on operator&#8217;s requirements.</p>
+<p id="rfc.section.5.3.1.p.10">SRv6 appears well placed as a mechanism to replace GTP-U with initially no control plane changes, but to then offer a progressive path towards many innovations in routing.</p>
+<h1 id="rfc.section.5.3.2">
+<a href="#rfc.section.5.3.2">5.3.2.</a> <a href="#srv6-with-traffic-engineering" id="srv6-with-traffic-engineering">SRv6 with Traffic Engineering</a>
+</h1>
+<p id="rfc.section.5.3.2.p.1">SRv6 can be applied as a drop-in replacement for GTP without changes in the control-plane.  This is a simple 1 to 1 replacement discussed in section 6.1. However, SRv6 offers much richer possibilities.</p>
+<p id="rfc.section.5.3.2.p.2">Traffic engineering is a native feature of SR. The SRv6 variant of SR of course supports both strict and loose models of source routing. Here, the SID list in SRH can represent a loose or strict path to UPFs. Therefore, traffic engineering can easily be supported regardless of any of the aforementioned approaches.</p>
+<p id="rfc.section.5.3.2.p.3">The main benefit of leveraging SRv6 for TE is the natural ability to create end-to-end network slices that spans both the UPFs and the underlaying transport network with TE optimization objectives (i.e. low-latency).</p>
+<p id="rfc.section.5.3.2.p.4">It must be noted that the SRH could contain multiple sets of SIDs each representing a TE path between a pair of UPFs. Alternatively, the SRH can contain a fully resolved end to end TE path that covers every intermediate node and UPF along the user plane.</p>
+<p id="rfc.section.5.3.2.p.5">SR considers segments to be instructions. Therefore each SID can represent a function that enforces a specific nodal or global packet treatment. Attributes such as jitter and delay requirement, rate limiting factors, etc. can be easily encoded in to SIDs in order to apply the desired treatment as packets traverse the network from UPF to UPF. <a href="#I-D.ietf-dmm-srv6-mobile-uplane" class="xref">[I-D.ietf-dmm-srv6-mobile-uplane]</a> suggests a SID encoding mechanism for rate limiting purposes.</p>
+<p id="rfc.section.5.3.2.p.6">Please refer to the followings for further details about SR traffic engineering capabilities, the network programming concept, and some of the main SRv6 functions.</p>
+<p></p>
+
+<ul>
+<li><a href="#I-D.ietf-spring-segment-routing" class="xref">[I-D.ietf-spring-segment-routing]</a></li>
+<li><a href="#I-D.ietf-spring-segment-routing-policy" class="xref">[I-D.ietf-spring-segment-routing-policy]</a></li>
+<li><a href="#I-D.filsfils-spring-srv6-network-programming" class="xref">[I-D.filsfils-spring-srv6-network-programming]</a></li>
+<li><a href="#I-D.ietf-6man-segment-routing-header" class="xref">[I-D.ietf-6man-segment-routing-header]</a></li>
+</ul>
+<h1 id="rfc.section.5.3.3">
+<a href="#rfc.section.5.3.3">5.3.3.</a> <a href="#service-programming-with-srv6" id="service-programming-with-srv6">Service Programming with SRv6</a>
+</h1>
+<p id="rfc.section.5.3.3.p.1">Service programming -or distributed NFVi- is another intrinsic feature of SR.  Leveraging this capability, operators can steer user traffic through a set of UPFs where each UPF performs a specific service on the traffic.</p>
+<p id="rfc.section.5.3.3.p.2">Service programming is achieved through the use of SIDs in an identical manner to what was described in the previous section: the SRH is populated with a set of SIDs with each SID identifying a specific UPF in the network. Starting from the ingress SRv6 node, packets are then forwarded through the network visiting the set of UPFs listed as SIDs in the SRH.</p>
+<p id="rfc.section.5.3.3.p.3">Please refer to <a href="#I-D.xuclad-spring-sr-service-chaining" class="xref">[I-D.xuclad-spring-sr-service-chaining]</a> for further detail.</p>
+<h1 id="rfc.section.5.3.4">
+<a href="#rfc.section.5.3.4">5.3.4.</a> <a href="#srv6-and-entropy" id="srv6-and-entropy">SRv6 and Entropy</a>
+</h1>
+<p id="rfc.section.5.3.4.p.1">Ability to provide a good level of entropy is an important aspect of user plane protocols. If included in network node&#8217;s hashing, the TEID field in GTP tunnels algorithms can result in good load balancing. Therefore, any new user plane proposal should be able to deal with entropy in an efficient manner.</p>
+<p id="rfc.section.5.3.4.p.2">SRv6 natively supports entropy by using the IPv6 Flow Label. Additionally, SRv6 SIDs can easily accommodate entropy at a hop by hop level by reserving a set of bits in the SID construct itself. In this way, the hashing algorithm at different nodes distribute traffic flows based on the SID which has been copied to IPv6 DA field.</p>
+<h1 id="rfc.section.5.3.5">
+<a href="#rfc.section.5.3.5">5.3.5.</a> <a href="#srv6-and-transport-slicing" id="srv6-and-transport-slicing">SRv6 and transport slicing</a>
+</h1>
+<p id="rfc.section.5.3.5.p.1">Slicing is one of the main features in 5G <a href="#TS.23.501-3GPP" class="xref">[TS.23.501-3GPP]</a>. Several Slices with different requirements can coexist on top of the common network infrastructure.  Diverse flows belonging to different 5G slices can be completely disjoint or can share different parts of the network infrastructure. SRv6 has native support for network slicing spanning the UPFs, underlay -transport network- and NFVi.  Also, SRv6 creates network slices without per-flow state in the fabric, hence simplifying the slicing paradigm.</p>
+<p id="rfc.section.5.3.5.p.2">Please refer to <a href="#I-D.ietf-spring-segment-routing-policy" class="xref">[I-D.ietf-spring-segment-routing-policy]</a> for further detail.</p>
+<h1 id="rfc.section.5.3.6">
+<a href="#rfc.section.5.3.6">5.3.6.</a> <a href="#srv6-and-alternative-approaches-to-advanced-mobility-support" id="srv6-and-alternative-approaches-to-advanced-mobility-support">SRv6 and Alternative Approaches to Advanced Mobility Support</a>
+</h1>
+<p id="rfc.section.5.3.6.p.1">SRv6 flexibility enables it to support different methods of providing mobility in the network. ID-LOC for mobility support is one such option.</p>
+<p id="rfc.section.5.3.6.p.2">The previous sections discussed how SRv6 could be employed as a replacement for GTP tunnels while leaving the existing control plane intact. This section describes the use of SRv6 as a vehicle to implement Locator/ID Separation model for UPF user plane connectivity.  It must be ntoed that SRv6 implementation of the ID-LOC architecture can employ a variety of different control planes including LISP, , different variety of DHT, proprietary, etc.</p>
+<h1 id="rfc.section.5.3.6.1">
+<a href="#rfc.section.5.3.6.1">5.3.6.1.</a> <a href="#upf-connectivity-via-srv6-with-loc-id-separation-interworking-model" id="upf-connectivity-via-srv6-with-loc-id-separation-interworking-model">UPF connectivity via SRv6 with Loc-ID separation (Interworking model)</a>
+</h1>
+<p id="rfc.section.5.3.6.1.p.1">SRv6 can easily implement ID-LOC Separation model for UPF connectivity. The SIDs are once again the main vehicle here. In this model, UPFs are considered to be the IDs while the nodes where the UPFs attach to take on the role of the Locators.</p>
+<p id="rfc.section.5.3.6.1.p.2">In this approach, UPFs connect to SRv6 capable Locators. UPFs use IPv4/IPv6 transport either in conjunction with GTP or without any GTP tunnel and send the packets to their associated Locator at the near end (Ingress SRv6 Locator).</p>
+<p id="rfc.section.5.3.6.1.p.3">It must be noted that use of GTP at UPFs allows us to leave the 3GPP control plane intact and hence provides a smooth migration path toward SRv6 with ID-Locator model.</p>
+<h1 id="rfc.section.5.3.6.2">
+<a href="#rfc.section.5.3.6.2">5.3.6.2.</a> <a href="#srv6-capable-upfs-and-rlocs-integration-model" id="srv6-capable-upfs-and-rlocs-integration-model">SRv6 Capable UPFs and RLOCs (Integration model)</a>
+</h1>
+<p id="rfc.section.5.3.6.2.p.1">In this model, the head-end UPF (Ingress UPF) is the ingress node and the entity that constructs the SRH in the SRv6 domain.</p>
+<p id="rfc.section.5.3.6.2.p.2">The 3GPP control plane is responsible for distributing UPF&#8217;s endpoint information. But it requires some modifications to be able to convey endpoint information to interested parties.</p>
+<p id="rfc.section.5.3.6.2.p.3">The SMF can provide a fully resolved SID list by communicating with a centralised or distributed ID-LOC mapping system containing all the relevant data regarding the UPF-Locator relationship.</p>
+<h1 id="rfc.section.5.3.6.3">
+<a href="#rfc.section.5.3.6.3">5.3.6.3.</a> <a href="#advanced-features-in-id-locator-architecture" id="advanced-features-in-id-locator-architecture">Advanced Features in ID-Locator Architecture</a>
+</h1>
+<p id="rfc.section.5.3.6.3.p.1">SRv6&#8217;s native features such as Traffic Engineering, QoS support, UPF Chaining, network slicing, etc. can be easily added to ID-Locator support. As it was noted earlier, these features are not readily available by GTP.</p>
+<h1 id="rfc.section.5.3.7">
+<a href="#rfc.section.5.3.7">5.3.7.</a> <a href="#areas-of-concerns" id="areas-of-concerns">Areas of Concerns</a>
+</h1>
+<p id="rfc.section.5.3.7.p.1">Support for IPv6 is a precondition for SRv6. Although SRv6 can support hybrid IPv4/IPv6 mobile user plane through an interworking node, support of UPFs with IPv4 address is rather complex.</p>
+<p id="rfc.section.5.3.7.p.2">Due to IPv6 128-bit address space, large SRH size can have a negative impact on MTU. Large SRH size can also exert undesirable header tax especially in the case of small payload size.</p>
+<p id="rfc.section.5.3.7.p.3">ID-LOC architecture relies on high performance mapping systems. The SRv6 support of ID-LOC as described earlier can employ different control planes. Distributed mapping systems using some form Distributed Hash Table(DHT) however, exhibit very promising results. But further investigation is needed to ensure comformance with performance metrics required by the mobile networks, specially for slice types supporting high speed mobility.</p>
+<h1 id="rfc.section.5.4">
+<a href="#rfc.section.5.4">5.4.</a> <a href="#sec-lisp" id="sec-lisp">LISP</a>
+</h1>
+<h1 id="rfc.section.5.4.1">
+<a href="#rfc.section.5.4.1">5.4.1.</a> <a href="#overview-1" id="overview-1">Overview</a>
+</h1>
+<p id="rfc.section.5.4.1.p.1">The Locator/Identifier Separation Protocol (LISP), which provides a set of functions for routers to exchange information used to map from Endpoint Identifiers (EIDs) that are not globally routable to routable Routing Locators (RLOCs).  It also defines a mechanism for these LISP routers to encapsulate IP packets addressed with EIDs for transmission across a network infrastructure that uses RLOCs for routing and forwarding.</p>
+<p id="rfc.section.5.4.1.p.2">An introduction to LISP can be found in <a href="#I-D.ietf-lisp-introduction" class="xref">[I-D.ietf-lisp-introduction]</a>.</p>
+<p id="rfc.section.5.4.1.p.3">A complete RFC-set of specifications can be found in <a href="#RFC6830" class="xref">[RFC6830]</a>, <a href="#RFC6831" class="xref">[RFC6831]</a>, <a href="#RFC6832" class="xref">[RFC6832]</a>, <a href="#RFC6833" class="xref">[RFC6833]</a>, <a href="#RFC6836" class="xref">[RFC6836]</a>, <a href="#RFC7215" class="xref">[RFC7215]</a>, <a href="#RFC8061" class="xref">[RFC8061]</a>, <a href="#RFC8111" class="xref">[RFC8111]</a>. They describe support and mechanisms for all combinations of inner and outer IPv4 and IPv6 packet headers for unicast and multicast packet flows that also interwork with non-LISP sites as well as two designs to realize a scalable mapping system.</p>
+<p id="rfc.section.5.4.1.p.4">A standards-track based set of drafts <a href="#I-D.ietf-lisp-rfc6830bis" class="xref">[I-D.ietf-lisp-rfc6830bis]</a> <a href="#I-D.ietf-lisp-rfc6833bis" class="xref">[I-D.ietf-lisp-rfc6833bis]</a> are products and work in progress of the LISP Working Group.</p>
+<h1 id="rfc.section.5.4.2">
+<a href="#rfc.section.5.4.2">5.4.2.</a> <a href="#lisp-encapsulation" id="lisp-encapsulation">LISP Encapsulation</a>
+</h1>
+<p id="rfc.section.5.4.2.p.1">LISP uses dynamic tunnel encapsulation as its fundadmental mechanism for the data-plane. Fixed headers are used between the outer and inner IP headers which are 16 bytes in length. Details can be found in <a href="#RFC6830" class="xref">[RFC6830]</a>.</p>
+<h1 id="rfc.section.5.4.3">
+<a href="#rfc.section.5.4.3">5.4.3.</a> <a href="#lisp-mapping-systems" id="lisp-mapping-systems">LISP Mapping Systems</a>
+</h1>
+<p id="rfc.section.5.4.3.p.1">Many years of research dating back to 2007 have gone into LISP scalable mapping systems. They can be found at <a href="#LISP-WG" class="xref">[LISP-WG]</a> and <a href="#IRTF-RRG" class="xref">[IRTF-RRG]</a>.  The two that show promise and have deployment experience are LISP-DDT <a href="#RFC8111" class="xref">[RFC8111]</a> and LISP-ALT <a href="#RFC6836" class="xref">[RFC6836]</a>.</p>
+<p id="rfc.section.5.4.3.p.2">The control-plane API which LISP xTRs are the clients of is documented in <a href="#RFC6833" class="xref">[RFC6833]</a>. Various mapping system and control-plane tools are available <a href="#RFC6835" class="xref">[RFC6835]</a> <a href="#RFC8112" class="xref">[RFC8112]</a> and are in operational use.</p>
+<h1 id="rfc.section.5.4.4">
+<a href="#rfc.section.5.4.4">5.4.4.</a> <a href="#lisp-mobility-features" id="lisp-mobility-features">LISP Mobility Features</a>
+</h1>
+<p id="rfc.section.5.4.4.p.1">LISP supports multi-homed shortest-path session survivable mobility. An EID can remain fixed for a node that roams while its dynamic binding changes to the RLOCs it uses when it reconnect to the new network location.</p>
+<p id="rfc.section.5.4.4.p.2">When the roaming node supports LISP, its EIDs and RLOCs are local to the node.  This form of mobility is call LISP Mobile-Node. Details can be found in <a href="#I-D.ietf-lisp-mn" class="xref">[I-D.ietf-lisp-mn]</a>.</p>
+<p id="rfc.section.5.4.4.p.3">When the roaming node does not support LISP, but LISP runs in the network the node roams to, the EIDs and RLOCs are not co-located in the same device. In this case, EIDs are assigned to the roaming node and RLOCs are assigned to LISP xTRs.  So when the roaming node attaches to the network, its EIDs are mapped to the RLOCs of the LISP xTRs in the network. This form of mobility is called LISP EID-Mobility. Details can be found in <a href="#I-D.ietf-lisp-eid-mobility" class="xref">[I-D.ietf-lisp-eid-mobility]</a>.</p>
+<p id="rfc.section.5.4.4.p.4">For a 3GGP mobile network, the LISP EID-Mobility form of mobility is recommended and is specified in the use-case document <a href="#I-D.farinacci-lisp-mobile-network" class="xref">[I-D.farinacci-lisp-mobile-network]</a>.</p>
+<h1 id="rfc.section.5.4.5">
+<a href="#rfc.section.5.4.5">5.4.5.</a> <a href="#ilsr" id="ilsr">ILSR</a>
+</h1>
+<p id="rfc.section.5.4.5.p.1">ILSR is a specific recommendation for using LISP in the 3GPP 5G mobile network architecture. A detailed whitepaper can be found at <a href="#ILSR-WP" class="xref">[ILSR-WP]</a>. The recommendation is to use the mechanisms in <a href="#I-D.farinacci-lisp-mobile-network" class="xref">[I-D.farinacci-lisp-mobile-network]</a>.</p>
+<h1 id="rfc.section.5.5">
+<a href="#rfc.section.5.5">5.5.</a> <a href="#sec-ila" id="sec-ila">ILA</a>
+</h1>
+<p id="rfc.section.5.5.p.1">Identifier-Locator Addressing <a href="#I-D.herbert-intarea-ila" class="xref">[I-D.herbert-intarea-ila]</a> is a protocol to implement transparent network overlays without encapsulation. It addresses the need for network overlays in virtualization and mobility that are efficient, lightweight, performant, scalable, secure, provide seamless mobility, leverage and encourage use of IPv6, provide strong privacy, are interoperable with existing infrastructure, applicable to a variety of use cases, and have simplified control and management.</p>
+<h1 id="rfc.section.5.5.1">
+<a href="#rfc.section.5.5.1">5.5.1.</a> <a href="#overview-2" id="overview-2">Overview</a>
+</h1>
+<p id="rfc.section.5.5.1.p.1">ILA is a form of identifier/locator split where IPv6 addresses are transformed from application-visible, non-topological &#8220;identifier&#8221; addresses to topological &#8220;locator&#8221; addresses. Locator addresses allow packets to be forwarded to the network location where a logical or mobile node currently resides or is attached. Before delivery to the ultimate destination, locator addresses are reverse transformed back to the original application visible addresses. ILA does address &#8220;transformation&#8221; as opposed to &#8220;translation&#8221; since address modifications are always undone. ILA is conceptually similar to ILNP and 8+8, however ILA is contained in the network layer. It is not limited to end node deployment, does not require any changes to transport layer protocols, and does not use extension headers.</p>
+<p id="rfc.section.5.5.1.p.2">ILA includes both a user plane and control plane. The user plane defines the address structure and mechanisms for transforming application visible identifier addresses to locator addresses. The control plane&#8217;s primary focus is a mapping system that includes a database of identifier to locator mappings. This mapping database drives ILA transformations. Control plane protocols disseminate identifier to locator mappings amongst ILA nodes.</p>
+<p id="rfc.section.5.5.1.p.3">The use cases of ILA include mobile networks, datacenter virtualization, and network virtualization. A recent trend in the industry is to build converged networks containing all three of these to provide low latency and high availability. A single network overlay solution that works across multiple use cases is appealing.</p>
+<p id="rfc.section.5.5.1.p.4">Benefits of ILA include:</p>
+<p></p>
+
+<ul>
+<li>Facilitates node mobility and virtualization</li>
+<li>Multiple use cases (mobile, datacenter, cloud)</li>
+<li>Super efficient and performant user plane</li>
+<li>Allows strong privacy in addressing</li>
+<li>Promotes anchorless mobility</li>
+<li>No typical tunneling issues (e.g. MTU) or management related to encapsulation</li>
+<li>Flexible control plane that splits data and control</li>
+<li>Modern &#8220;SDN&#8221; control protocols (e.g. RPC/TCP)</li>
+<li>Scale number of nodes to billions for 5G, DC virtualization</li>
+<li>Upstream Linux kernel data path  and open source ctrl plane <a href="#ILACONTROL" class="xref">[ILACONTROL]</a>.</li>
+</ul>
+<p id="rfc.section.5.5.1.p.6">The ILA user plane protocol is described in <a href="#I-D.herbert-intarea-ila" class="xref">[I-D.herbert-intarea-ila]</a>, motivation and problems areas are described in <a href="#ILAMOTIVE" class="xref">[ILAMOTIVE]</a>, ILA in the mobile user-plane is described in detail in <a href="#I-D.herbert-ila-mobile" class="xref">[I-D.herbert-ila-mobile]</a>.</p>
+<h1 id="rfc.section.5.5.2">
+<a href="#rfc.section.5.5.2">5.5.2.</a> <a href="#protocol-layering" id="protocol-layering">Protocol Layering</a>
+</h1>
+<p><a href="#fig_ILA-Protocol-Layering" class="xref">Figure 11</a> illustrates the protocol layers of packets packets sent over various user plane interfaces in the downlink direction of data network to a mobile node. Note that this assumes the topology shown in Figure 2 where GTP-U is used over N3 and ILA is used on N9.</p>
+<div id="rfc.figure.11"></div>
+<div id="fig_ILA-Protocol-Layering"></div>
+<pre>
+                 -             -            -
+    DN to ILA-R      ILA-R to ILA-N   ILA-N to gNB     gNB to UE
+   +------------+   +------------+   +------------+   +------------+
+   | Application|   | Application|   | Application|   | Application|
+   +------------+   +------------+   +------------+   +------------+
+   |     L4     |   |     L4     |   |     L4     |   |     L4     |
+   +------------+   +------------+   +------------+   +------------+
+   |    IPv6    |   | IPv6 (ILA) |   |    IPv6    |   |  PDU Layer |
+   +------------+ | +------------+ | +------------+   +------------+
+   |     L2     | | |     L2     | | |   GTP-U    |   | AN Protocol|
+   +------------+ | +------------+ | +------------+   |   Layers   |
+                  |                | |   UDP/IP   |   |            |
+                 N6   &lt;--N9    N3 +------------+   +------------+
+                                     |    L2      |
+                                     +------------+
+</pre>
+<p class="figure">Figure 11: ILA and protocol layer in 5G</p>
+<h1 id="rfc.section.5.5.3">
+<a href="#rfc.section.5.5.3">5.5.3.</a> <a href="#control-plane" id="control-plane">Control plane</a>
+</h1>
+<p id="rfc.section.5.5.3.p.1">ILA-M provides the interface between the 5G services architecture and the common ILA control plane.</p>
+<h1 id="rfc.section.5.5.3.1">
+<a href="#rfc.section.5.5.3.1">5.5.3.1.</a> <a href="#ila-m-services-interface" id="ila-m-services-interface">ILA-M services interface</a>
+</h1>
+<p id="rfc.section.5.5.3.1.p.1">The control interface into ILA is via an ILA-M that interacts with 5G network services. ILA-M uses RESTful APIs to make requests to network services. An ILA-M receives notifications when devices enter the network, leave it, or move within the network. The ILA-M writes the ILA mapping entries accordingly.</p>
+<p id="rfc.section.5.5.3.1.p.2">ILA is a consumer of several 5G network services. The service operations of interest to ILA are:</p>
+<p></p>
+
+<ul>
+<li>Nudm (Unified Data Management): Provides subscriber information.</li>
+<li>Nsmf (Service Managment Function): Provides information about PDU sessions.</li>
+<li>Namf (Core Access and Mobility Function): Provides notifications of mobility events.</li>
+</ul>
+<h1 id="rfc.section.5.5.3.2">
+<a href="#rfc.section.5.5.3.2">5.5.3.2.</a> <a href="#ila-control-plane" id="ila-control-plane">ILA control plane</a>
+</h1>
+<p id="rfc.section.5.5.3.2.p.1">The ILA control plane is composed of mapping protocols that manage and disseminate information about the mapping database. There are two levels of mapping protocols: one used by ILA routers that require the full set of ILA mappings for a domain, and one used by ILA nodes that maintain a caches of mappings.</p>
+<p id="rfc.section.5.5.3.2.p.2">The ILA mapping system is effectively a key/value datastore that maps identifiers to locators. The protocol for sharing mapping information amongst ILA routers can thus be implemented by a distributed database <a href="#I-D.herbert-ila-ilamp" class="xref">[I-D.herbert-ila-ilamp]</a>. ILA separates the control plane from the user plane, so alternative control plane protocols may be used with a common user plane <a href="#I-D.lapukhov-bgp-ila-afi" class="xref">[I-D.lapukhov-bgp-ila-afi]</a>, <a href="#I-D.rodrigueznatal-ila-lisp" class="xref">[I-D.rodrigueznatal-ila-lisp]</a>.</p>
+<p id="rfc.section.5.5.3.2.p.3">The ILA Mapping Protocol <a href="#I-D.herbert-ila-ilamp" class="xref">[I-D.herbert-ila-ilamp]</a> is used between ILA forwarding nodes and ILA mapping routers. The purpose of the protocol is to populate and maintain the ILA mapping cache in forwarding nodes. ILAMP defines redirects, a request/response protocol, and a push mechanism to populate the mapping table. Unlike traditional routing protocols that run over UDP, this protocol is intended to be run over TCP and may be RPC oriented. TCP provides reliability, statefulness implied by established connections, ordering, and security in the form of TLS. Secure redirects are facilitated by the use of TCP.  RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that are popular in SDN.</p>
+<h1 id="rfc.section.5.5.4">
+<a href="#rfc.section.5.5.4">5.5.4.</a> <a href="#ip-addressing" id="ip-addressing">IP addressing</a>
+</h1>
+<p id="rfc.section.5.5.4.p.1">ILA supports single address assignments as well as prefix assignments. ILA will also support strong privacy in addressing.</p>
+<h1 id="rfc.section.5.5.4.1">
+<a href="#rfc.section.5.5.4.1">5.5.4.1.</a> <a href="#singleton-address-assignment" id="singleton-address-assignment">Singleton address assignment</a>
+</h1>
+<p id="rfc.section.5.5.4.1.p.1">Singleton addresses can use a canonical 64/64 locator/identifier split.  Singleton addresses can be assigned by DHCPv6.</p>
+<h1 id="rfc.section.5.5.4.2">
+<a href="#rfc.section.5.5.4.2">5.5.4.2.</a> <a href="#network-prefix-assignment" id="network-prefix-assignment">Network prefix assignment</a>
+</h1>
+<p id="rfc.section.5.5.4.2.p.1">Prefix assignment can be done via SLAAC or DHCPv6-PD.</p>
+<p id="rfc.section.5.5.4.2.p.2">To support /64 prefix assignment with ILA, the ILA identifier can be encoded in the upper sixty-four bits of an address. A level of indirection is used so that ILA transforms the upper sixty four bits to contain both a locator and an index into a locator (ILA-N) specific table. The entry in the table provides the original sixty-four bit prefix so that locator to identifier address transformation can be done.</p>
+<p id="rfc.section.5.5.4.2.p.3">As an example of this scheme, suppose network has a /24 prefix. The identifier address format for /64 assignment might be:</p>
+<pre>
++-------------+---------------------|------------------------------+
+|  24 bits    |       40 bits       |          64 bits             |
++-------------+---------------------|------------------------------+
+| Network     |      Identifier     |             IID              |
++-------------+---------------------+------------------------------+
+</pre>
+<p id="rfc.section.5.5.4.2.p.4">The IID part is arbitrarily assigned by the device, so that is ignored by ILA.  All routing, lookups, and transformations (excepting checksum neutral mapping) are based on the upper sixty-four bits.</p>
+<p id="rfc.section.5.5.4.2.p.5">For identifier to locator address transformation, a lookup is done on the upper sixty-four bits. That returns a value that contains a locator and a locator table index. The resulting packet format may be something like:</p>
+<pre>
++-------------+---------------------|------------------------------+
+|   24 bits   | 20 bits | 20 bits   |          64 bits             |
++-------------+---------------------|------------------------------+
+|  Network    | Locator | Loc index |             IID              |
++-------------+---------+-----------+------------------------------+
+</pre>
+<p id="rfc.section.5.5.4.2.p.6">The packet is forwarded and routed to the ILA-N addressed by locator (/44 route in this case). At the ILA forwarding node, the locator index is used as a key to an ILA-N specific table that returns a 40 bit Identifier. This value is then written in the packet do ILA to identifier address transformation thereby restoring the original destination address.</p>
+<p id="rfc.section.5.5.4.2.p.7">The locator index is not globally unique, it is specific to each ILA-N. When a node attaches to an ILA-N, an index is chosen so that the table is populated at the ILA-N and the ILA mapping includes the locator and index. When a node detaches from on ILA, it&#8217;s entry in the table is removed and the index can be reused after a hold-down period to allow stale mappings to be purged.</p>
+<h1 id="rfc.section.5.5.4.3">
+<a href="#rfc.section.5.5.4.3">5.5.4.3.</a> <a href="#strong-privacy-addresses" id="strong-privacy-addresses">Strong privacy addresses</a>
+</h1>
+<p id="rfc.section.5.5.4.3.p.1">Note that when a /64 is assigned to UEs, the assigned prefix may become a persistent identifier for a device. This is a potential privacy issue.</p>
+<h1 id="rfc.section.5.5.5">
+<a href="#rfc.section.5.5.5">5.5.5.</a> <a href="#traffic-engineering" id="traffic-engineering">Traffic engineering</a>
+</h1>
+<p id="rfc.section.5.5.5.p.1">ILA is primarily a mechanism for mobility and network virtualization. Transport mechanisms for traffic engineering such as MPLS, network slices, encapsulation, routing based on flow hash(flow label) can be applied independently of ILA. This separation allows any discussion related to transport to be left to operator deployment.</p>
+<h1 id="rfc.section.5.5.6">
+<a href="#rfc.section.5.5.6">5.5.6.</a> <a href="#locator-chaining-with-ila" id="locator-chaining-with-ila">Locator Chaining with ILA</a>
+</h1>
+<p id="rfc.section.5.5.6.p.1">ILA transformations can be performed on a hop-by-hop bases. In this manner a packet can be source routed through a sequence of nodes. At each hop a determination is made as to the next hop the packet should visit. The locator for the target is then written into the destination. Eventually, the packet will be forwarded to an ILA forwarding node that will restore the original address before delivery to the final destination.</p>
+<h1 id="rfc.section.5.5.7">
+<a href="#rfc.section.5.5.7">5.5.7.</a> <a href="#security-considerations" id="security-considerations">Security considerations</a>
+</h1>
+<p id="rfc.section.5.5.7.p.1">A mobile public infrastructure has many considerations in security as well as privacy. Fundamentally, a system must protect against misdirection for the purposes of hijacking traffic, spoofing, revealing user identities, exposing accurate geo-location, and Denial of Service attacks on the infrastructure.</p>
+<p id="rfc.section.5.5.7.p.2">The ILA mapping system contains personally identifiable information (PII) including user identities and geo-location. The information must be safeguarded.  An ILA domain is confined to one administrative domain, only trusted parties entities in the domain participate in ILA. There is no concept of a global, public mapping system and UEs in public networks generally do not participate in ILA protocols since they are untrusted. ILA control protocols, include ILA redirects, use TCP. TLS or other protocols can be applied for strong security.</p>
+<p id="rfc.section.5.5.7.p.3">Privacy in addressing is a consideration. ILA endeavors to provide a mechanism of address assignment that prevents inference of user identity or location.</p>
+<h1 id="rfc.section.5.6">
+<a href="#rfc.section.5.6">5.6.</a> <a href="#sec-hicn" id="sec-hicn">Hybrid ICN (hICN)</a>
+</h1>
+<h1 id="rfc.section.5.6.1">
+<a href="#rfc.section.5.6.1">5.6.1.</a> <a href="#overview-3" id="overview-3">Overview</a>
+</h1>
+<p id="rfc.section.5.6.1.p.1">hICN Anchorless Mobility Management (hICN-AMM) refers to a novel mobility management approach, introduced in <a href="#I-D.auge-dmm-hicn-mobility" class="xref">[I-D.auge-dmm-hicn-mobility]</a>, that leverages routable location-independent identifiers (IDs) and an Information-Centric Networking (ICN) communication model integrated in IPv6, (also referred to as Hybrid ICN, or hICN) <a href="#I-D.muscariello-intarea-hicn" class="xref">[I-D.muscariello-intarea-hicn]</a>.</p>
+<p id="rfc.section.5.6.1.p.2">Such approach belongs to the category of pure ID-based mobility management schemes whose objective is (i) to overcome the limitations of traditional locator-based solutions like Mobile IP (conf)using locators as identifiers, (ii) to remove the need for a global mapping system as the one required by locator-identifier separation solutions.</p>
+<h1 id="rfc.section.5.6.2">
+<a href="#rfc.section.5.6.2">5.6.2.</a> <a href="#consumer-and-producer-mobility" id="consumer-and-producer-mobility">Consumer and Producer mobility</a>
+</h1>
+<p id="rfc.section.5.6.2.p.1">In ICN and hICN endpoints can act as consumers and/or producers. Consumers when they emit requests for named data packets (so called Interests), producers when they send data packets in response to consumers request (pull-based transport model). Clearly a node can be a consumer and a producer at the same time (e.g.  in a voice conversation).</p>
+<p id="rfc.section.5.6.2.p.2">Consumer and producer mobility are handled in a different way due to the pull-based request model. More specifically, consumer mobility is natively supported: consumers pull traffic by sending Interest packets towards named content (wherever produced/stored, the source is a priori unknown by the consumer). Interests are named-based forwarded using the information found in traversed routers&#8217; FIBs.</p>
+<p id="rfc.section.5.6.2.p.3">In case of consumer mobility, i.e. mobility of the endpoint issuing the requests, selection of a new available output interface and retransmission of not-yet-satisfied Interests is sufficient for data delivery to continue, independently from the underlying change of locators. Consumer mobility is fully anchorless with hICN, and does not incur any signalization nor tunneling overhead.</p>
+<p id="rfc.section.5.6.2.p.4">Producer mobility is not natively supported by ICN architecture, rather handled in different ways according to the selected producer mobility management scheme.</p>
+<h1 id="rfc.section.5.6.3">
+<a href="#rfc.section.5.6.3">5.6.3.</a> <a href="#anchorless-mobility-support" id="anchorless-mobility-support">Anchorless mobility support</a>
+</h1>
+<p id="rfc.section.5.6.3.p.1">The selected mobility management scheme for hICN is MAP-Me, an anchorless producer mobility management solution originally proposed for ICN <a href="#I-D.irtf-icnrg-mapme" class="xref">[I-D.irtf-icnrg-mapme]</a> <a href="#MAPME" class="xref">[MAPME]</a> and further extended to hICN in <a href="#I-D.auge-dmm-hicn-mobility" class="xref">[I-D.auge-dmm-hicn-mobility]</a>.</p>
+<p id="rfc.section.5.6.3.p.2">MAP-Me belongs to the class of anchorless approaches that relies on scope-limited forwarding updates triggered by producer mobility events to keep locally up-to-date FIB information for a low-latency guaranteed reroute of consumer Interests towards changing location of the producer. Forwarding and mobility management operations in hICN are based only location-independent identifiers, preserving coexistence with IP locators whose existence may be required by non-hICN services and by control/management plane operations specific to the considered network architecture.</p>
+<p id="rfc.section.5.6.3.p.3">Signaling of mobility is only required upon producer movements and limited in scope to current-to-previous network hops. Unlike routing updates, it is not necessary to update all routers&#8217; FIBs after a node has moved, but only those located on the path between the new and a former position of the producer.  Scalability of producer mobility is guaranteed by an efficient and secure FIB update process with minimal and bounded path stretch.</p>
+<p id="rfc.section.5.6.3.p.4">The difference w.r.t. to other classes of approaches is that it does not require an anchor neither in forwarding plane (no tunnel, traffic does not need to pass through a specific network node), nor in the control plane (no rendez-vous point, no mapping system).</p>
+<h1 id="rfc.section.5.6.4">
+<a href="#rfc.section.5.6.4">5.6.4.</a> <a href="#benefits" id="benefits">Benefits</a>
+</h1>
+<p id="rfc.section.5.6.4.p.1">The appeal of purely ID-based architectures is that they move Loc/ID split one step further by embedding ID-awareness in the network and transport layer by default and as such completely decoupling data delivery from underlying network connectivity. The resulting mobility management solution is fully anchorless for both consumer and producer mobility. Forwarding is performed directly based on identifiers stored in routers&#8217; FIBs and no mapping of ID into locators is required. In this way, purely ID-based architectures remove the need to maintain a global mapping system at scale, and its intrinsic management complexity.</p>
+<p id="rfc.section.5.6.4.p.2">Additional benefits brought specifically by ICN principles motivate the consideration of ICN solutions for next generation mobility architectures, like for instance:</p>
+<p></p>
+
+<ul>
+<li>the flexibility of multi-source/multi-path connectionless pull-based transport. An example is the native support for consumer mobility, i.e. the transparent emission of data requests over multiple and varying available network interfaces during node mobility;</li>
+<li>the opportunity to define fine-grained per-application forwarding and security policies (in the network, and in-between UPFs);</li>
+<li>low-latency and multicast capabilities by means of in-path edge caching;</li>
+<li>network-assisted transport.</li>
+</ul>
+<p id="rfc.section.5.6.4.p.4">An in depth analysis of benefits originating from the coupling between a purely identifier-based approach and from specific hICN properties can be found in <a href="#I-D.auge-dmm-hicn-mobility-deployment-options" class="xref">[I-D.auge-dmm-hicn-mobility-deployment-options]</a> along with some illustrative examples.</p>
+<h1 id="rfc.section.5.6.5">
+<a href="#rfc.section.5.6.5">5.6.5.</a> <a href="#deployment-considerations" id="deployment-considerations">Deployment considerations</a>
+</h1>
+<p><strong>Partial insertion</strong></p>
+<p id="rfc.section.5.6.5.p.2">The benefits previously described can be obtained by an upgrade of only a few selected routers at the network edge. The design of hICN allows the rest of the infrastructure to remain unmodified, and to leverage existing management and monitoring tools. There exists thus a tradeoff between incremental deployment and benefits which are proportionally related to the degree of hICN penetration.</p>
+<p><strong>End-to-end deployment</strong></p>
+<p id="rfc.section.5.6.5.p.4">The deployment of an hICN stack in endpoints is the preferred option and offers the full range of benefits. Both the hICN forwarder and the transport stack are available as reference implementations based on the CICN project <a href="#CICN" class="xref">[CICN]</a>. They are both designed to facilitate insertion on routers and end-user devices thanks to implementation in user space, one targetting high-performance, the other aiming at wide support from major vendors including iOS, Android, Linux, MacOSX and Windows.</p>
+<p><strong>Network-contained deployment</strong></p>
+<p id="rfc.section.5.6.5.p.6">It is not always possible nor desirable to affect endpoints, and a deployment fully contained in the network is possible through the deployment of proxies. An example would be the deployment of HTTP proxies at the ingress and egress (resp.  first and last UPFs), in order to benefit from content awareness in the network.  Such configuration however reduces the flexibility and dynamic forwarding capabilities in endpoints. In particular, existing transport protocols have limited support for dynamically changing paths or network conditions.</p>
+<p id="rfc.section.5.6.5.p.7">Traffic that is not handled though hICN mechanisms can still benefit from the lower overhead and anchorless mobility capabilities coming from the removal of GTP tunnels, as well as dynamic forwarding capabilities that are inherent to the forwarding pipeline. This results from the ability to assign location-independent identifiers to endpoints. It preserves the advantage of removing the mapping system, and of a lightweight FIB update process. No encapsulation is required and packet headers are not modified, which allows the network to have visibility in the source and/or destination identifiers.</p>
+<p><strong>hICN in a slice</strong></p>
+<p id="rfc.section.5.6.5.p.9">The use of hICN does not impose any specific slicing of the network. Rather, it can assist a transition of services towards hICN, and/or the coexistence of different hICN deployment options.</p>
+<p id="rfc.section.5.6.5.p.10">As an example of use of hICN in a slice, a service provider might for instance decide to use an hICN-enabled slice dedicated to video delivery, with appropriate mobility management, and dedicated hICN nodes with appropriate caching/forwarding strategies at places aggregating considerable number of user requests.</p>
+<h1 id="rfc.section.5.6.6">
+<a href="#rfc.section.5.6.6">5.6.6.</a> <a href="#hicn-with-srv6" id="hicn-with-srv6">hICN with SRv6</a>
+</h1>
+<p id="rfc.section.5.6.6.p.1">The association of hICN with other user planes technologies, such as SRv6, is investigated as a possibility to overcome the above-mentioned tradeoff yielding to a selective, yet fully beneficial insertion of hICN in IP networks. This would inherit all SRv6 advantages for underlay (TE, FRR) and service programming (NFV), but also extend the reach of hICN on regular IP routers with SRv6 functionality.</p>
+<p id="rfc.section.5.6.6.p.2">One realization consists in creating SRv6 domains in between hICN nodes. The hICN router (through forwarding strategies) would then act as a control plane for SRv6 by specifying the list of SIDs to insert in the packet.</p>
+<h1 id="rfc.section.5.6.7">
+<a href="#rfc.section.5.6.7">5.6.7.</a> <a href="#summary" id="summary">Summary</a>
+</h1>
+<p id="rfc.section.5.6.7.p.1">hICN proposes a general purpose network architecture that combines the benefits of a pure-ID architecture with those of ICN. While a full deployment is recommended to make efficient use of available network resources, it is still possible to opt for a partial or phased deployment, with the associated tradeoffs that we have reviewed here.</p>
+<p id="rfc.section.5.6.7.p.2">An hICN enabled network offers native offloading capabilities thanks to the anchorless properties resulting from the pure-ID communication scheme. It does so without the need for a third party mapping system, and further requires no change in the 5G architecture nor in its control plane. The architecture will further leverage the incremental insertion of information centric functionalities through proxies or direct insertion in user devices as the technology gets adopted and deployed.</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#sec-integration" id="sec-integration">Integration into the 5G framework</a>
+</h1>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> <a href="#locator-based-srv6" id="locator-based-srv6">Locator based - SRv6</a>
+</h1>
+<h1 id="rfc.section.6.1.1">
+<a href="#rfc.section.6.1.1">6.1.1.</a> <a href="#insertion-in-n9-interface" id="insertion-in-n9-interface">Insertion in N9 interface</a>
+</h1>
+<p id="rfc.section.6.1.1.p.1">Existing mobile backhaul employs GTP tunnels to carry user traffic flows in the network. These tunnels are unidirectional, are established via the control plane for a particular QoS level, and run on links between access and the different anchor nodes all the way to DN gateways.</p>
+<p id="rfc.section.6.1.1.p.2">The Tunnel Endpoint Id (TEID) field in the GTP tunnel plays a crucial role in stitching the data path between the above mentioned network nodes for a particular user flow. In other words, TEIDs are used to coordinate traffic hand off between different UPFs.</p>
+<p id="rfc.section.6.1.1.p.3">In its most basic form, SRv6 can be used as a simple drop-in alternative for GTP tunnels.  The control plane in this approach remains the same, and still attempts to establish GTP-U tunnels and communicate TEIDs between the tunnel end points. However, at the next level, SRv6 capable nodes use SIDs to direct user traffic between the UPFs.</p>
+<p id="rfc.section.6.1.1.p.4">The simplest option here is to encapsulate the entire GTP frame as a payload within SRv6.  This scheme still carries the GTP header as the payload and as such doesn&#8217;t offer any significant advantage.</p>
+<p id="rfc.section.6.1.1.p.5">A much more promising and efficient option however is to use SIDs to carry tunnel related information. This is commonly known as the Traditional Mode for SRv6 support for mobility. Here, TEIDs and other relevant data can be encoded into SRv6 SIDs which can be mapped back to TEID&#8217;s at the intermediate UPFs thus requiring no changes except at the encapsulation and de-encapsulation points in the UPF chains.</p>
+<p id="rfc.section.6.1.1.p.6">Note that this is a direct replacement of GTP by SRv6. It&#8217;s also worth noting that in this case the MTU overhead in the N9 interface is reduced.</p>
+<p><a href="#I-D.ietf-dmm-srv6-mobile-uplane" class="xref">[I-D.ietf-dmm-srv6-mobile-uplane]</a> discusses the details of leveraging the existing control plane for distributing GTP tunnel information between the end nodes and employing SRv6 in user plane for UPF connectivity. The document defines a SID structure for conveying TEID, DA, and SA of GTP tunnels, shows how hybrid IPV4/IPV6 networks are supported by this model and in doing so, it paves a migration path toward a full SRv6 user plane.</p>
+<p id="rfc.section.6.1.1.p.8">Another alternative that can provide for a smooth migration toward SRv6 data plane between UPFs is via the use of &#8220;Tag&#8221;, and optional TLV fields in SRH.  Similar to the previously described method, this approach takes advantage of the existing control plane to deliver GTP tunnel information to the UPF endpoints. &#8220;Tag&#8221; and optional TLV fields in SRH are then used to encode tunnel information in the SRv6 user plane where the UPFs can determine the TEID etc. by inverting the mapping.</p>
+<p id="rfc.section.6.1.1.p.9">In yet another option, GTP tunnel information can be encoded as a separate SID either within the same SRH after the SID that identifies the UPF itself (SRH-UPF) or inside a separate SRH (SRH-GTP). This option resembles the MPLS label stacking mechanism which is widely used in different VPN scenarios. Here, we use one SID to carry traffic to the target UPF and use the other to encode and decode GTP related information.</p>
+<p id="rfc.section.6.1.1.p.10">It must be noted that in any of the above mentioned approaches, the ingress UPF in SRv6 domain can insert a SRH containing the list of SIDs that corresponds to all UPFs along the path. Alternatively, UPFs can stack a new SRH on top of the one inserted by the previous one as packets traverse network paths between different pairs of UPFs in the network.</p>
+<h1 id="rfc.section.6.1.2">
+<a href="#rfc.section.6.1.2">6.1.2.</a> <a href="#control-plane-considerations" id="control-plane-considerations">Control Plane considerations</a>
+</h1>
+<p id="rfc.section.6.1.2.p.1">SRv6, when applied in Tradditional Mode follows the inteworking model and as such does not require control-plane changes. It still attemps to establish GTP-U tunnels and communicate TEIDs between the tunnel endpoints. AT the next level of user plane however, SRv6 capable nodes use SIDs to direct user traffic between the UPFs.</p>
+<h1 id="rfc.section.6.1.3">
+<a href="#rfc.section.6.1.3">6.1.3.</a> <a href="#extensions-to-n3f1-uxn-u-interface" id="extensions-to-n3f1-uxn-u-interface">Extensions to N3/F1-U/Xn-U interface</a>
+</h1>
+<p id="rfc.section.6.1.3.p.1">Although not strictly the object of study by 3GPP, previous solutions can (and would gain to) be extended beyond N9 to cover N3 interface too.</p>
+<p id="rfc.section.6.1.3.p.2">The immediate benefit is the complete removal of all GTP tunnels, along with associated mangement complexity and traffic overhead. In particular, this removes the need for internetworking between N3 and N9 technologies, and offers a uniform user plane as recommended in the specification.</p>
+<p id="rfc.section.6.1.3.p.3">Potential gains can result for an early handling of traffic right from the RAN and thus possibly closer to the UE. The result is a simpler and lighter architecture, allowing convergence with other non-3GPP accesses.</p>
+<p id="rfc.section.6.1.3.p.4">The mobile network would benefit of the application of SRv6 to both, N3 and N9 interfaces. The intrinsic ability of SRv6 to integrate, in a single protocol, the control of the overlay, underlay and NFV implies that if applied to the N3 interface the end-to-end SRv6-based network slice can start on the NodeB itself.</p>
+<p id="rfc.section.6.1.3.p.5">In addition, SRv6 could be applied to the F1-U interface for cloud-RAN and TE purposes.</p>
+<h1 id="rfc.section.6.1.4">
+<a href="#rfc.section.6.1.4">6.1.4.</a> <a href="#coexistence-with-gtp-based-architecture" id="coexistence-with-gtp-based-architecture">Coexistence with GTP-based architecture</a>
+</h1>
+<p id="rfc.section.6.1.4.p.1">An alternative vision, although not recommended, would be to preserve the current architecture as is, and deploy alternative user planes on top.</p>
+<p id="rfc.section.6.1.4.p.2">As explained in section 5.3.1, SRv6 can co-exist with the current GTP-based control plane. Additionally, the current control plane can be extended to suport TE as defined in 5.3.2.</p>
+<p id="rfc.section.6.1.4.p.3">From a dataplane perspective, SRv6 can coexist on the N9 interface together with GTP-U traffic.</p>
+<p id="rfc.section.6.1.4.p.4">This is important towards a slow migration from a GTP-based architecture into different architectures.</p>
+<h1 id="rfc.section.6.2">
+<a href="#rfc.section.6.2">6.2.</a> <a href="#id-loc-split" id="id-loc-split">ID-LOC split</a>
+</h1>
+<h1 id="rfc.section.6.2.1">
+<a href="#rfc.section.6.2.1">6.2.1.</a> <a href="#insertion-in-n9-interface-1" id="insertion-in-n9-interface-1">Insertion in N9 interface</a>
+</h1>
+<p id="rfc.section.6.2.1.p.1">An ID-LOC network architecture is able to decouple the identity of endpoints (ID) from their location in the network (LOC). Common ID-LOC architectures are based on two main components, ID-LOC data-plane nodes and an ID-LOC mapping system.</p>
+<p id="rfc.section.6.2.1.p.2">ID-LOC data-plane nodes act upon received data traffic and perform ID-LOC data-plane operation. The specific operation that these ID-LOC data-plane nodes perform is based on the particular ID-LOC data-plane protocol that they implement. ID-LOC data-plane protocols are usually divided in two categories, (1) those that encapsulate ID-based data-plane packets into LOC-based data-plane packets and (2) those that transform the addresses on the data-plane packets from ID-based addresses to LOC-based addresses.  SRv6 and LISP-DP protocols are examples of the former while the ILA protocol is an example of the latter.</p>
+<p id="rfc.section.6.2.1.p.3">The ID-LOC mapping system is a database that provides mappings of Identity to Location for ID-LOC data-plane nodes to use. Usually, ID-LOC architectures use an ID-LOC control plane protocol to make available at the data-plane nodes the ID-LOC mappings that they need to operate. Examples of such ID-LOC control plane protocols are LISP-CP and ILAMP, which are discussed later in this section.</p>
+<p id="rfc.section.6.2.1.p.4">When integrating ID-LOC architecture into the 5G framework there are several aspects to take into account. One is that the ID-LOC data-plane function needs to be performed in the data-plane path as the packets enter and leave the ID-LOC domain. On option for this is to deploy ID-LOC data-plane nodes adjacent to UPFs to perform the ID-LOC operation on the traffic as it leaves or enters the UPFs (as shown in Fig. <a href="#fig_ID-Loc-5G-1" class="xref">Figure 12</a>). In this case the ID-LOC data-plane protocol will be part of the N9 interface along with current GTP.</p>
+<div id="rfc.figure.12"></div>
+<div id="fig_ID-Loc-5G-1"></div>
+<pre>
+                                 +----+----+
+         +-------------N4--------+   SMF   +--------N4-----------+
+         |                       +----+----+                     |
+         |                            |                          |
+         |                       +----+----+                     |
+         |                       | ID-LOC  |                     |
+         |                       | Mapping |      ID-LOC         |
+         |               +------&gt;| System  |&lt;--control-plane     |
+         |               |       +----+----+     |               |
+         |               V                       V               |
+     +---+---+      +----+----+             +----+----+      +---+---+
+--N3-+ UPF-A +--N9--+ID-L Node+&lt;--ID-LOC---&gt;+ID-L Node+--N9--+ UPF-B +-N6--
+     +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
+</pre>
+<p class="figure">Figure 12: 5G Integration with ID-LOC (Interworking model)</p>
+<p id="rfc.section.6.2.1.p.5">Another option is to implement the ID-LOC data-plane function directly in the UPFs (as shown in Fig. <a href="#fig_ID-Loc-5G-2" class="xref">Figure 13</a>). In this case, these ID-LOC enabled UPFs will directly generate packets encapsulated or transformed and will be able to directly process packets encapsulated or transformed. In this case the ID-LOC protocol will completely replace GTP in the N9 interface.</p>
+<div id="rfc.figure.13"></div>
+<div id="fig_ID-Loc-5G-2"></div>
+<pre>
+                                 +----+----+
+         +-------------N4--------+   SMF   +--------N4-----------+
+         |                       +----+----+                     |
+         |                            |                          |
+         |                       +----+----+                     |
+         |                       | ID-LOC  |                     |
+         |                       | Mapping |      ID-LOC         |
+         |  +-------------------&gt;| System  |&lt;--control-plane--+  |
+         |  |                    +----+----+                  |  |
+         |  V                                                 V  |
+     +---+---+                                               +---+---+
+--N3-+ UPF-A +&lt;---------- N9 - ID-LOC data-plane -----------&gt;+ UPF-B +-N6--
+     +-------+                                               +-------+
+</pre>
+<p class="figure">Figure 13: 5G Integration with ID-LOC (Integrated model)</p>
+<p id="rfc.section.6.2.1.p.6">Finally, another aspect to consider when integrating the ID-LOC architecture into the 5G framework is that the Mapping System needs to contain the appropriate ID-LOC mappings in coordination with the SMF. In order to do so, the mappings in the Mapping System are populated either by the SMF directly or by the LOC-nodes that should be in synch with the SMF. In the former case, an interface from the SMF to the Mapping System is needed (as shown in Figs. <a href="#fig_ID-Loc-5G-1" class="xref">Figure 12</a> and  <a href="#fig_ID-Loc-5G-2" class="xref">Figure 13</a>).</p>
+<h1 id="rfc.section.6.2.2">
+<a href="#rfc.section.6.2.2">6.2.2.</a> <a href="#lisp-control-plane" id="lisp-control-plane">LISP control plane</a>
+</h1>
+<p id="rfc.section.6.2.2.p.1">The current LISP control-plane (LISP-CP) specification <a href="#I-D.ietf-lisp-rfc6833bis" class="xref">[I-D.ietf-lisp-rfc6833bis]</a> is data-plane agnostic and can serve as control plane for different data-plane protocols (beyond the LISP data-plane). LISP-CP offers different mechanisms to register, request, notify and update ID-Loc mappings between ID-LOC data-plane elements and the ID-LOC Mapping System. In the sections below we describe how LISP-CP can serve to enable the operation of the ILA data-plane and the SRv6 data-plane.</p>
+<p id="rfc.section.6.2.2.p.2">It should be noted that the LISP-CP can run over TCP or UDP. The same signaling and logic applies independently of the transport. Additionally, when running over TCP, the optimizations specified in <a href="#I-D.kouvelas-lisp-map-server-reliable-transport" class="xref">[I-D.kouvelas-lisp-map-server-reliable-transport]</a> can be applied.</p>
+<h1 id="rfc.section.6.2.2.1">
+<a href="#rfc.section.6.2.2.1">6.2.2.1.</a> <a href="#lisp-cp-for-ila" id="lisp-cp-for-ila">LISP-CP for ILA</a>
+</h1>
+<p id="rfc.section.6.2.2.1.p.1">The LISP-CP can serve to resolve the Identifier-to-Locator mappings required for the operation of an ILA data-plane. The required ILA control plane operations of &#8220;request/response&#8221; and &#8220;push&#8221; are implemented via the LISP mechanisms defined in <a href="#I-D.ietf-lisp-rfc6833bis" class="xref">[I-D.ietf-lisp-rfc6833bis]</a> and <a href="#I-D.ietf-lisp-pubsub" class="xref">[I-D.ietf-lisp-pubsub]</a> respectively. In addition, the ILA &#8220;redirect&#8221; operation is implemented via the mapping notifications described in <a href="#I-D.ietf-lisp-pubsub" class="xref">[I-D.ietf-lisp-pubsub]</a> triggered as response to data-plane events.</p>
+<p id="rfc.section.6.2.2.1.p.2">Furthermore, the LISP-CP can also be used to obtain the ILA Identifier when it is not possible to locally derivate it from the endpoint address. These two mapping operations, Endpoint-to-Identifier and Identifier-to-Locator, can be combined into one mapping operation to obtain the ILA Identifier and associated Locators in a single round of signaling.</p>
+<p id="rfc.section.6.2.2.1.p.3">The complete specification of how to use the LISP-CP in conjunction with an ILA data-plane can be found in <a href="#I-D.rodrigueznatal-ila-lisp" class="xref">[I-D.rodrigueznatal-ila-lisp]</a>.</p>
+<h1 id="rfc.section.6.2.2.2">
+<a href="#rfc.section.6.2.2.2">6.2.2.2.</a> <a href="#lisp-cp-for-srv6" id="lisp-cp-for-srv6">LISP-CP for SRv6</a>
+</h1>
+<p id="rfc.section.6.2.2.2.p.1">The LISP-CP can be used by an ingress SRv6 node to obtain the egress node SRv6 VPN SID and its corresponding SLA associated with such endpoint. Alternatively, an ingress SRv6 node can use the LISP-CP to obtain not only the egress SRv6 VPN segment for a particular endpoint but also the SRv6 SID list to steer the traffic to that egress SRv6 node.</p>
+<p id="rfc.section.6.2.2.2.p.2">The complete specification of how to use the LISP-CP in conjunction with an SRv6 data-plane can be found in <a href="#I-D.rodrigueznatal-lisp-srv6" class="xref">[I-D.rodrigueznatal-lisp-srv6]</a>.</p>
+<h1 id="rfc.section.6.2.3">
+<a href="#rfc.section.6.2.3">6.2.3.</a> <a href="#ila-control-plane-1" id="ila-control-plane-1">ILA control plane</a>
+</h1>
+<p id="rfc.section.6.2.3.p.1">The ILA control plane is composed of mapping protocols that manage and disseminate information about the mapping database. There are two levels of mapping protocols: one used by ILA routers that require the full set of ILA mappings for a domain, and one used by ILA nodes that maintain a caches of mappings.</p>
+<p id="rfc.section.6.2.3.p.2">The ILA mapping system is effectively a key/value datastore that maps identifiers to locators. The protocol for sharing mapping information amongst ILA routers can thus be implemented by a distributed database <a href="#I-D.herbert-ila-ilamp" class="xref">[I-D.herbert-ila-ilamp]</a>. ILA separates the control plane from the user plane, so alternative control plane protocols may be used with a common user plane <a href="#I-D.lapukhov-bgp-ila-afi" class="xref">[I-D.lapukhov-bgp-ila-afi]</a>, <a href="#I-D.rodrigueznatal-ila-lisp" class="xref">[I-D.rodrigueznatal-ila-lisp]</a>.</p>
+<p id="rfc.section.6.2.3.p.3">The ILA Mapping Protocol <a href="#I-D.herbert-ila-ilamp" class="xref">[I-D.herbert-ila-ilamp]</a> is used between ILA forwarding nodes and ILA mapping routers. The purpose of the protocol is to populate and maintain the ILA mapping cache in forwarding nodes. ILAMP defines redirects, a request/response protocol, and a push mechanism to populate the mapping table. Unlike traditional routing protocols that run over UDP, this protocol is intended to be run over TCP and may be RPC oriented. TCP provides reliability, statefulness implied by established connections, ordering, and security in the form of TLS. Secure redirects are facilitated by the use of TCP.  RPC facilities such REST, Thrift, or GRPC leverage widely deployed models that are popular in SDN.</p>
+<h1 id="rfc.section.6.2.4">
+<a href="#rfc.section.6.2.4">6.2.4.</a> <a href="#extensions-to-n3f1-uxn-u-interface-1" id="extensions-to-n3f1-uxn-u-interface-1">Extensions to N3/F1-U/Xn-U interface</a>
+</h1>
+<p id="rfc.section.6.2.4.p.1">While not the main focus of this document, it is worth noting that it is also possible to enable an ID-LOC data-plane over the N3 interface and to instantiate the ID-LOC overlay directly at the NodeB. In this case, the NodeB will implement the functionality of an ID-LOC node, i.e. it will retrieve ID-LOC mappings using an ID-LOC control protocol and will encapsulate/transform ID packets into LOC packets. Bringing the ID-LOC data-plane to the NodeB (closer to the UE) has several advantages: (1) complete removal of GTP tunnels, (2) unified management of the ID-LOC data-plane across the network, (3) improved data-plane latency due to traffic being forwarded to the destination ID-LOC node directly from the NodeB, and (4) lower handover time since the ID-LOC mobility event can start at the NodeB itself.</p>
+<h1 id="rfc.section.6.2.5">
+<a href="#rfc.section.6.2.5">6.2.5.</a> <a href="#coexistence-with-gtp-based-architecture-1" id="coexistence-with-gtp-based-architecture-1">Coexistence with GTP-based architecture</a>
+</h1>
+<p id="rfc.section.6.2.5.p.1">ID-Locator separation architecture can be implemented by control plane of a dedicated protocol such as LISP, ILA, etc., however, it may cause major impact to the specifications of 3GPP 5GS. The approach, described in <a href="#I-D.homma-dmm-5gs-id-loc-coexistence" class="xref">[I-D.homma-dmm-5gs-id-loc-coexistence]</a>, enables to introduce such ID-Locator separation protocols into 5GS with no or low impacts. It would also support a migration path toward a network which an ID-Locator separation protocol is completely incorporated.</p>
+<p id="rfc.section.6.2.5.p.2">This approach establishes an individual domain/slice in which an ID-Locator</p>
+<p id="rfc.section.6.2.5.p.3">separation protocol works as packet forwarding mechanism, and divert the appropriate packets (e.g., packets for UE-to-UE communication) to the domain at local/distributed UPFs by using Up-Link Classifier (ULCL). ULCL is a fundamental function of UPF, and it diverts uplink traffic based on filter rules indicated by SMF. The other packets to a central UPF (e.g., packets for Internet access) are forwarded with GTP-U via N9 interface.</p>
+<p id="rfc.section.6.2.5.p.4">The architecture is shown in <a href="#fig_ID-Loc-5G-3" class="xref">Figure 14</a>.</p>
+<div id="rfc.figure.14"></div>
+<div id="fig_ID-Loc-5G-3"></div>
+<pre>
+            +-----------------------------+
+            |              SMF            +&lt;-------------+
+            +--+----------------------+---+              |
+               N4                     N4                 |
+               |                      |                  |
+            +--+---+               +--+---+    +-----+   |
+ ---- N3 ---+ dUPF +---N9(GTP-U)---+ cUPF +-N6-+ cDN |   |
+            |[ULCL]|               |      |    |     |   |
+            +--+---+               +------+    +-----+   |
+               |                                        Sync
+               N6                                        |
+           . . | . . . . . . . . . . . . . . .           |
+ +-----+  . +--+---+              +---------+ .          |
+ | dDN +-N6-+ ID-L +--ID-LOC CP---+ ID-LOC  | .          | 
+ |     |  . | Node |              | Mapping |&lt;-----------+
+ +-----+  . |      +--ID-LOC UP   | System  | .
+          . +------+         |    +---+-----+ .
+          .                  |        |       .
+          . +------+         |        |       .
+        -N6-+ ID-L +---------+        |       .
+          . | Node |                  |       .
+          . |      +--ID-LOC CP-------+       .
+          . +--+---+                          .
+           . . N6 . . . . . . . . . . . . . .
+               |       ID-LOC Domain
+</pre>
+<p class="figure">Figure 14: Architecture of 5GS and ID-LOC Coexistence</p>
+<p id="rfc.section.6.2.5.p.5">Coexistence approach allows to use GTP-U or any other forwarding protocol described in this document as user plane mechanism. However, each LOC-Node must be connected to the all other LOC-Nodes, and thus it may cause complexity of path management if you use a protocol which needs session establishment.</p>
+<p id="rfc.section.6.2.5.p.6">Regarding to control plane of this approach, every dedicated ID-Locator separation protocol described in this document can be used. For management of mobility of UEs in ID-Locator separation domain, some cooperation between SMF and mapping system is needed. In this approach, a UE is attached to a LOC-Node only when it communicates to another UE or an NF in a dDN. In 5GS, SMF manages sessions, and thus SMF may be required to update mapping database when an UE moves to under another UPF or an NF is moved to another dDN. The impact caused by such cooperation can be reduced by using Naf interface which is defined in 5GS specifications.</p>
+<p id="rfc.section.6.2.5.p.7">This approach provides a mechanism for introducing ID-Locator separation architecture into 5GS with no or nominal impact, and achieves optimization of forwarding path and session continuity. Moreover, this can keep scalability on forwarding on down link from cDN/Internet because it can use the current GTP-based mechanism.</p>
+<p id="rfc.section.6.2.5.p.8">Meanwhile, this approach causes an extra hop when diverting packets to ID-Locator separation domain, and it may leads to increase of latency.</p>
+<h1 id="rfc.section.6.3">
+<a href="#rfc.section.6.3">6.3.</a> <a href="#id-based-hicn" id="id-based-hicn">ID-based - hICN</a>
+</h1>
+<p id="rfc.section.6.3.p.1">By operating directly on routers&#8217; FIBs for mobility updates, dynamic hop-by-hop forwarding strategies etc., hICN inherits the simplicity of IP forwarding and reuses IP routing protocols for ID prefixes advertisement and routing.  In this way it removes the challenges of managing a distributed mapping service at scale (cache update/refresh, etc.).  In addition it remains compatible with the exiting control plane architecture as proposed in the 3GPP standard, with no change required to N1, N2 or N4.</p>
+<p id="rfc.section.6.3.p.2">MAP-Me anchorless producer mobility management does not imply SMF interaction, but does not exclude neither to use SMF signaling to trigger MAP-Me updates or to handle FIB updates, at the condition to follow the same procedure described for MAP-Me. However, the absence of SMF interaction might be beneficial in case of dense deployments or failure of the central control entities (infrastructure-less communication scenarios) to empower distributed control of local mobility within an area.</p>
+<h1 id="rfc.section.6.3.1">
+<a href="#rfc.section.6.3.1">6.3.1.</a> <a href="#insertion-in-n9-interface-2" id="insertion-in-n9-interface-2">Insertion in N9 interface</a>
+</h1>
+<p id="rfc.section.6.3.1.p.1">Insertion of hICN in 5G IP infrastructure is facilitated by its design allowing a selective insertion of hICN capabilities in a few network nodes at the edge (no need for pervasive fully hICN network enablement), and to guarantee a transparent interconnection with hICN-unaware IP nodes, without using overlays.</p>
+<p id="rfc.section.6.3.1.p.2">The deployment of hICN routers allow to avoid the reliance on GTP tunnels, and to provide an agile transport and native anchorless mobility natively. The resulting protocol stack is showin in <a href="#fig-hicn-prot-n9" class="xref">Figure 15</a>. We remark that in the protocol layer, hICN is associated to IPv6 PDU layer, transported in N9 directly over L2.</p>
+<div id="rfc.figure.15"></div>
+<div id="fig-hicn-prot-n9"></div>
+<pre>
+    UE            5G-AN        N3         UPF        N9   UPF    N6
+                               |                     |            |
++--------+                     |                     |            |
+|  App.  |--------------------------------------------------------|
++--------+                     |                     | +--------+ |
+| IP PDU |                     |                     | | IP PDU | |
+| (hICN) |---------------------------------------------| (hICN) | |
++--------+ +-----------------+ | +-----------------+ | |        | |
+|        | |\     relay     /| | |\     decap     /  | |        | |
+|        | | \_____________/ |-|-| \_____________/   | |        | |
+|        | |        | GTP-U  | | | GTP-U  |          | |        | |
+|        | |        +--------+ | +--------+          | |        | |
+|   5G   | |   5G   |  UDP   |-|-|  UDP   |          | |        | |
+|   AN   |-|   AN   +--------+ | +--------+          | |        | |
+|protocol| |protocol|   IP   |-|-|   IP   |          | |        | |
+| layers | | layers +--------+ | +--------+--------+ | +--------+ |
+|        | |        |   L2   |-|-|   L2   |   L2   |-|-|   L2   | |
+|        | |        +--------+ | +--------+--------+ | +--------+ |
+|        | |        |   L1   |-|-|   L1   |   L1   |-|-|   L1   | |
++--------+ +-----------------+ | +-----------------+ | +--------+ |
+                               |                     |            |
+</pre>
+<p class="figure">Figure 15: Replacement of N9 interface - Protocol layers</p>
+<h1 id="rfc.section.6.3.2">
+<a href="#rfc.section.6.3.2">6.3.2.</a> <a href="#control-plane-considerations-1" id="control-plane-considerations-1">Control plane considerations</a>
+</h1>
+<p id="rfc.section.6.3.2.p.1">By operating directly on routers&#226;&#128;&#153; FIBs for mobility updates, dynamic hop-by-hop forwarding strategies etc., hICN inherits the simplicity of IP forwarding and reuses IP routing protocols for ID prefixes advertisement and routing.  In this way it removes the challenges of managing a distributed mapping service at scale (cache update/refresh, etc.).  In addition it remains compatible with the exiting control plane architecture as proposed in the 3GPP standard, with no change required to N1, N2 or N4.</p>
+<p id="rfc.section.6.3.2.p.2">MAP-Me anchorless producer mobility management does not imply SMF interaction, but does not exclude neither to use SMF signaling to trigger MAP-Me updates or to handle FIB updates, at the condition to follow the same procedure described for MAP-Me. However, the absence of SMF interaction might be beneficial in case of dense deployments or failure of the central control entities (infrastructure-less communication scenarios) to empower distributed control of local mobility within an area.</p>
+<h1 id="rfc.section.6.3.3">
+<a href="#rfc.section.6.3.3">6.3.3.</a> <a href="#extensions-to-n3f1-uxn-u-interface-2" id="extensions-to-n3f1-uxn-u-interface-2">Extensions to N3/F1-U/Xn-U interface</a>
+</h1>
+<p id="rfc.section.6.3.3.p.1">This option ensures that forwarding beyond the radio access is directly managed through hICN. As a consequence, no additional state nor signaling is required for static and mobile consumers, nor for static producers. The impact of producer mobility is low because of the small number of impacted routers.</p>
+<p id="rfc.section.6.3.3.p.2">Dynamic forwarding capabilities are extended in this configuration to the selection of the first UPF, with the potential of additional performance improvement and higher traffic offload because of the deployment of hICN functionalities closer to the UE. A significant advantage arises in dense deployments scenarios where it becomes possible to isolate the core network from the locally-management mobility (a design objective of the mobile architecture), while allowing distributed selection of ingress UPFs, and dynamic per-packet load balancing of traffic across them.</p>
+<h1 id="rfc.section.6.3.4">
+<a href="#rfc.section.6.3.4">6.3.4.</a> <a href="#coexistence-with-gtp-based-architecture-2" id="coexistence-with-gtp-based-architecture-2">Coexistence with GTP-based architecture</a>
+</h1>
+<p id="rfc.section.6.3.4.p.1">This section discusses the insertion of hICN-AMM in an unmodified 3GPP 5G reference architecture, where GTP tunnels are preserved. As previously stated, maintaining GTP tunnels does not allow to overcome limitations of anchor-based approaches. However, a transparent integration of hICN-AMM limits to the minimum deployment costs and already brings advantages over the baseline architecture presented earlier.</p>
+<p id="rfc.section.6.3.4.p.2">The first option shares some similarities with the previous situation and proposes to deploy hICN-AMM within Mobile Edge Computing (MEC) platforms. It relies on the local breakout capability introduced in 5G through the UL/CL. This function is used to realize the hICN punting function described in <a href="#I-D.muscariello-intarea-hicn" class="xref">[I-D.muscariello-intarea-hicn]</a>, i.e. to identify hICN traffic (Interest and Data packets) and forward it to the local MEC hICN instance. Although it preserves tunnels and anchor points, this option permits an early termination of tunnels and the distribution of hICN capabilities close to the edge like in path caching and rate/loss/congestion control which may be leveraged for efficient low-latency content distribution especially in presence of consumer mobility.</p>
+<p id="rfc.section.6.3.4.p.3">The second option consists in the deployment of hICN-AMM as User Plane Function (UPF) inside mobile user plane. It has the advantage of preserving hICN benefits in terms of consumer mobility and flexible transport.</p>
+<p id="rfc.section.6.3.4.p.4">A more in depth presentation of those alternative deployments can be found in <a href="#I-D.auge-dmm-hicn-mobility-deployment-options" class="xref">[I-D.auge-dmm-hicn-mobility-deployment-options]</a>.</p>
+<h1 id="rfc.section.6.4">
+<a href="#rfc.section.6.4">6.4.</a> <a href="#coexistence-of-multiple-protocols-in-network-slices" id="coexistence-of-multiple-protocols-in-network-slices">Coexistence of multiple protocols in network slices</a>
+</h1>
+<p id="rfc.section.6.4.p.1">Slicing is one of the main features in 5G. Several Slices with different requirements can coexist on top of the common network infrastructure.  Diverse flows belonging to different 5G slices can be completely disjoint or can share different parts of the network infrastructure.</p>
+<p id="rfc.section.6.4.p.2">All proposals reviewed in this draft lend themselves well to 5G slicing paradigm, that can assist a transition of services towards these new user plane protocols, or allow the coexistence of different deployment options.</p>
+<p><a href="#fig-slices-5g" class="xref">Figure 16</a> illustrates the use of network slices with the different proposals. All categories of approach can coexist in separate slices, so as different deployments of the same approach. We refer to previous sections for more details about the possible configurations for ID-LOC, and limit our discussion here to the possibility for different slices to deploy their own mapping system, or share it as illustrated here.</p>
+<div id="rfc.figure.16"></div>
+<div id="fig-slices-5g"></div>
+<pre>
+Locator-based                   ID-LOC split              ID-based
+(GTP, SRv6-T)             (LISP, ILSR, ILA, SRv6-E)        (hICN)
+ ----+-------------------------------+-----------------------+----------
+     |                               |                       |
++---------------------+ +-----------------------+ +--------------------+
+| +-------+  Slice #1 | | +----------+ Slice #2 | | +-------+ Slice #4 |
+| | SMF   |---+   GTP | | | Mapping  +---+      | | | SMF   |---+ hICN |
+| +--+----+   |       | | +---+-----++   |      | | +--+----+   |  AMM |
+| N4 |        | N4    | |     |     |    |      | | N4 |        | N4   |
+| +--+--+  +--+----+  | | +---+---+ | +--+----+ | | +--+--+  +--+----+ |
+| | UPF |  | UPF   |  | | | LOC-A | | | LOC-B | | | | UPF |  | UPF   | |
+| +-----+  +-------+  | | +-------+ | +-------+ | | +-----+  +-------+ |
++----------- ---------+ +-----------|-----------+ +--------------------+
+                  |                 |       |           |          |
+               +--+-+               |    +--+-+      +--+--+    +--+-+
+               | DN |               |    | DN |      | MEC |    | DN |
+               +----+               |    +----+      +-----+    +----+
+                       +------------|------------+
+                       |            |   Slice #3 |
+                       |     +------+---+        |
+                       |     |          |        |
+                       | +---+---+    +-+-----+  |   +----+
+              +-----+  | | LOC-A |    | LOC-B |  |---| DN |
+              | MEC |--| +-------+    +-------+  |   +----+
+              +-----+  +-------------------------+
+</pre>
+<p class="figure">Figure 16: Network slices in 5G</p>
+<p><strong>Locator-based</strong></p>
+<p id="rfc.section.6.4.p.5">Slice #1 illustrates legacy use of UPFs with GTP in a slice. New approaches can be deployed incrementally or in parts of the network. As demonstrated, the use of network slices can provide domain isolation for this.</p>
+<p><strong>ID-LOC split</strong></p>
+<p id="rfc.section.6.4.p.7">Slice #2 and #3 support ID-LOC. We illustrate in slice #2 a typical deployment with ILA. Mapping then corresponds to ILA-M, LOC-A to ILA-N and LOC-B to ILA-R.</p>
+<p id="rfc.section.6.4.p.8">Some number of ILA-Ns and ILA-Rs are deployed. ILA transformations are performed over the N9 interface. ILA-Rs would be deployed at the N6 interface to perform transformations on packets received from a data network. ILA-Ns will be deployed deeper in the network at one side of the N3 interface. ILA-Ns may be supplemented by ILA-Rs that are deployed in the network. ILA-M manages the ILA nodes and mapping database within the slice.</p>
+<p id="rfc.section.6.4.p.9">Slice #3 shows another slice that supports ILA. In this scenario, the slice is for Mobile Edge Computing. The slice contains ILA-Rs and ILA-Ns, and as illustrated, it may also contain ILA_Hs that run directly on edge computing servers. Note in this example, one ILA-M, and hence one ILA domain, is shared between slice #2 and slice #3. Alternatively, the two slices could each have their own ILA-M and define separate ILA domains.</p>
+<p><strong>ID-based</strong></p>
+<p id="rfc.section.6.4.p.11">Finally, in slice #4, a slice using hICN-AMM is shown, that does not require any mapping system nor changes in N4.</p>
+<h1 id="rfc.section.6.5">
+<a href="#rfc.section.6.5">6.5.</a> <a href="#interoperabilityroaming-considerations" id="interoperabilityroaming-considerations">Interoperability/Roaming considerations</a>
+</h1>
+<p id="rfc.section.6.5.p.1">Different situations including roaming scenarios might require the coexistence of different mobility protocols for the same user plane. In <a href="#fig-multiple-direct" class="xref">Figure 17</a> and <a href="#fig-multiple-exchange" class="xref">Figure 18</a>, we illustrate two possible deployments for the Home-Routed Roaming Scenario, respectively using a UPF supporting several protocols, and relying on an exchange service point for interconnection.</p>
+<div id="rfc.figure.17"></div>
+<div id="fig-multiple-direct"></div>
+<pre>
+                           VPLMN   |      HPLMN
+                    -----+-----  N32 --------+--------
+                         |         |         |
+                      +--+--+      |      +--+--+
+                      | SMF |      |      | SMF |
+                      +--+--+      |      +--+--+
+                         |         |         |
++-------+                |         |         |
+| 5G UE |                |         |         |
++---+---+               N4         |         N4
+    |                    |                   |
+    |     +-----+     +--+--+             +--+--+      +----+
+    +-----| gNB |-----| UPF |-----N9------| UPF |------| DN |
+          +-----+     +-----+             +-----+      +----+
+</pre>
+<p class="figure">Figure 17: Direct Connectivity between operators with UPFs supporting more than one mobility protocols</p>
+<div id="rfc.figure.18"></div>
+<div id="fig-multiple-exchange"></div>
+<pre>
+                           VPLMN   |      HPLMN
+                    -----+-----  N32 --------+--------
+                         |         |         |
+                      +--+--+      |      +--+--+
+                      | SMF |      |      | SMF |
+                      +--+--+      |      +--+--+
+                         |         |         |
++-------+                |         |         |
+| 5G UE |                |         |         |
++---+---+               N4         |         N4
+    |                    |                   |
+    |     +-----+     +--+--+   +-----+    +--+--+      +----+
+    +-----| gNB |-----| UPF |---| Exc |----| UPF |------| DN |
+          +-----+     +-----+   +-----+    +-----+      +----+
+</pre>
+<p class="figure">Figure 18: Connectivity between operators using an Exchange that supports multiple mobility protocols</p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#sec-summary" id="sec-summary">Summary</a>
+</h1>
+<p id="rfc.section.7.p.1">This document summarizes the various IETF protocol options for GTP replacement on N9 interface of 3GPP 5G architecture. The document also proposes optional raplacemets of GTP in N3 interface.</p>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> <a href="#formal-syntax" id="formal-syntax">Formal Syntax</a>
+</h1>
+<p id="rfc.section.8.p.1">The following syntax specification uses the augmented Backus-Naur Form (BNF) as described in <a href="#RFC2234" class="xref">[RFC2234]</a>.</p>
+<h1 id="rfc.section.9">
+<a href="#rfc.section.9">9.</a> <a href="#security-consideration" id="security-consideration">Security Consideration</a>
+</h1>
+<p id="rfc.section.9.p.1">All 3GPP security aspects apply to all the protocols discussed in this document.</p>
+<h1 id="rfc.section.10">
+<a href="#rfc.section.10">10.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
+</h1>
+<p id="rfc.section.10.p.1">There are no IANA considerations in this specification.</p>
+<h1 id="rfc.section.11">
+<a href="#rfc.section.11">11.</a> <a href="#acknowledgement" id="acknowledgement">Acknowledgement</a>
+</h1>
+<p id="rfc.section.11.p.1">The authors would like to thank Farooq Bari, Devaki Chandramouli, Ravi Guntupalli, Sri Gundavelli, Peter Ashwood Smith, Satoru Matsushima, Michael Mayer, Vina Ermagan, Fabio Maino, Albert Cabellos, Cameron Byrne for reviewing various iterations of the document and for providing content into various sections.</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">12.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">12.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC1027">[RFC1027]</b></td>
+<td class="top">
+<a>Carl-Mitchell, S.</a> and <a>J. Quarterman</a>, "<a href="https://tools.ietf.org/html/rfc1027">Using ARP to implement transparent subnet gateways</a>", RFC 1027, DOI 10.17487/RFC1027, October 1987.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2234">[RFC2234]</b></td>
+<td class="top">
+<a>Crocker, D.</a> and <a>P. Overell</a>, "<a href="https://tools.ietf.org/html/rfc2234">Augmented BNF for Syntax Specifications: ABNF</a>", RFC 2234, DOI 10.17487/RFC2234, November 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4861">[RFC4861]</b></td>
+<td class="top">
+<a>Narten, T.</a>, <a>Nordmark, E.</a>, <a>Simpson, W.</a> and <a>H. Soliman</a>, "<a href="https://tools.ietf.org/html/rfc4861">Neighbor Discovery for IP version 6 (IPv6)</a>", RFC 4861, DOI 10.17487/RFC4861, September 2007.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6830">[RFC6830]</b></td>
+<td class="top">
+<a>Farinacci, D.</a>, <a>Fuller, V.</a>, <a>Meyer, D.</a> and <a>D. Lewis</a>, "<a href="https://tools.ietf.org/html/rfc6830">The Locator/ID Separation Protocol (LISP)</a>", RFC 6830, DOI 10.17487/RFC6830, January 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6831">[RFC6831]</b></td>
+<td class="top">
+<a>Farinacci, D.</a>, <a>Meyer, D.</a>, <a>Zwiebel, J.</a> and <a>S. Venaas</a>, "<a href="https://tools.ietf.org/html/rfc6831">The Locator/ID Separation Protocol (LISP) for Multicast Environments</a>", RFC 6831, DOI 10.17487/RFC6831, January 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6832">[RFC6832]</b></td>
+<td class="top">
+<a>Lewis, D.</a>, <a>Meyer, D.</a>, <a>Farinacci, D.</a> and <a>V. Fuller</a>, "<a href="https://tools.ietf.org/html/rfc6832">Interworking between Locator/ID Separation Protocol (LISP) and Non-LISP Sites</a>", RFC 6832, DOI 10.17487/RFC6832, January 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6833">[RFC6833]</b></td>
+<td class="top">
+<a>Fuller, V.</a> and <a>D. Farinacci</a>, "<a href="https://tools.ietf.org/html/rfc6833">Locator/ID Separation Protocol (LISP) Map-Server Interface</a>", RFC 6833, DOI 10.17487/RFC6833, January 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6835">[RFC6835]</b></td>
+<td class="top">
+<a>Farinacci, D.</a> and <a>D. Meyer</a>, "<a href="https://tools.ietf.org/html/rfc6835">The Locator/ID Separation Protocol Internet Groper (LIG)</a>", RFC 6835, DOI 10.17487/RFC6835, January 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6836">[RFC6836]</b></td>
+<td class="top">
+<a>Fuller, V.</a>, <a>Farinacci, D.</a>, <a>Meyer, D.</a> and <a>D. Lewis</a>, "<a href="https://tools.ietf.org/html/rfc6836">Locator/ID Separation Protocol Alternative Logical Topology (LISP+ALT)</a>", RFC 6836, DOI 10.17487/RFC6836, January 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7215">[RFC7215]</b></td>
+<td class="top">
+<a>Jakab, L.</a>, <a>Cabellos-Aparicio, A.</a>, <a>Coras, F.</a>, <a>Domingo-Pascual, J.</a> and <a>D. Lewis</a>, "<a href="https://tools.ietf.org/html/rfc7215">Locator/Identifier Separation Protocol (LISP) Network Element Deployment Considerations</a>", RFC 7215, DOI 10.17487/RFC7215, April 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7476">[RFC7476]</b></td>
+<td class="top">
+<a>Pentikousis, K.</a>, <a>Ohlman, B.</a>, <a>Corujo, D.</a>, <a>Boggia, G.</a>, <a>Tyson, G.</a>, <a>Davies, E.</a>, <a>Molinaro, A.</a> and <a>S. Eum</a>, "<a href="https://tools.ietf.org/html/rfc7476">Information-Centric Networking: Baseline Scenarios</a>", RFC 7476, DOI 10.17487/RFC7476, March 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8061">[RFC8061]</b></td>
+<td class="top">
+<a>Farinacci, D.</a> and <a>B. Weis</a>, "<a href="https://tools.ietf.org/html/rfc8061">Locator/ID Separation Protocol (LISP) Data-Plane Confidentiality</a>", RFC 8061, DOI 10.17487/RFC8061, February 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8111">[RFC8111]</b></td>
+<td class="top">
+<a>Fuller, V.</a>, <a>Lewis, D.</a>, <a>Ermagan, V.</a>, <a>Jain, A.</a> and <a>A. Smirnov</a>, "<a href="https://tools.ietf.org/html/rfc8111">Locator/ID Separation Protocol Delegated Database Tree (LISP-DDT)</a>", RFC 8111, DOI 10.17487/RFC8111, May 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8112">[RFC8112]</b></td>
+<td class="top">
+<a>Farinacci, D.</a>, <a>Jain, A.</a>, <a>Kouvelas, I.</a> and <a>D. Lewis</a>, "<a href="https://tools.ietf.org/html/rfc8112">Locator/ID Separation Protocol Delegated Database Tree (LISP-DDT) Referral Internet Groper (RIG)</a>", RFC 8112, DOI 10.17487/RFC8112, May 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">12.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="CICN">[CICN]</b></td>
+<td class="top">
+<a>Linux Foundation fd.io</a>, "<a>CICN project</a>", 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="CP-173160-1">[CP-173160-1]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>New Study Item on User Plane Protocol in 5GC</a>", December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.auge-dmm-hicn-mobility">[I-D.auge-dmm-hicn-mobility]</b></td>
+<td class="top">
+<a>Auge, J.</a>, <a>Carofiglio, G.</a>, <a>Muscariello, L.</a> and <a>M. Papalini</a>, "<a href="https://tools.ietf.org/html/draft-auge-dmm-hicn-mobility-00">Anchorless mobility through hICN</a>", Internet-Draft draft-auge-dmm-hicn-mobility-00, June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.auge-dmm-hicn-mobility-deployment-options">[I-D.auge-dmm-hicn-mobility-deployment-options]</b></td>
+<td class="top">
+<a>Auge, J.</a>, <a>Carofiglio, G.</a>, <a>Muscariello, L.</a> and <a>M. Papalini</a>, "<a href="https://tools.ietf.org/html/draft-auge-dmm-hicn-mobility-deployment-options-00">Anchorless mobility management through hICN (hICN-AMM): Deployment options</a>", Internet-Draft draft-auge-dmm-hicn-mobility-deployment-options-00, June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.farinacci-lisp-mobile-network">[I-D.farinacci-lisp-mobile-network]</b></td>
+<td class="top">
+<a>Farinacci, D.</a>, <a>Pillay-Esnault, P.</a> and <a>U. Chunduri</a>, "<a href="https://tools.ietf.org/html/draft-farinacci-lisp-mobile-network-03">LISP for the Mobile Network</a>", Internet-Draft draft-farinacci-lisp-mobile-network-03, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.filsfils-spring-srv6-network-programming">[I-D.filsfils-spring-srv6-network-programming]</b></td>
+<td class="top">
+<a>Filsfils, C.</a>, <a>Camarillo, P.</a>, <a>Leddy, J.</a>, <a>daniel.voyer@bell.ca, d.</a>, <a>Matsushima, S.</a> and <a>Z. Li</a>, "<a href="https://tools.ietf.org/html/draft-filsfils-spring-srv6-network-programming-05">SRv6 Network Programming</a>", Internet-Draft draft-filsfils-spring-srv6-network-programming-05, July 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.herbert-ila-ilamp">[I-D.herbert-ila-ilamp]</b></td>
+<td class="top">
+<a>Herbert, T.</a>, "<a href="https://tools.ietf.org/html/draft-herbert-ila-ilamp-00">Identifier Locator Addressing Mapping Protocol</a>", Internet-Draft draft-herbert-ila-ilamp-00, December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.herbert-ila-mobile">[I-D.herbert-ila-mobile]</b></td>
+<td class="top">
+<a>Herbert, T.</a> and <a>K. Bogineni</a>, "<a href="https://tools.ietf.org/html/draft-herbert-ila-mobile-01">Identifier Locator Addressing for Mobile User-Plane</a>", Internet-Draft draft-herbert-ila-mobile-01, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.herbert-intarea-ila">[I-D.herbert-intarea-ila]</b></td>
+<td class="top">
+<a>Herbert, T.</a> and <a>P. Lapukhov</a>, "<a href="https://tools.ietf.org/html/draft-herbert-intarea-ila-01">Identifier-locator addressing for IPv6</a>", Internet-Draft draft-herbert-intarea-ila-01, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.hmm-dmm-5g-uplane-analysis">[I-D.hmm-dmm-5g-uplane-analysis]</b></td>
+<td class="top">
+<a>Homma, S.</a>, <a>Miyasaka, T.</a> and <a>S. Matsushima</a>, "<a>User Plane Protocol and Architectural Analysis on 3GPP 5G System</a>", 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.homma-dmm-5gs-id-loc-coexistence">[I-D.homma-dmm-5gs-id-loc-coexistence]</b></td>
+<td class="top">
+<a>Homma, S.</a>, <a>Kawakami, K.</a> and <a>A. Akhavain</a>, "<a href="https://tools.ietf.org/html/draft-homma-dmm-5gs-id-loc-coexistence-01">Co-existence of 3GPP 5GS and Identifier Locator Separation Architecture</a>", Internet-Draft draft-homma-dmm-5gs-id-loc-coexistence-01, May 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-6man-segment-routing-header">[I-D.ietf-6man-segment-routing-header]</b></td>
+<td class="top">
+<a>Filsfils, C.</a>, <a>Previdi, S.</a>, <a>Leddy, J.</a>, <a>Matsushima, S.</a> and <a>d. daniel.voyer@bell.ca</a>, "<a href="https://tools.ietf.org/html/draft-ietf-6man-segment-routing-header-14">IPv6 Segment Routing Header (SRH)</a>", Internet-Draft draft-ietf-6man-segment-routing-header-14, June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-dmm-srv6-mobile-uplane">[I-D.ietf-dmm-srv6-mobile-uplane]</b></td>
+<td class="top">
+<a>Matsushima, S.</a>, <a>Filsfils, C.</a>, <a>Kohno, M.</a>, <a>Camarillo, P.</a>, <a>daniel.voyer@bell.ca, d.</a> and <a>C. Perkins</a>, "<a href="https://tools.ietf.org/html/draft-ietf-dmm-srv6-mobile-uplane-02">Segment Routing IPv6 for Mobile User Plane</a>", Internet-Draft draft-ietf-dmm-srv6-mobile-uplane-02, July 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-lisp-eid-mobility">[I-D.ietf-lisp-eid-mobility]</b></td>
+<td class="top">
+<a>Portoles-Comeras, M.</a>, <a>Ashtaputre, V.</a>, <a>Moreno, V.</a>, <a>Maino, F.</a> and <a>D. Farinacci</a>, "<a href="https://tools.ietf.org/html/draft-ietf-lisp-eid-mobility-02">LISP L2/L3 EID Mobility Using a Unified Control Plane</a>", Internet-Draft draft-ietf-lisp-eid-mobility-02, May 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-lisp-introduction">[I-D.ietf-lisp-introduction]</b></td>
+<td class="top">
+<a>Cabellos-Aparicio, A.</a> and <a>D. Saucez</a>, "<a href="https://tools.ietf.org/html/draft-ietf-lisp-introduction-13">An Architectural Introduction to the Locator/ID Separation Protocol (LISP)</a>", Internet-Draft draft-ietf-lisp-introduction-13, April 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-lisp-mn">[I-D.ietf-lisp-mn]</b></td>
+<td class="top">
+<a>Farinacci, D.</a>, <a>Lewis, D.</a>, <a>Meyer, D.</a> and <a>C. White</a>, "<a href="https://tools.ietf.org/html/draft-ietf-lisp-mn-02">LISP Mobile Node</a>", Internet-Draft draft-ietf-lisp-mn-02, April 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-lisp-pubsub">[I-D.ietf-lisp-pubsub]</b></td>
+<td class="top">
+<a>Rodriguez-Natal, A.</a>, <a>Ermagan, V.</a>, <a>Leong, J.</a>, <a>Maino, F.</a>, <a>Cabellos-Aparicio, A.</a>, <a>Barkai, S.</a>, <a>Farinacci, D.</a>, <a>Boucadair, M.</a>, <a>Jacquenet, C.</a> and <a>S. Secci</a>, "<a href="https://tools.ietf.org/html/draft-ietf-lisp-pubsub-00">Publish/Subscribe Functionality for LISP</a>", Internet-Draft draft-ietf-lisp-pubsub-00, April 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-lisp-rfc6830bis">[I-D.ietf-lisp-rfc6830bis]</b></td>
+<td class="top">
+<a>Farinacci, D.</a>, <a>Fuller, V.</a>, <a>Meyer, D.</a>, <a>Lewis, D.</a> and <a>A. Cabellos-Aparicio</a>, "<a href="https://tools.ietf.org/html/draft-ietf-lisp-rfc6830bis-12">The Locator/ID Separation Protocol (LISP)</a>", Internet-Draft draft-ietf-lisp-rfc6830bis-12, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-lisp-rfc6833bis">[I-D.ietf-lisp-rfc6833bis]</b></td>
+<td class="top">
+<a>Fuller, V.</a>, <a>Farinacci, D.</a> and <a>A. Cabellos-Aparicio</a>, "<a href="https://tools.ietf.org/html/draft-ietf-lisp-rfc6833bis-10">Locator/ID Separation Protocol (LISP) Control-Plane</a>", Internet-Draft draft-ietf-lisp-rfc6833bis-10, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-spring-segment-routing">[I-D.ietf-spring-segment-routing]</b></td>
+<td class="top">
+<a>Filsfils, C.</a>, <a>Previdi, S.</a>, <a>Ginsberg, L.</a>, <a>Decraene, B.</a>, <a>Litkowski, S.</a> and <a>R. Shakir</a>, "<a href="https://tools.ietf.org/html/draft-ietf-spring-segment-routing-15">Segment Routing Architecture</a>", Internet-Draft draft-ietf-spring-segment-routing-15, January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-spring-segment-routing-policy">[I-D.ietf-spring-segment-routing-policy]</b></td>
+<td class="top">
+<a>Filsfils, C.</a>, <a>Sivabalan, S.</a>, <a>daniel.voyer@bell.ca, d.</a>, <a>bogdanov@google.com, b.</a> and <a>P. Mattes</a>, "<a href="https://tools.ietf.org/html/draft-ietf-spring-segment-routing-policy-01">Segment Routing Policy Architecture</a>", Internet-Draft draft-ietf-spring-segment-routing-policy-01, June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.irtf-icnrg-mapme">[I-D.irtf-icnrg-mapme]</b></td>
+<td class="top">
+<a>Auge, J.</a>, <a>Carofiglio, G.</a>, <a>Muscariello, L.</a> and <a>M. Papalini</a>, "<a href="https://tools.ietf.org/html/draft-irtf-icnrg-mapme-01">MAP-Me : Managing Anchorless Mobility in Content Centric Networking</a>", Internet-Draft draft-irtf-icnrg-mapme-01, July 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.irtf-icnrg-terminology">[I-D.irtf-icnrg-terminology]</b></td>
+<td class="top">
+<a>Wissingh, B.</a>, <a>Wood, C.</a>, <a>Afanasyev, A.</a>, <a>Zhang, L.</a>, <a>Oran, D.</a> and <a>C. Tschudin</a>, "<a href="https://tools.ietf.org/html/draft-irtf-icnrg-terminology-00">Information-Centric Networking (ICN): CCN and NDN Terminology</a>", Internet-Draft draft-irtf-icnrg-terminology-00, December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.kouvelas-lisp-map-server-reliable-transport">[I-D.kouvelas-lisp-map-server-reliable-transport]</b></td>
+<td class="top">
+<a>Cassar, C.</a>, <a>Leong, J.</a>, <a>Lewis, D.</a>, <a>Kouvelas, I.</a> and <a>J. Arango</a>, "<a href="https://tools.ietf.org/html/draft-kouvelas-lisp-map-server-reliable-transport-04">LISP Map Server Reliable Transport</a>", Internet-Draft draft-kouvelas-lisp-map-server-reliable-transport-04, September 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.lapukhov-bgp-ila-afi">[I-D.lapukhov-bgp-ila-afi]</b></td>
+<td class="top">
+<a>Lapukhov, P.</a>, "<a href="https://tools.ietf.org/html/draft-lapukhov-bgp-ila-afi-02">Use of BGP for dissemination of ILA mapping information</a>", Internet-Draft draft-lapukhov-bgp-ila-afi-02, October 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.muscariello-intarea-hicn">[I-D.muscariello-intarea-hicn]</b></td>
+<td class="top">
+<a>Muscariello, L.</a>, <a>Carofiglio, G.</a>, <a>Auge, J.</a> and <a>M. Papalini</a>, "<a href="https://tools.ietf.org/html/draft-muscariello-intarea-hicn-00">Hybrid Information-Centric Networking</a>", Internet-Draft draft-muscariello-intarea-hicn-00, June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.rodrigueznatal-ila-lisp">[I-D.rodrigueznatal-ila-lisp]</b></td>
+<td class="top">
+<a>Rodriguez-Natal, A.</a>, <a>Ermagan, V.</a>, <a>Maino, F.</a> and <a>A. Cabellos-Aparicio</a>, "<a href="https://tools.ietf.org/html/draft-rodrigueznatal-ila-lisp-01">LISP control-plane for Identifier Locator Addressing (ILA)</a>", Internet-Draft draft-rodrigueznatal-ila-lisp-01, April 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.rodrigueznatal-lisp-srv6">[I-D.rodrigueznatal-lisp-srv6]</b></td>
+<td class="top">
+<a>Rodriguez-Natal, A., et al.</a>, "<a>LISP Control Plane for SRv6 Endpoint Mobility</a>", draft-rodrigueznatal-lisp-srv6-00 (work in progress) , June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.vonhugo-5gangip-ip-issues">[I-D.vonhugo-5gangip-ip-issues]</b></td>
+<td class="top">
+<a>Hugo, D.</a> and <a>B. Sarikaya</a>, "<a href="https://tools.ietf.org/html/draft-vonhugo-5gangip-ip-issues-03">Review on issues in discussion of next generation converged networks (5G) from an IP point of view</a>", Internet-Draft draft-vonhugo-5gangip-ip-issues-03, March 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.xuclad-spring-sr-service-chaining">[I-D.xuclad-spring-sr-service-chaining]</b></td>
+<td class="top">
+<a>Clad, F.</a>, <a>Xu, X.</a>, <a>Filsfils, C.</a>, <a>daniel.bernier@bell.ca, d.</a>, <a>Li, C.</a>, <a>Decraene, B.</a>, <a>Ma, S.</a>, <a>Yadlapalli, C.</a>, <a>Henderickx, W.</a> and <a>S. Salsano</a>, "<a href="https://tools.ietf.org/html/draft-xuclad-spring-sr-service-chaining-01">Segment Routing for Service Chaining</a>", Internet-Draft draft-xuclad-spring-sr-service-chaining-01, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="ILACONTROL">[ILACONTROL]</b></td>
+<td class="top">
+<a>Herbert, T.</a>, "<a>Identifier Locator Addressing Mapping Protocol draft-herbert-ila-ilamp-00</a>", December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="ILAGRPS">[ILAGRPS]</b></td>
+<td class="top">
+<a>Herbert, T.</a>, "<a>Identifier Groups draft-herbert-idgroups-00</a>", February 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="ILAMOTIVE">[ILAMOTIVE]</b></td>
+<td class="top">
+<a>Herbert, T.</a>, "<a>Identifier Locator Addressing: Problem Areas, Motivation, and Use Cases draft-herbert-ila-motivation-00</a>", January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="ILSR-WP">[ILSR-WP]</b></td>
+<td class="top">
+<a>Kurebayashi, R.</a>, <a>Ashwood-Smith, P.</a> and <a>D. Farinacci</a>, "<a>Evolving 5G Routing</a>", December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="IRTF-RRG">[IRTF-RRG]</b></td>
+<td class="top">
+<a>Li, T.</a>, "<a>IRTF Routing Research Group (rrg)</a>", November 2012.</td>
+</tr>
+<tr>
+<td class="reference"><b id="LISP-WG">[LISP-WG]</b></td>
+<td class="top">
+<a>Halrpen, J.</a> and <a>L. Iannone</a>, "<a>IETF Locator/ID Separation Protocol (lisp) Working Group</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="MAPME">[MAPME]</b></td>
+<td class="top">
+<a>Auge, J.</a>, <a>Carofiglio, G.</a>, <a>Grassi, G.</a>, <a>Muscariello, L.</a>, <a>Pau, G.</a> and <a>X. Zeng</a>, "<a>MAP-Me: Managing Anchor-Less Producer Mobility in Content-Centric Networks</a>", IEEE Transactions on Network and Service Management Vol. 15, pp. 596-610, DOI 10.1109/tnsm.2018.2796720, June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="SP-180231-1">[SP-180231-1]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>New Study on Enhancements to the Service-Based 5G System Architecture</a>", March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TR.29.891-3GPP">[TR.29.891-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>5G System ? Phase 1, CT WG4 Aspects, 3GPP TR 29.891 v15.0.0</a>", December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.23.203-3GPP">[TS.23.203-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>Policy and Charging Control Architecture, 3GPP TS 23.203 v2.0.1</a>", December 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.23.501-3GPP">[TS.23.501-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>System ARchitecture for the 5G System; Stage 2, 3GPP TS 23.501, v15.2.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.23.502-3GPP">[TS.23.502-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>Procedures for 5G System; Stage 2, 3GPP TS 23.502, v15.2.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.23.503-3GPP">[TS.23.503-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>Policy and Charging Control System for 5G Framework; Stage 2, 3GPP TS 23.503 v15.2.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.29.244-3GPP">[TS.29.244-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>Interface between the Control Plane and the User Plane Nodes; Stage 3, 3GPP TS 29.244 v15.2.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.29.281-3GPP">[TS.29.281-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>GPRS Tunneling Protocol User Plane (GTPv1-U), 3GPP TS 29.281 v15.3.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.38.300-3GPP">[TS.38.300-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>NR and NG-RAN Overall Description: Stage 2, 3GPP TS 38.300 v15.2.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.38.401-3GPP">[TS.38.401-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>NG-RAN: Architecture Description, 3GPP TS 38.401 v15.2.0</a>", June 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TS.38.801-3GPP">[TS.38.801-3GPP]</b></td>
+<td class="top">
+<a>3rd Generation Partnership Project (3GPP)</a>, "<a>Study on new radio access technology: Radio access architecture and interfaces</a>", March 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="WLDR">[WLDR]</b></td>
+<td class="top">
+<a>Carofiglio, G.</a>, <a>Muscariello, L.</a>, <a>Papalini, M.</a>, <a>Rozhnova, N.</a> and <a>X. Zeng</a>, "<a>Leveraging ICN In-network Control for Loss Detection and Recovery in Wireless Mobile networks</a>", Proceedings of the 2016 conference on 3rd ACM Conference on Information-Centric Networking - ACM-ICN '16, DOI 10.1145/2984356.2984361, 2016.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Kalyani Bogineni</span> 
+	  <span class="n hidden">
+		<span class="family-name">Bogineni</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Verizon</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:kalyani.bogineni@verizon.com">kalyani.bogineni@verizon.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Arashmid Akhavain</span> 
+	  <span class="n hidden">
+		<span class="family-name">Akhavain</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Huawei Canada Research Centre</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:arashmid.akhavain@huawei.com">arashmid.akhavain@huawei.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Tom Herbert</span> 
+	  <span class="n hidden">
+		<span class="family-name">Herbert</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Quantonium</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:tom@quantonium.net">tom@quantonium.net</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Dino Farinacci</span> 
+	  <span class="n hidden">
+		<span class="family-name">Farinacci</span>
+	  </span>
+	</span>
+	<span class="org vcardline">lispers.net</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:farinacci@gmail.com">farinacci@gmail.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Alberto Rodriguez-Natal</span> 
+	  <span class="n hidden">
+		<span class="family-name">Rodriguez-Natal</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems, Inc.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:natal@cisco.com">natal@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Giovanna Carofiglio</span> 
+	  <span class="n hidden">
+		<span class="family-name">Carofiglio</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems, Inc.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:gcarofig@cisco.com">gcarofig@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Jordan Aug&#233;</span> 
+	  <span class="n hidden">
+		<span class="family-name">Aug&#233;</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems, Inc.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:jordan.auge@cisco.com">jordan.auge@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Luca Muscariello</span> 
+	  <span class="n hidden">
+		<span class="family-name">Muscariello</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems, Inc.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:lumuscar@cisco.com">lumuscar@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Pablo Camarillo Garvia</span> 
+	  <span class="n hidden">
+		<span class="family-name">Camarillo</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems, Inc.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:pcamaril@cisco.com">pcamaril@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Shunsuke Homma</span> 
+	  <span class="n hidden">
+		<span class="family-name">Homma</span>
+	  </span>
+	</span>
+	<span class="org vcardline">NTT</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:homma.shunsuke@lab.ntt.co.jp">homma.shunsuke@lab.ntt.co.jp</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
