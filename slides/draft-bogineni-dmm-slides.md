@@ -45,7 +45,9 @@ The user plane architectures for UPF connectivity fall into two broad categories
   - In this model UPFs transmit/receive packet in accordance with the new user plane format.
   - UPFs and 3GPP control are modified.
   - 3GPP and transport user plane are collapsed into one user plane.
-  
+
+## Reviewed Approaches for Mobility Management (Cont'd)
+
 The draft also made an attempt to classify different approaches based on forwarding and mobility paradigm 
 The following shows the first pass at such a classification which still requires further study.
 
@@ -541,40 +543,3 @@ Non-roaming 5G System Architecture for multiple PDU Sessions Service Based Inter
 
 - UPF Requirements: 3GPP TS 23.501 Section 6.2.3
 - N9 Requirements: 3GPP TR 29.891 Section 5.1.1
-
-## Reference Scenarios for Evaluation
-
-<div class="columns">
-
-<div class="column" width="40%">
-
-- Non-Roaming Scenarios
-    - UE- Internet Connectivity (mobility cases)
-    - UE-UE IP Packet Flow (mobility cases)
-    - UE – 2 DNs with multiple PDU sessions
-    - UE – 2 DNs single PDU session
-- Roaming Scenarios
-    - Local Break out
-    - Home routed
-</div>
-
-<div class="column" width="40%">
-
-- UE mobility SSC Mode 1
-   - Single UPF
-   - Multiple UPF
-- UE Mobility SSC Mode 2
-   - Single UPF
-   - Multiple UPF
-- UE Mobility SSC Mode 3
-   - Single UPF
-   - Multiple UPF
-
-</div>
-</div>
-
-- Support for independent slices using GTP and/or other protocol will be covered. Mobility Management will be within each slice.
-- Support for one UE connected to multiple slices using different mobility protocols will be described.
-
-- Impacts to N2, N3, N4, N6, gNB, AMF and SMF
-
