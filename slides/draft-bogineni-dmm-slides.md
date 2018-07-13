@@ -152,23 +152,17 @@ __Interworking__
 
 ## ILA – Identifier Locator Addressing
 
-<div class="columns">
 
-<div class="column" width="40%">
 
 - Identifier Locator Addressing: Problem areas, Motivation, and Use Cases:  draft-herbert-ila-motivation-00
-- Identifier-locator addressing for IPv6: draft-herbert-intarea-ila-00
+- Identifier-locator addressing for IPv6: draft-herbert-intarea-ila-01
 - Identifier Locator Addressing Mapping Protocol: draft-herbert-ila-ilamp-00
-- Identifier Locator Addressing for Mobile User-Plane: draft-herbert-ila-mobile-00
+- Identifier Locator Addressing for Mobile User-Plane: draft-herbert-ila-mobile-01
 - Identifier groups: draft-herbert-idgroups-00
-- Mobility Management Using Identifier Locator Addressing: draft-mueller-ila-mobility-02
+- Mobility Management Using Identifier Locator Addressing: draft-mueller-ila-mobility-03
 - Use of BGP for dissemination of ILA mapping information: draft-lapukhov-bgp-ila-afi-02
-</div>
 
-<div class="column" width="40%">
 
-</div>
-</div>
 
 
 ## ID-native > Hybrid-ICN Anchorless Mobility Management (hICN-AMM)
