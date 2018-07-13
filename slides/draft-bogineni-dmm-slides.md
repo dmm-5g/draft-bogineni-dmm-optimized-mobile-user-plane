@@ -69,27 +69,38 @@ of new user plane proposals with today's GTP based user plane.
 
 <div class="columns">
 
-<div class="column" width="40%">
+<div class="column" width="50%">
 
-- LISP Control-Plane (RFC6833bis)
+- __LISP Control-Plane (RFC6833bis)__
+\vspace{1mm}
     - Supports many data planes: ILA, SRv6, VXLAN, LISP, GTP, …
+\vspace{1mm}
     - Mature mapping control-plane (10+ years) with large deployments
+\vspace{1mm}
     - Mobility related drafts:
         - draft-ietf-lisp-eid-anonymity
         - draft-ietf-lisp-eid-mobility
         - draft-ietf-lisp-mn
         - draft-ietf-lisp-predictive-rlocs
         - draft-farinacci-lisp-mobile-network
-- LISP Data-Plane (RFC6830bis)
+\vspace{2mm}
+- __LISP Data-Plane (RFC6830bis)__
+\vspace{1mm}
     - Uses dynamic tunnel encapsulation
     - Fixed headers (16 bytes) are used between outer and inner IP headers
-- LISP Control-Plane for ILA
+\vspace{2mm}
+- __LISP Control-Plane for ILA__
+\vspace{1mm}
     - draft-rodrigueznatal-ila-lisp
-- LISP Control-Plane for SRv6
+\vspace{2mm}
+- __LISP Control-Plane for SRv6__
+\vspace{1mm}
     - draft-rodrigueznatal-lisp-srv6
 </div>
 
 <div class="column" width="50%">
+
+
 
 \tiny
 ~~~
@@ -106,9 +117,16 @@ of new user plane proposals with today's GTP based user plane.
      +---+---+                                               +---+---+
 --N3-+ UPF-A +<---------- N9 - ID-LOC data-plane ----------->+ UPF-B +-N6--
      +-------+                                               +-------+
+~~~
+\small
+\vspace{1mm}
+\nopandoc{\begin{center}}
+__Integrated__
+\nopandoc{\end{center}}
+\vspace{7mm}
 
-
-
+\tiny
+~~~
                                  +----+----+
          +-------------N4--------+   SMF   +--------N4-----------+
          |                       +----+----+                     |
@@ -123,6 +141,11 @@ of new user plane proposals with today's GTP based user plane.
 --N3-+ UPF-A +--N9--+ID-L Node+<--ID-LOC--->+ID-L Node+--N9--+ UPF-B +-N6--
      +-------+  GTP +----+----+ data-plane  +----+----+  GTP +-------+
 ~~~
+\small
+\vspace{3mm}
+\nopandoc{\begin{center}}
+__Interworking__
+\nopandoc{\end{center}}
 
 </div>
 </div>
